@@ -45,6 +45,7 @@ jobs:
       - run: pnpm generate:types
       - run: pnpm generate:importmap
       - run: pnpm db:migrate
+      - run: pnpm exec cross-env NODE_ENV=production node --import tsx scripts/check-migrations.ts
       - run: pnpm infra:check
       - run: pnpm lint
       - run: pnpm lint:styles
