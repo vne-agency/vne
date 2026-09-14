@@ -38,6 +38,8 @@ it('waits for the route render before finishing the transition', async () => {
   const view = render(
     <>
       <PageNavigationTransition />
+      {/* Plain anchor intentionally exercises the global navigation interceptor. */}
+      {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
       <a href="/privacy">Privacy</a>
       <main>Page</main>
     </>,
