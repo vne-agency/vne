@@ -35,10 +35,13 @@ export async function verifyTurnstile(token?: string): Promise<boolean> {
     method: 'POST',
     body,
     cache: 'no-store',
+    signal: AbortSignal.timeout(10_000),
   })
 
   if (!response.ok) return false
 
   const result = (await response.json()) as TurnstileResponse
-  return result.success
+  if (!result.success) return false
+  if (!siteUrl) return false
+  return result.hostname === new URL(siteUrl).hostname
 }

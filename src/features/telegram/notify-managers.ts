@@ -110,6 +110,7 @@ async function telegramRequest<T>(
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
         cache: 'no-store',
+        signal: AbortSignal.timeout(10_000),
       })
       const result = (await response.json().catch(() => null)) as TelegramApiResponse<T> | null
 
