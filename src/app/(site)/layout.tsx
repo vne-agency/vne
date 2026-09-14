@@ -19,6 +19,7 @@ import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
+  verification: { yandex: 'd1c2c6bff1f58a1c' },
   title: {
     default: siteConfig.name,
     template: `%s — ${siteConfig.shortName}`,

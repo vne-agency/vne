@@ -37,7 +37,7 @@ function useMetrica(allowed: boolean) {
     target.ym = ym
     let cancelled = false
     const script = document.createElement('script')
-    script.src = 'https://mc.yandex.ru/metrika/tag.js'
+    script.src = `https://mc.yandex.ru/metrika/tag.js?id=${id}`
     script.async = true
     script.dataset.vneAnalytics = 'true'
     script.onload = () => {
