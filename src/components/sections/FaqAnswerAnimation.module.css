@@ -1,0 +1,18 @@
+.visual {
+  display: block;
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.piece {
+  display: inline-block;
+  transform-origin: center bottom;
+}
+
+.visual[data-variant='cut'] .word {
+  overflow: clip;
+  vertical-align: bottom;
+}

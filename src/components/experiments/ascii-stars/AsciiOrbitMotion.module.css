@@ -1,0 +1,198 @@
+.root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  block-size: 100%;
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: clip;
+  color: #f4f3ee;
+  background: #22231f;
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-block-size: 0;
+  min-inline-size: 0;
+  overflow: clip;
+}
+
+.canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.coordinates,
+.stageNote,
+.controls {
+  font-family: 'Courier New', monospace;
+  font-size: max(0.625rem, var(--wide-text-min, 0rem));
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.coordinates {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: 0.75rem;
+  inset-inline: 0.875rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  pointer-events: none;
+  color: #b9bcae;
+}
+
+.stageNote {
+  position: absolute;
+  inset-block-end: 0.75rem;
+  inset-inline-start: 0.875rem;
+  color: #b9bcae;
+  pointer-events: none;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  flex-shrink: 0;
+  min-inline-size: 0;
+  gap: 0.75rem;
+  padding: 0.5rem 0.875rem;
+  border-block-start: 1px solid #65685d;
+}
+
+.transport {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.controlButton {
+  display: grid;
+  inline-size: 44px;
+  block-size: 44px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #65685d;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.timeline {
+  min-inline-size: 0;
+}
+
+.timelineHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding-block-start: 0.25rem;
+}
+
+.timelineHeading output {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.range {
+  --orbit-progress: 0%;
+
+  display: block;
+  appearance: none;
+  inline-size: 100%;
+  min-inline-size: 44px;
+  block-size: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: ew-resize;
+  touch-action: pan-y;
+}
+
+.range::-webkit-slider-runnable-track {
+  block-size: 2px;
+  background: linear-gradient(
+    to right,
+    #ceb4f5 var(--orbit-progress),
+    #76796c var(--orbit-progress)
+  );
+}
+
+.range::-moz-range-track {
+  block-size: 2px;
+  background: #76796c;
+}
+
+.range::-moz-range-progress {
+  block-size: 2px;
+  background: #ceb4f5;
+}
+
+.range::-webkit-slider-thumb {
+  appearance: none;
+  inline-size: 8px;
+  block-size: 16px;
+  margin-block-start: -7px;
+  border: 0;
+  border-radius: 0;
+  background: #f4f3ee;
+}
+
+.range::-moz-range-thumb {
+  inline-size: 8px;
+  block-size: 16px;
+  border: 0;
+  border-radius: 0;
+  background: #f4f3ee;
+}
+
+.range:focus-visible,
+.controlButton:focus-visible {
+  outline: 2px solid #ceb4f5;
+  outline-offset: 2px;
+}
+
+@media (hover: hover) {
+  .controlButton:hover {
+    background: #f4f3ee;
+    color: #22231f;
+  }
+}
+
+@media (width <= 420px) {
+  .controls {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0.25rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .transport {
+    justify-content: space-between;
+  }
+
+  .timelineHeading {
+    flex-wrap: wrap;
+    line-height: 1.4;
+  }
+
+  .coordinates {
+    font-size: max(0.5625rem, var(--wide-text-min, 0rem));
+  }
+
+  .stageNote {
+    font-size: max(0.5625rem, var(--wide-text-min, 0rem));
+  }
+}

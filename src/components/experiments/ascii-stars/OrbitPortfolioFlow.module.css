@@ -1,0 +1,72 @@
+.flow {
+  --flow-header-height: 0px;
+  --flow-axis: 41%;
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.spineWindow {
+  display: none;
+}
+
+@supports (animation-timeline: view()) and (animation-range: entry 30svh entry 48svh) {
+  @media (prefers-reduced-motion: no-preference) {
+    .flow {
+      view-timeline-name: --portfolio-flow;
+      view-timeline-axis: block;
+
+      /* A zero-height reading band keeps the drawing tip at 70% of the screen. */
+      view-timeline-inset: 70% 30%;
+    }
+
+    .spineWindow {
+      position: absolute;
+      z-index: 3;
+      inset-block: var(--flow-header-height) 0;
+      inset-inline-start: var(--flow-axis);
+      display: block;
+      overflow: clip;
+      inline-size: 1px;
+      pointer-events: none;
+    }
+
+    .spine {
+      position: absolute;
+      inset-block-start: calc(-1 * var(--flow-header-height));
+      inset-inline-start: 0;
+      inline-size: 1px;
+      block-size: calc(100% + var(--flow-header-height));
+      background: #22231f;
+      transform-origin: center top;
+      animation: trace-spine auto linear both;
+      animation-timeline: --portfolio-flow;
+      animation-range: cover 0% cover 100%;
+    }
+
+    @media (height >= 500px) {
+      [data-services-transition='ready'] .spine {
+        /* The trace reaches the last FAQ border before the sideways handoff. */
+        animation-timeline: --services-transition;
+        animation-range: contain -70svh contain var(--services-pin);
+      }
+    }
+  }
+}
+
+@keyframes trace-spine {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@media (width <= 800px) {
+  .flow {
+    --flow-axis: 0%;
+  }
+}

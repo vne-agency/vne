@@ -62,8 +62,26 @@ export const Leads: CollectionConfig = {
     { name: 'phone', type: 'text' },
     { name: 'email', type: 'email' },
     { name: 'telegramUsername', type: 'text' },
+    {
+      name: 'telegramUpdateId',
+      type: 'number',
+      unique: true,
+      index: true,
+      admin: {
+        readOnly: true,
+        condition: (_, data) => data.source === 'telegram_bot',
+      },
+    },
     { name: 'message', type: 'textarea', required: true },
     { name: 'pageUrl', type: 'text' },
+    {
+      name: 'consentEvidence',
+      type: 'json',
+      admin: {
+        readOnly: true,
+        description: 'Server-recorded consent version, time and complete document text.',
+      },
+    },
     {
       name: 'source',
       type: 'select',

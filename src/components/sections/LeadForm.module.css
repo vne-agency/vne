@@ -1,29 +1,58 @@
 .form {
+  position: relative;
   display: grid;
-  min-block-size: 8rem;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 0.75rem 1rem;
+  min-block-size: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.375rem 1rem;
   align-items: end;
-  padding: 1.25rem;
+  padding: 0.75rem;
   background: var(--color-accent);
   color: #fff;
 }
 
 .field {
   display: grid;
+  min-inline-size: 0;
   gap: 0.25rem;
+  scroll-margin-block: 6rem;
+}
+
+.wideField {
+  grid-column: 1 / -1;
+}
+
+.helper {
+  font-size: max(0.75rem, var(--wide-text-min, 0rem));
+  line-height: 1.5;
+}
+
+.field :is(textarea, select) {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  font: inherit;
+}
+
+.field textarea {
+  resize: vertical;
+  min-block-size: 6rem;
+}
+
+.field select option,
+.field select optgroup {
+  background: #fff;
+  color: #22231f;
 }
 
 .field label {
-  font-size: 0.72rem;
+  font-size: max(0.72rem, var(--wide-text-min, 0rem));
   font-weight: 550;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.field input {
+.field :is(input, textarea, select) {
   min-inline-size: 0;
-  padding: 0.45rem 0;
+  padding: 0.25rem 0;
   border: 0;
   border-block-end: 1px solid rgb(255 255 255 / 75%);
   border-radius: 0;
@@ -32,26 +61,41 @@
   color: #fff;
 }
 
-.field input:focus-visible {
+.field :is(input, textarea, select):focus-visible {
   border-block-end-color: #fff;
   box-shadow: 0 2px 0 #fff;
 }
 
-.field span {
-  font-size: 0.7rem;
+.field :is(input, textarea, select)::placeholder {
+  color: rgb(255 255 255 / 62%);
+  opacity: 1;
+}
+
+.fieldError {
+  font-size: max(0.7rem, var(--wide-text-min, 0rem));
+  line-height: 1.15;
 }
 
 .form button {
-  min-block-size: 2.75rem;
-  padding: 0.6rem 0.9rem;
+  display: inline-flex;
+  min-block-size: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  justify-self: end;
+  padding: 0.3rem 0.8rem;
   border: 1px solid #fff;
   border-radius: var(--radius-pill);
   background: #fff;
   color: var(--color-accent);
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: max(0.78rem, var(--wide-text-min, 0rem));
   font-weight: 560;
   text-transform: uppercase;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    transform 150ms ease;
 }
 
 .form button:disabled {
@@ -59,13 +103,40 @@
   opacity: 0.7;
 }
 
+.form button:hover:not(:disabled) {
+  background: transparent;
+  color: #fff;
+}
+
+.form button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
 .consent {
   display: flex;
-  grid-column: 1 / -1;
   align-items: flex-start;
   gap: 0.5rem;
-  font-size: 0.7rem;
+  font-size: max(0.625rem, var(--wide-text-min, 0rem));
   line-height: 1.3;
+}
+
+.consentToggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.consent a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.consent a:focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 3px;
 }
 
 .form .consent input {
@@ -74,18 +145,439 @@
 }
 
 .status {
-  min-block-size: 1rem;
-  grid-column: 1 / -1;
-  font-size: 0.75rem;
+  position: absolute;
+  margin: 0;
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.2rem;
+  background: #fff;
+  color: var(--color-accent);
+  inset-block-end: 0.35rem;
+  inset-inline: 0.75rem;
+  font-size: max(0.625rem, var(--wide-text-min, 0rem));
+  font-weight: 620;
   line-height: 1.35;
+}
+
+.form:has(.status) {
+  padding-block-end: 2rem;
+}
+
+.form[data-status='success'] {
+  display: flex;
+  align-items: stretch;
+}
+
+.spinner {
+  inline-size: 0.75rem;
+  block-size: 0.75rem;
+  border: 1.5px solid currentcolor;
+  border-inline-end-color: transparent;
+  border-radius: 50%;
+  animation: spin 650ms linear infinite;
+}
+
+.successPanel {
+  display: grid;
+  inline-size: 100%;
+  min-block-size: 100%;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  outline: 0;
+  background: var(--color-accent);
+  animation: success-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.successIcon {
+  position: relative;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.successIcon::after {
+  position: absolute;
+  inline-size: 0.85rem;
+  block-size: 0.45rem;
+  border-block-end: 0.16rem solid var(--color-accent);
+  border-inline-start: 0.16rem solid var(--color-accent);
+  content: '';
+  inset-block-start: 0.78rem;
+  inset-inline-start: 0.66rem;
+  transform: rotate(-45deg);
+}
+
+.successCopy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.successCopy strong {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.successCopy > span {
+  font-size: max(0.75rem, var(--wide-text-min, 0rem));
+  line-height: 1.25;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes success-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (width <= 46rem) {
   .form {
     grid-template-columns: 1fr;
+    gap: 0.875rem;
+    padding: 1rem;
+  }
+
+  .field :is(input, textarea, select) {
+    min-block-size: 2.75rem;
   }
 
   .form button {
+    min-block-size: 2.75rem;
     justify-self: start;
+    padding-inline: 1rem;
+  }
+
+  .consent {
+    font-size: max(0.6875rem, var(--wide-text-min, 0rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form button,
+  .successPanel {
+    transition: none;
+    animation: none;
+  }
+}
+
+.form.orbit {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  background: transparent;
+  color: #22231f;
+}
+
+.orbit .field {
+  gap: 0.5rem;
+  padding-block: 1rem 1.25rem;
+  border-block-start: 1px solid #96978d;
+}
+
+.orbit .field label {
+  font:
+    max(0.6875rem, var(--wide-text-min, 0rem))/1.4 'Courier New',
+    monospace;
+  letter-spacing: 0;
+}
+
+.orbit .field :is(input, textarea, select) {
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding: 0;
+  border-block-end: 0;
+  color: #22231f;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  letter-spacing: -0.025em;
+}
+
+.orbit .field :is(input, textarea, select)::placeholder {
+  color: #65665c;
+}
+
+.orbit .field :is(textarea, select),
+.orbit .field #lead-budget {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.orbit .field :is(input, textarea, select):focus-visible {
+  box-shadow: 0 2px 0 #22231f;
+}
+
+.orbit .field :is(input, textarea, select)[aria-invalid='true'] {
+  box-shadow: 0 2px 0 #9a2525;
+}
+
+.orbit .fieldError {
+  color: #9a2525;
+  font-size: max(0.75rem, var(--wide-text-min, 0rem));
+  line-height: 1.4;
+}
+
+/* Keep the native select's form and keyboard behavior, with a site-styled picker.
+   Browsers without customizable selects retain their standard usable picker. */
+@supports (appearance: base-select) {
+  .orbit .field select,
+  .orbit .field select::picker(select) {
+    appearance: base-select;
+  }
+
+  .orbit .field select {
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+  }
+
+  .orbit .field select::picker-icon {
+    flex: none;
+    inline-size: 0.625rem;
+    block-size: 0.625rem;
+    margin-inline: auto 0.25rem;
+    border-inline-end: 1px solid currentcolor;
+    border-block-end: 1px solid currentcolor;
+    color: #22231f;
+    content: '';
+    transform: rotate(45deg);
+    transition: transform 200ms ease;
+  }
+
+  .orbit .field select:open::picker-icon {
+    transform: rotate(225deg);
+  }
+
+  .orbit .field select::picker(select) {
+    inline-size: anchor-size(self-inline);
+    max-inline-size: calc(100vw - 2rem);
+    max-block-size: min(26rem, 55dvh);
+    padding: 0;
+    margin-block: 0.5rem;
+    border: 1px solid #22231f;
+    border-radius: 0;
+    background: #f4f3ee;
+    color: #22231f;
+    box-shadow: none;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: #22231f #f4f3ee;
+    scrollbar-width: thin;
+    opacity: 0;
+    transform: translateY(-0.375rem);
+    transition:
+      opacity 180ms ease,
+      transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      display 180ms allow-discrete,
+      overlay 180ms allow-discrete;
+  }
+
+  .orbit .field select:open::picker(select) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .orbit .field select optgroup {
+    padding: 0.75rem 0 0;
+    background: #f4f3ee;
+    color: #65665c;
+    font:
+      max(0.6875rem, var(--wide-text-min, 0rem))/2.5 'Courier New',
+      monospace;
+    font-weight: 400;
+    text-indent: 1rem;
+    text-transform: uppercase;
+  }
+
+  .orbit .field select option {
+    min-block-size: 2.75rem;
+    padding: 0.75rem 1rem;
+    border-block-start: 1px solid #b9b9b2;
+    gap: 0.75rem;
+    background: #fff;
+    color: #22231f;
+    font: 400 0.9375rem/1.45 var(--font-sans);
+    text-indent: 0;
+    text-transform: none;
+    white-space: normal;
+    cursor: pointer;
+  }
+
+  .orbit .field select option:checked {
+    background: #ceb4f5;
+  }
+
+  .orbit .field select option:is(:hover, :focus-visible) {
+    outline: 1px solid #22231f;
+    outline-offset: -1px;
+    background: #e5d7f8;
+  }
+
+  .orbit .field select option::checkmark {
+    color: #22231f;
+  }
+
+  @starting-style {
+    .orbit .field select:open::picker(select) {
+      opacity: 0;
+      transform: translateY(-0.375rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit .field select::picker(select),
+    .orbit .field select::picker-icon {
+      transition: none;
+    }
+  }
+}
+
+.orbit .consent {
+  align-items: center;
+  gap: 0.75rem;
+  min-block-size: 2.75rem;
+  margin-block: 0.5rem 1.25rem;
+  font-size: max(0.75rem, var(--wide-text-min, 0rem));
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.form.orbit .consent input {
+  flex: none;
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+  margin: 0;
+  accent-color: #22231f;
+}
+
+.orbit .consent input:focus-visible {
+  outline: 2px solid #22231f;
+  outline-offset: 4px;
+}
+
+.orbit .orbitSubmit {
+  justify-content: space-between;
+  justify-self: stretch;
+  min-block-size: 4rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #22231f;
+  border-radius: 0;
+  background: #22231f;
+  color: #f4f3ee;
+  font-size: 0.875rem;
+  font-weight: 450;
+  text-transform: none;
+  scroll-margin-block: 5rem;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.orbit .orbitSubmit:focus-visible {
+  outline: 2px solid #22231f;
+  outline-offset: 4px;
+}
+
+.orbit .orbitSubmit:hover:not(:disabled) {
+  background: #ceb4f5;
+  color: #22231f;
+}
+
+.orbit .orbitSubmit:active:not(:disabled) {
+  transform: none;
+}
+
+.submitArrow {
+  margin-inline-start: auto;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.orbit .status {
+  position: static;
+  margin-block-start: 1rem;
+  padding: 0.75rem;
+  border: 1px solid #9a2525;
+  border-radius: 0;
+  background: transparent;
+  color: #9a2525;
+  font-size: max(0.75rem, var(--wide-text-min, 0rem));
+  font-weight: 450;
+  line-height: 1.4;
+}
+
+.orbit .successPanel {
+  min-block-size: 21.75rem;
+  padding: 2rem;
+  background: #ceb4f5;
+}
+
+.orbit .successPanel:focus-visible {
+  outline: 2px solid #22231f;
+  outline-offset: 4px;
+}
+
+.orbit .successIcon {
+  background: #22231f;
+}
+
+.orbit .successIcon::after {
+  border-color: #f4f3ee;
+}
+
+.orbit .successCopy strong {
+  font-size: 1.375rem;
+  font-weight: 450;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+  text-transform: none;
+}
+
+.orbit .successCopy > span {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+@media (any-pointer: coarse), (width <= 800px) {
+  .consentToggle {
+    min-inline-size: 2.75rem;
+    min-block-size: 2.75rem;
+  }
+
+  .orbit .consent {
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .orbit .consent > span {
+    padding-block: 0.4rem;
+  }
+}
+
+@media (width <= 420px) {
+  .orbit .successPanel {
+    min-block-size: 17rem;
+    padding: 1.25rem;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit .orbitSubmit {
+    transition: none;
   }
 }

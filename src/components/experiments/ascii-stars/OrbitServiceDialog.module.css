@@ -1,0 +1,500 @@
+.dialog {
+  --dialog-gutter: clamp(1.25rem, 3vw, 3.5rem);
+  --toolbar-height: 3.75rem;
+
+  position: fixed;
+  inset: var(--dialog-viewport-top, 0) 0 auto;
+  overflow: hidden;
+  inline-size: 100vw;
+  max-inline-size: none;
+  block-size: var(--dialog-viewport-height, 100dvh);
+  max-block-size: none;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: #22231f;
+  font-family: var(--font-sans), sans-serif;
+}
+
+.dialog::backdrop {
+  background: rgb(34 35 31 / 16%);
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  background: #f4f3ee;
+}
+
+.toolbar {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: 41% 59%;
+  min-block-size: calc(var(--toolbar-height) + env(safe-area-inset-top, 0px));
+  padding-block-start: env(safe-area-inset-top, 0);
+  border-block-end: 1px solid #22231f;
+  background: #fff;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.brand,
+.toolbarRight {
+  display: flex;
+  min-inline-size: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-inline: 1.25rem;
+}
+
+.brand {
+  padding-inline-start: max(1.25rem, env(safe-area-inset-left, 0px));
+  background: #ceb4f5;
+}
+
+.wordmark {
+  font-size: 2.4rem;
+  font-weight: 500;
+  letter-spacing: -0.075em;
+  line-height: 1;
+}
+
+.brandCaption {
+  max-inline-size: 13rem;
+  text-align: end;
+}
+
+.toolbarRight {
+  padding-inline-end: max(1.25rem, env(safe-area-inset-right, 0px));
+  border-inline-start: 1px solid #22231f;
+}
+
+.eyebrow,
+.visualLabel,
+.visualFooter,
+.stepNumber {
+  font:
+    max(0.6875rem, var(--wide-text-min, 0rem))/1.4 'Courier New',
+    monospace;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.toolbarRight > .eyebrow {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.scrollArea {
+  --detail-scroll-timeline: --detail-scroll;
+
+  scroll-timeline-name: --detail-scroll;
+  scroll-timeline-axis: block;
+  overflow: auto;
+  overflow-anchor: none;
+  scroll-behavior: auto;
+  min-block-size: 0;
+  min-inline-size: 0;
+  scroll-padding-block: 1rem max(1rem, env(safe-area-inset-bottom, 0px));
+  overscroll-behavior: contain;
+  scrollbar-color: #77796e #f4f3ee;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 41% 59%;
+  min-block-size: 100%;
+  align-items: start;
+}
+
+.visual {
+  position: sticky;
+  inset-block-start: 0;
+  overflow: hidden;
+  block-size: calc(
+    var(--dialog-viewport-height, 100dvh) - var(--toolbar-height) - env(safe-area-inset-top, 0px)
+  );
+  min-inline-size: 0;
+  background: #22231f;
+  color: #f4f3ee;
+}
+
+.artwork {
+  position: absolute;
+  inset: 1.5rem 0;
+  pointer-events: none;
+}
+
+.visualLabel,
+.visualFooter {
+  position: absolute;
+  z-index: 1;
+  inset-inline: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  pointer-events: none;
+}
+
+.visualLabel {
+  inset-block-start: 1.25rem;
+}
+
+.visualFooter {
+  inset-block-end: 1.25rem;
+  color: inherit;
+  font-size: max(0.5625rem, var(--wide-text-min, 0rem));
+}
+
+.content {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  border-inline-start: 1px solid #22231f;
+  background: #fff;
+}
+
+.introduction {
+  padding: clamp(2rem, 5vw, 5.5rem) var(--dialog-gutter) 2rem;
+}
+
+.title {
+  max-inline-size: 12ch;
+  margin: 1.25rem 0 2rem;
+  font-size: clamp(2.5rem, 5.1vw, 6rem);
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+  overflow-wrap: anywhere;
+}
+
+.description {
+  max-inline-size: 39rem;
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  line-height: 1.5;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0;
+  margin: 2.25rem 0 1rem;
+  border-block-end: 1px solid #b3b5a9;
+  list-style: none;
+}
+
+.platforms {
+  margin-block-start: 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.inclusions {
+  display: grid;
+  gap: 0.5rem;
+  padding-inline-start: 1.125rem;
+  margin-block: 0.75rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.inclusions li::marker {
+  color: #755b8c;
+}
+
+.items li {
+  display: flex;
+  align-items: baseline;
+  padding: 1rem 1rem 1rem 0;
+  border-block-start: 1px solid #b3b5a9;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.items span {
+  flex-shrink: 0;
+}
+
+.items .itemText {
+  min-inline-size: 0;
+  flex-shrink: 1;
+}
+
+.introContact,
+.contact {
+  display: flex;
+  inline-size: 100%;
+  min-block-size: 3.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1rem;
+  text-align: start;
+  cursor: pointer;
+}
+
+.introContact span,
+.contact span {
+  font-size: 1.5rem;
+}
+
+.process {
+  border-block-start: 1px solid #22231f;
+  background: #f4f3ee;
+}
+
+.processHeader {
+  padding: 2rem var(--dialog-gutter);
+}
+
+.processHeader h3,
+.outcome h3 {
+  margin-block-start: 1.5rem;
+  font-size: clamp(2rem, 3.5vw, 4rem);
+  font-weight: 450;
+  letter-spacing: -0.06em;
+  line-height: 1;
+}
+
+.steps {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  padding: 2rem var(--dialog-gutter);
+  border-block-start: 1px solid #b3b5a9;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.stepNumber {
+  padding-block-start: 0.4rem;
+}
+
+.step h4 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.25rem, 2vw, 1.875rem);
+  font-weight: 450;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.step p {
+  max-inline-size: 37rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.deliverable {
+  padding-block-start: 1.25rem;
+  margin-block-start: 1.25rem;
+  border-block-start: 1px solid #c5c7bb;
+}
+
+.deliverable p {
+  margin-block-start: 0.5rem;
+}
+
+.outcome {
+  padding: 2.5rem var(--dialog-gutter) calc(2rem + env(safe-area-inset-bottom, 0px));
+  border-block-start: 1px solid #22231f;
+  background: #ceb4f5;
+}
+
+.outcomeDescription {
+  margin-block: 1.5rem 2rem;
+  font-size: clamp(1.0625rem, 1.5vw, 1.375rem);
+  line-height: 1.5;
+}
+
+.contact {
+  padding-inline: 1.25rem;
+  background: #22231f;
+  color: #f4f3ee;
+}
+
+.dialog :focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: -4px;
+}
+
+@media (hover: hover) {
+  .introContact:hover,
+  .contact:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+}
+
+@media (width <= 800px) {
+  .toolbar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .brandCaption,
+  .toolbarRight > .eyebrow {
+    display: none;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .visual {
+    position: relative;
+    block-size: clamp(12rem, 60vw, 19rem);
+  }
+
+  .artwork {
+    inset: 2rem 0;
+  }
+
+  .content {
+    border-inline-start: 0;
+  }
+
+  .title {
+    max-inline-size: 100%;
+    font-size: clamp(2.25rem, 10.8vw, 3.5rem);
+  }
+
+  .items {
+    grid-template-columns: 1fr;
+  }
+
+  .step {
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+  }
+}
+
+@media (801px <= width <= 1100px) {
+  .brand,
+  .toolbarRight {
+    gap: 0.75rem;
+    padding-inline: max(1rem, env(safe-area-inset-left, 0px))
+      max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  .brandCaption {
+    max-inline-size: 10rem;
+    font-size: max(0.625rem, var(--wide-text-min, 0rem));
+  }
+
+  .toolbarRight > .eyebrow {
+    font-size: max(0.625rem, var(--wide-text-min, 0rem));
+  }
+
+  .items {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width <= 480px) {
+  .dialog {
+    --dialog-gutter: max(1rem, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  }
+
+  .brand,
+  .toolbarRight {
+    gap: 0.5rem;
+    padding-inline: max(0.75rem, env(safe-area-inset-left, 0px))
+      max(0.75rem, env(safe-area-inset-right, 0px));
+  }
+
+  .closeLabel {
+    position: absolute;
+    overflow: hidden;
+    inline-size: 1px;
+    block-size: 1px;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .visualLabel,
+  .visualFooter {
+    inset-inline: var(--dialog-gutter);
+    gap: 0.5rem;
+  }
+
+  .visualFooter {
+    font-size: max(0.5rem, var(--wide-text-min, 0rem));
+  }
+
+  .introduction {
+    padding-block-start: 1.5rem;
+  }
+
+  .title {
+    margin-block-end: 1.5rem;
+  }
+
+  .step {
+    column-gap: 0.75rem;
+  }
+}
+
+@media (height <= 500px) and (width >= 600px) {
+  .dialog {
+    --toolbar-height: 3.25rem;
+  }
+
+  .layout {
+    grid-template-columns: minmax(0, 34fr) minmax(0, 66fr);
+  }
+
+  .visual {
+    position: sticky;
+    block-size: calc(
+      var(--dialog-viewport-height, 100dvh) - var(--toolbar-height) - env(safe-area-inset-top, 0px)
+    );
+  }
+
+  .visualLabel,
+  .visualFooter {
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    font-size: max(0.5rem, var(--wide-text-min, 0rem));
+  }
+
+  .artwork {
+    inset-block: 2.5rem;
+  }
+
+  .content {
+    border-inline-start: 1px solid #22231f;
+  }
+
+  .introduction {
+    padding-block-start: 1.5rem;
+  }
+
+  .title {
+    margin-block: 1rem 1.5rem;
+    font-size: clamp(2.25rem, 5.1vw, 3.5rem);
+  }
+
+  .items {
+    grid-template-columns: 1fr;
+  }
+}

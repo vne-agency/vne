@@ -1,0 +1,12 @@
+.caseContent {
+  min-inline-size: 0;
+}
+
+.artworkTransfer {
+  position: fixed;
+  z-index: 5;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}

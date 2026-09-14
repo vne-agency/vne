@@ -1,0 +1,308 @@
+/* The close icon and action icons belong to separate controls. */
+/* stylelint-disable no-descending-specificity */
+.banner,
+.dialog {
+  --cookie-line: #b8b8ad;
+
+  position: fixed;
+  inline-size: min(38rem, calc(100% - 2rem));
+  max-block-size: calc(var(--cookie-viewport-height, 100dvh) - 2rem - env(safe-area-inset-bottom));
+  padding: 0;
+  border: 1px solid #22231f;
+  border-radius: 0;
+  background: #f4f3ee;
+  color: #22231f;
+  overflow: visible;
+  box-shadow: 0 12px 48px rgb(0 0 0 / 12%);
+}
+
+/* Keep the top-layer cursor outside the content's scroll/animation container. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  max-block-size: calc(
+    var(--cookie-viewport-height, 100dvh) - 2rem - 2px - env(safe-area-inset-bottom)
+  );
+  overflow: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  animation: panel-in 550ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.panel::-webkit-scrollbar {
+  display: none;
+}
+
+.banner {
+  z-index: 80;
+  inset: auto 1.5rem calc(1.5rem + var(--cookie-viewport-bottom, 0px) + env(safe-area-inset-bottom))
+    auto;
+}
+
+.dialog {
+  inset-block: var(--cookie-viewport-top, 0) var(--cookie-viewport-bottom, 0);
+  margin: auto;
+}
+
+.dialog::backdrop {
+  background: rgb(34 35 31 / 35%);
+  animation: backdrop-in 300ms ease both;
+}
+
+.banner[data-leaving='true'] .panel,
+.dialog[data-leaving='true'] .panel {
+  animation: panel-out 220ms ease both;
+  pointer-events: none;
+}
+
+.topline {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.85rem 1.5rem;
+  border-block-end: 1px solid #22231f;
+  background: #cfb5f2;
+  font:
+    max(0.65rem, var(--wide-text-min, 0rem))/1.4 'Courier New',
+    monospace;
+}
+
+.copy {
+  min-block-size: 0;
+  padding: 1.5rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: 1.1rem;
+}
+
+.titleRow h2 {
+  min-inline-size: 0;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.06em;
+  overflow-wrap: anywhere;
+}
+
+.copy p {
+  max-inline-size: 48ch;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.mark {
+  flex-shrink: 0;
+  inline-size: 1.75rem;
+  block-size: 2rem;
+  object-fit: contain;
+}
+
+.documents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+  margin-block-start: 1rem;
+}
+
+.documents a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  color: inherit;
+  font-size: max(0.7rem, var(--wide-text-min, 0rem));
+  text-underline-offset: 0.25em;
+}
+
+.actions {
+  display: grid;
+  flex-shrink: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border-block-start: 1px solid var(--cookie-line);
+}
+
+.actions button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 1.2rem 1.5rem;
+  min-block-size: 4rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: max(0.8rem, var(--wide-text-min, 0rem));
+  cursor: pointer;
+  text-align: start;
+  transition: background-color 200ms ease;
+}
+
+.actions button + button {
+  border-inline-start: 1px solid var(--cookie-line);
+}
+
+.actions button:hover {
+  background: #e5d7f5;
+}
+
+.actions button > span {
+  font-size: 1.2rem;
+}
+
+.configure {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding: 0.7rem 1.5rem;
+  border: 0;
+  border-block-start: 1px solid var(--cookie-line);
+  background: transparent;
+  color: inherit;
+  font:
+    max(0.65rem, var(--wide-text-min, 0rem))/1.5 'Courier New',
+    monospace;
+  cursor: pointer;
+}
+
+.options {
+  display: grid;
+  margin-block-start: 1.5rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-block-size: 5rem;
+  padding-block: 1rem;
+  border-block-start: 1px solid var(--cookie-line);
+}
+
+.option > span:first-child {
+  display: grid;
+  min-inline-size: 0;
+  gap: 0.35rem;
+}
+
+.option strong {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.option small {
+  font-size: max(0.72rem, var(--wide-text-min, 0rem));
+  line-height: 1.5;
+}
+
+.fixed {
+  max-inline-size: 6rem;
+  text-align: end;
+  font:
+    max(0.58rem, var(--wide-text-min, 0rem))/1.5 'Courier New',
+    monospace;
+}
+
+.option input {
+  flex-shrink: 0;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  padding: 0.675rem;
+  border: 0;
+  appearance: none;
+  background: #fff;
+  background-clip: content-box;
+  outline: 1px solid #22231f;
+  outline-offset: -0.675rem;
+  accent-color: #22231f;
+  cursor: pointer;
+}
+
+.option input:checked {
+  background-color: #22231f;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 12 4 4 10-10' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E");
+  background-origin: content-box;
+}
+
+.banner :is(a, button, input):focus-visible,
+.dialog :is(a, button, input):focus-visible {
+  outline: 2px solid #22231f;
+  outline-offset: -4px;
+}
+
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    clip-path: inset(100% 0 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes panel-out {
+  to {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (width <= 42rem) {
+  .banner {
+    inset-inline: 1rem;
+    inset-block-end: calc(1rem + var(--cookie-viewport-bottom, 0px) + env(safe-area-inset-bottom));
+  }
+
+  .copy,
+  .topline {
+    padding-inline: 1.1rem;
+  }
+
+  .actions button {
+    padding: 1rem;
+    font-size: max(0.73rem, var(--wide-text-min, 0rem));
+  }
+
+  .copy p {
+    font-size: max(0.83rem, var(--wide-text-min, 0rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .dialog::backdrop,
+  .banner[data-leaving='true'] .panel,
+  .dialog[data-leaving='true'] .panel {
+    animation: none;
+  }
+
+  .actions button {
+    transition: none;
+  }
+}

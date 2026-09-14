@@ -1,0 +1,74 @@
+.artwork {
+  position: absolute;
+  overflow: hidden;
+  inset: 0;
+  background: #22231f;
+  color: #c4c6b8;
+  contain: layout paint;
+}
+
+.artwork[data-tone='light'] {
+  background: #f4f3ee;
+  color: #55574d;
+}
+
+.canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.fallback {
+  position: absolute;
+  inset: 15%;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.5rem, 5vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.artwork[data-ready='true'] .fallback {
+  visibility: hidden;
+}
+
+.registration,
+.signature {
+  position: absolute;
+  inset-inline: clamp(1rem, 2vw, 2rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  pointer-events: none;
+  font:
+    max(0.5625rem, var(--wide-text-min, 0rem))/1.4 'Courier New',
+    monospace;
+  letter-spacing: 0.08em;
+}
+
+.registration {
+  inset-block-start: 1rem;
+}
+
+.registration span:first-child,
+.registration span:last-child {
+  font-size: 1rem;
+}
+
+.signature {
+  inset-block-end: 1rem;
+}
+
+.signature span:last-child {
+  font-size: 1rem;
+}
+
+@media (width <= 500px) {
+  .registration,
+  .signature {
+    font-size: max(0.5rem, var(--wide-text-min, 0rem));
+  }
+}

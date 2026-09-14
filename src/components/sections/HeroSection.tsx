@@ -1,34 +1,40 @@
 import Image from 'next/image'
 
-import { Reveal } from '@/components/ui/Reveal'
-
 import styles from './HeroSection.module.css'
 
 export function HeroSection() {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.statement}>
-        <Reveal className={styles.titleWrap}>
+        <div className={styles.titleWrap}>
           <h1 id="hero-title" className={styles.title}>
-            <span className={styles.titleLine}>Дизайн,</span>{' '}
-            <span className={styles.titleLine}>работающий</span>{' '}
-            <span className={styles.titleLine}>на ваш</span>
+            <span className={styles.titleLine}>
+              <span>Дизайн,</span>
+            </span>{' '}
+            <span className={styles.titleLine}>
+              <span>работающий</span>
+            </span>{' '}
+            <span className={styles.titleLine}>
+              <span>на ваш</span>
+            </span>
           </h1>
-          <Image
-            src="/assets/home/hero-script-business.svg"
-            alt="бизнес"
-            width={585}
-            height={182}
-            className={styles.script}
-            priority
-          />
-        </Reveal>
-        <Reveal className={styles.description} delay={0.08}>
+          <span className={styles.script} role="img" aria-label="бизнес">
+            <Image
+              src="/assets/home/hero-script-business.svg"
+              alt=""
+              width={585}
+              height={182}
+              className={styles.scriptImage}
+              priority
+            />
+          </span>
+        </div>
+        <div className={styles.description}>
           <p>
             Создаем визуальные решения, которые привлекают внимание, отстраивают от конкурентов и
             помогают продавать.
           </p>
-        </Reveal>
+        </div>
       </div>
     </section>
   )

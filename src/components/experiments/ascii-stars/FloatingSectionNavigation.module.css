@@ -1,0 +1,166 @@
+.widget {
+  position: fixed;
+  z-index: 70;
+  inset-inline-start: max(1rem, env(safe-area-inset-left));
+  inset-block-end: max(1rem, env(safe-area-inset-bottom));
+  color: #22231f;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 280ms ease,
+    visibility 280ms;
+}
+
+.transferringLink {
+  position: fixed;
+  z-index: 69;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  pointer-events: none;
+  white-space: nowrap;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.widget[data-visible='true'] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.toggle {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  border: 1px solid #60615a;
+  border-radius: 50%;
+  background: #22231f;
+  color: #f4f3ee;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 12%);
+  transition: background-color 180ms ease;
+}
+
+.toggle img {
+  filter: invert(1);
+  transition:
+    transform 300ms ease,
+    filter 180ms ease;
+}
+
+.toggle[aria-expanded='true'] {
+  background: #cfb5f2;
+}
+
+.toggle[aria-expanded='true'] img {
+  filter: none;
+  transform: rotate(90deg);
+}
+
+.panel {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-end: calc(100% + 12px);
+  inline-size: min(244px, calc(100vw - 2rem));
+  padding: 6px;
+  border: 1px solid #22231f;
+  background: #f4f3ee;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 10%);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    visibility 220ms;
+}
+
+.panel[data-open='true'] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.panel a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-block-size: 44px;
+  padding: 0.75rem;
+  color: inherit;
+  font:
+    max(0.75rem, var(--wide-text-min, 0rem))/1.4 'Courier New',
+    monospace;
+  text-decoration: none;
+}
+
+.panel a + a {
+  border-block-start: 1px solid #b8b8ad;
+}
+
+.panel a[aria-current] {
+  background: #cfb5f2;
+}
+
+.panel a:hover {
+  background: #e5d7f5;
+}
+
+.widget :is(a, button):focus-visible {
+  outline: 2px solid #8967b6;
+  outline-offset: 3px;
+}
+
+@media (width > 1920px) {
+  .toggle {
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
+  }
+
+  .toggle img {
+    inline-size: 1.5rem;
+    block-size: auto;
+  }
+
+  .panel {
+    inline-size: min(23rem, calc(100vw - 2rem));
+    max-block-size: calc(100dvh - 6rem);
+    overflow-y: auto;
+  }
+
+  .panel a {
+    font-size: clamp(0.75rem, calc(0.75rem + (100vw - 1920px) / 80), 1.25rem);
+  }
+}
+
+@media (width <= 896px), (hover: none) and (pointer: coarse) {
+  .widget {
+    inset-inline: auto max(1rem, env(safe-area-inset-right));
+    inset-block: max(1rem, env(safe-area-inset-top)) auto;
+  }
+
+  .panel {
+    inset-inline: auto 0;
+    inset-block: calc(100% + 12px) auto;
+    max-block-size: calc(100dvh - 6rem - env(safe-area-inset-top));
+    overflow-y: auto;
+    transform: translate(8px, -8px);
+  }
+
+  .panel[data-open='true'] {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .widget,
+  .panel,
+  .toggle,
+  .toggle img {
+    transition: none;
+  }
+}

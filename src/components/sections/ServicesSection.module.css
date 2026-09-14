@@ -1,5 +1,7 @@
 .section {
-  padding: 0.2rem var(--page-gutter) clamp(4.5rem, 8vw, 5.625rem);
+  --service-card-height: clamp(20rem, 60svh, 40.6875rem);
+
+  padding: 3.125rem var(--page-gutter) clamp(4.5rem, 8vw, 5.625rem);
 }
 
 .grid {
@@ -10,7 +12,7 @@
 
 .column {
   display: grid;
-  align-content: start;
+  grid-template-rows: minmax(3rem, 1fr) auto;
   gap: 1rem;
 }
 
@@ -34,7 +36,7 @@
   padding: 0.55rem 0.85rem;
   border: 1px solid var(--color-accent);
   border-radius: var(--radius-pill);
-  font-size: clamp(0.75rem, 1.4vw, 1.25rem);
+  font-size: clamp(0.75rem, 1.1vw, 1.25rem);
   font-weight: 380;
   letter-spacing: 0.1em;
   line-height: 1;
@@ -48,11 +50,138 @@
   color: #fff;
 }
 
+.motionTags .tag,
+.designTags .tag {
+  position: relative;
+  animation: tag-enter 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.motionTags .tag:first-child {
+  z-index: 4;
+  animation-delay: 5.15s;
+}
+
+.motionTags .tag:nth-child(2) {
+  z-index: 3;
+  animation-name: tag-emerge;
+  animation-delay: 5.45s;
+}
+
+.designTags .tag:first-child {
+  z-index: 1;
+  animation-name: tag-emerge-right;
+  animation-delay: 7.69s;
+}
+
+.designTags .tag:nth-child(2) {
+  z-index: 2;
+  animation-name: tag-emerge-right;
+  animation-delay: 7.51s;
+}
+
+.designTags .tag:nth-child(3) {
+  z-index: 3;
+  animation-name: tag-emerge-right;
+  animation-delay: 7.33s;
+}
+
+.designTags .tag:nth-child(4) {
+  z-index: 4;
+  animation-name: tag-enter-right;
+  animation-delay: 7.15s;
+}
+
+@keyframes tag-enter {
+  0% {
+    opacity: 0;
+    transform: translateX(-120%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tag-emerge {
+  0% {
+    opacity: 0;
+    transform: translateX(calc(-100% - 0.75rem));
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tag-enter-right {
+  0% {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes tag-emerge-right {
+  0% {
+    opacity: 0;
+    transform: translateX(calc(100% + 0.75rem));
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .card {
   position: relative;
   overflow: hidden;
-  block-size: 40.6875rem;
+  block-size: var(--service-card-height);
   background: var(--color-surface);
+  container-type: size;
+}
+
+.cardReveal {
+  overflow: hidden;
+}
+
+.motionColumn .card {
+  animation: card-drop 900ms 6.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.designColumn .card {
+  animation: card-drop 900ms 8.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes card-drop {
+  from {
+    opacity: 0;
+    transform: translateY(101%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.parallaxMedia {
+  position: absolute;
+  inset: -3rem 0;
 }
 
 .image {
@@ -60,8 +189,24 @@
   transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.nebulaShader {
+  position: absolute;
+  overflow: hidden;
+  background: radial-gradient(circle at 35% 38%, rgb(45 40 116 / 65%), transparent 34%), #010207;
+  inset: 0;
+}
+
+.nebulaShader canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
 .rotatedImage {
-  transform: rotate(-90deg) scale(1.08);
+  inline-size: calc(100cqh + 6rem) !important;
+  block-size: 100cqw !important;
+  inset: 50% auto auto 50% !important;
+  transform: translate(-50%, -50%) rotate(-90deg);
 }
 
 .card:hover .image:not(.rotatedImage) {
@@ -69,7 +214,7 @@
 }
 
 .card:hover .rotatedImage {
-  transform: rotate(-90deg) scale(1.115);
+  transform: translate(-50%, -50%) rotate(-90deg) scale(1.025);
 }
 
 .caption {
@@ -83,6 +228,11 @@
   letter-spacing: 0.1em;
   line-height: 1.25;
   text-transform: uppercase;
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card:hover .caption {
+  transform: translateY(-0.3rem);
 }
 
 .captionLight {
@@ -124,5 +274,19 @@
 
   .card {
     aspect-ratio: 0.9 / 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motionTags .tag,
+  .designTags .tag,
+  .motionColumn .card,
+  .designColumn .card {
+    animation: none;
+  }
+
+  .image,
+  .caption {
+    transition: none;
   }
 }

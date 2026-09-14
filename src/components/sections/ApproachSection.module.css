@@ -1,118 +1,1008 @@
 .section {
+  --approach-unit: min(0.0625rem, calc(100vw / 1440), calc(100svh / 770));
+
   position: relative;
-  border-block: var(--line);
-  padding-block-start: clamp(5rem, 8vw, 7.5rem);
+  block-size: 520svh;
+  view-timeline-axis: block;
+  view-timeline-name: --approach-scroll;
+}
+
+.sticky {
+  position: sticky;
+  overflow: hidden;
+  block-size: 100svh;
+  inset-block-start: 0;
+  background: #fff;
+}
+
+.layout {
+  position: relative;
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+.gridLine {
+  position: absolute;
+  z-index: 4;
+  display: block;
+  background: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.gridLineTop,
+.gridLineMiddle,
+.gridLineBottom {
+  block-size: 1px;
+  inset-inline: 0;
+}
+
+.gridLineTop,
+.gridLineBottom {
+  transform-origin: left center;
+}
+
+.gridLineTop {
+  inset-block-start: 0;
+}
+
+.gridLineMiddle {
+  inset-block-start: 52.3214%;
+  transform-origin: right center;
+}
+
+.gridLineBottom {
+  inset-block-end: 0;
+}
+
+.gridLineVertical {
+  inline-size: 1px;
+  inset-block: 0;
+  inset-inline-start: 35.2778%;
+  transform-origin: center top;
+}
+
+.cell {
+  position: absolute;
+  z-index: 0;
+  background: #050505;
+  contain: paint;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1.012);
+  transition:
+    opacity 620ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 720ms cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.cellHitbox {
+  position: absolute;
+  z-index: 3;
+  background: transparent;
+}
+
+.cellTopLeft {
+  block-size: 52.3214%;
+  inset-block-start: 0;
+  inset-inline: 0 64.7222%;
+}
+
+.cellTopRight {
+  block-size: 52.3214%;
+  inset-block-start: 0;
+  inset-inline: 35.2778% 0;
+}
+
+.cellBottomLeft {
+  inset-block: 52.3214% 0;
+  inset-inline: 0 64.7222%;
+}
+
+.cellBottomRight {
+  inset-block: 52.3214% 0;
+  inset-inline: 35.2778% 0;
+}
+
+.layout p {
+  font-size: calc(23 * var(--approach-unit));
+  font-weight: 520;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.titleGraphic,
+.topLead,
+.topRight,
+.card,
+.bottomLead,
+.bottomCenter,
+.bottomRight {
+  position: absolute;
+  z-index: 1;
+  transition:
+    background-color 600ms cubic-bezier(0.23, 1, 0.32, 1),
+    color 600ms cubic-bezier(0.23, 1, 0.32, 1),
+    filter 600ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .titleGraphic {
-  position: absolute;
   z-index: 2;
-  inline-size: min(58.7%, 52.8125rem);
-  inset-block-start: 0.5rem;
+  inline-size: calc(845 * var(--approach-unit));
+  inset-block-start: calc(8 * var(--approach-unit));
   inset-inline-end: var(--page-gutter);
+  transform-origin: center;
+  will-change: transform;
 }
 
 .titleGraphic img {
+  display: block;
   inline-size: 100%;
   block-size: auto;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 35.3% 32.35% 32.35%;
-}
-
-.cell {
+.topLead,
+.bottomLead {
   display: flex;
-  min-block-size: 23rem;
   flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(1.5rem, 3.5vw, 3.125rem);
-  border-inline-end: var(--line);
-  font-size: clamp(0.875rem, 1.6vw, 1.4375rem);
-  font-weight: 520;
-  line-height: 1.22;
-  text-transform: uppercase;
+  inset-inline-start: var(--page-gutter);
+  will-change: transform, opacity;
 }
 
-.cell:nth-child(n + 4) {
-  border-block-start: var(--line);
+.topLead {
+  gap: calc(15 * var(--approach-unit));
+  inline-size: calc(291 * var(--approach-copy-unit, var(--approach-unit)));
+  inset-block-start: calc(30 * var(--approach-unit));
 }
 
-.cell:nth-child(3n) {
-  border-inline-end: 0;
+.topLead p:first-child {
+  inline-size: calc(256 * var(--approach-copy-unit, var(--approach-unit)));
 }
 
-.cardCell {
-  align-items: center;
-  justify-content: center;
-  padding: 1.75rem;
+.topRight {
+  inline-size: calc(485 * var(--approach-copy-unit, var(--approach-unit)));
+  inset-block-start: calc(137 * var(--approach-unit));
+  inset-inline-end: var(--page-gutter);
+  text-align: end;
+  will-change: transform, opacity;
+}
+
+.card {
+  z-index: 5;
+  overflow: hidden;
+  inline-size: calc(411 * var(--approach-unit));
+  block-size: calc(238 * var(--approach-unit));
+  background: #050505;
+  will-change: transform;
+}
+
+.cardDesign {
+  inset-block-start: 36.8831%;
+  inset-inline-start: 30.5556%;
+  transform-origin: center top;
+}
+
+.cardProcess {
+  inset-block-start: 36.6234%;
+  inset-inline-start: calc(30.5556% + 421 * var(--approach-unit));
+  transform-origin: center bottom;
+}
+
+.cardContent {
+  position: absolute;
+  inset: 0;
+  will-change: transform, opacity;
 }
 
 .cardGraphic {
-  inline-size: min(100%, 25.6875rem);
-  block-size: auto;
+  position: absolute;
+  z-index: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  inset: 0;
+  transition: opacity 600ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.cellRight {
-  text-align: end;
+.cardGraphicInverted {
+  opacity: 0;
 }
 
-.cellBottom {
-  gap: 2rem;
-}
-
-@media (width <= 62rem) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .cardGraphicDefault {
+    opacity: 0;
   }
 
+  .card:hover .cardGraphicInverted {
+    opacity: 1;
+  }
+}
+
+.bottomLead {
+  gap: calc(20 * var(--approach-unit));
+  inline-size: calc(358 * var(--approach-copy-unit, var(--approach-unit)));
+  inset-block-start: 59.4805%;
+}
+
+.bottomLead p:first-child {
+  inline-size: calc(308 * var(--approach-copy-unit, var(--approach-unit)));
+}
+
+.bottomCenter {
+  inline-size: calc(426 * var(--approach-copy-unit, var(--approach-unit)));
+  inset-block-start: 74.6753%;
+  inset-inline-start: 36.9444%;
+  will-change: transform, opacity;
+}
+
+.bottomRight {
+  inline-size: calc(519 * var(--approach-copy-unit, var(--approach-unit)));
+  inset-block-start: 84.8052%;
+  inset-inline-end: max(var(--page-gutter), 3.75rem);
+  text-align: end;
+  will-change: transform, opacity;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .layout:has(.cellHitbox.cellTopLeft:hover) .cell.cellTopLeft,
+  .layout:has(.cellHitbox.cellTopRight:hover) .cell.cellTopRight,
+  .layout:has(.cellHitbox.cellBottomLeft:hover) .cell.cellBottomLeft,
+  .layout:has(.cellHitbox.cellBottomRight:hover) .cell.cellBottomRight {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .layout:has(.cellHitbox.cellTopLeft:hover) .topLead,
+  .layout:has(.cellHitbox.cellTopRight:hover) .topRight,
+  .layout:has(.cellHitbox.cellBottomLeft:hover) .bottomLead,
+  .layout:has(.cellHitbox.cellBottomRight:hover) .bottomCenter,
+  .layout:has(.cellHitbox.cellBottomRight:hover) .bottomRight {
+    color: #fff;
+  }
+
+  .layout:has(.cellHitbox.cellTopRight:hover) .titleGraphic {
+    filter: invert(1);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .gridLine,
+  .titleGraphic,
+  .topLead,
+  .topRight,
+  .card,
+  .cardContent,
+  .bottomLead,
+  .bottomCenter,
+  .bottomRight,
+  .cellHitbox {
+    animation-duration: 1ms;
+    animation-fill-mode: both;
+    animation-timeline: --approach-scroll;
+    animation-timing-function: linear;
+  }
+
+  .titleGraphic {
+    animation-name: title-scroll;
+  }
+
+  .lineForward,
+  .lineBackward {
+    animation-name: horizontal-line-scroll;
+  }
+
+  .gridLineVertical {
+    animation-name: vertical-line-scroll;
+  }
+
+  .card {
+    animation-name: card-scroll;
+  }
+
+  .cardContentDesign {
+    animation-name: design-card-content-scroll;
+  }
+
+  .cardContentProcess {
+    animation-name: process-card-content-scroll;
+  }
+
+  .topLead {
+    animation-name: top-lead-scroll;
+  }
+
+  .bottomLead {
+    animation-name: bottom-lead-scroll;
+  }
+
+  .topRight {
+    animation-name: top-right-scroll;
+  }
+
+  .bottomCenter {
+    animation-name: bottom-center-scroll;
+  }
+
+  .bottomRight {
+    animation-name: bottom-right-scroll;
+  }
+
+  .cellHitbox {
+    animation-name: hitbox-scroll;
+  }
+}
+
+@keyframes title-scroll {
+  0%,
+  17.823% {
+    transform: translate3d(-26vw, 42vh, 0) scale(0.9);
+  }
+
+  26.968%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes horizontal-line-scroll {
+  0%,
+  26.29% {
+    transform: scale3d(0, 1, 1);
+  }
+
+  33.065%,
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes vertical-line-scroll {
+  0%,
+  28.323% {
+    transform: scale3d(1, 0, 1);
+  }
+
+  33.742%,
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes card-scroll {
+  0%,
+  34.352% {
+    opacity: 0;
+    transform: scale3d(1, 0.001, 1);
+  }
+
+  34.453% {
+    opacity: 1;
+    transform: scale3d(1, 0.001, 1);
+  }
+
+  41.871%,
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes design-card-content-scroll {
+  0%,
+  42.548% {
+    transform: translate3d(0, -100%, 0);
+  }
+
+  48.645%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes process-card-content-scroll {
+  0%,
+  42.548% {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  48.645%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes top-lead-scroll {
+  0%,
+  50% {
+    opacity: 0;
+    transform: translate3d(-2rem, 0, 0);
+  }
+
+  55.419%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes bottom-lead-scroll {
+  0%,
+  56.774% {
+    opacity: 0;
+    transform: translate3d(-2rem, 0, 0);
+  }
+
+  62.194%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes top-right-scroll {
+  0%,
+  63.548% {
+    opacity: 0;
+    transform: translate3d(2rem, 0, 0);
+  }
+
+  68.968%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes bottom-center-scroll {
+  0%,
+  70.323% {
+    opacity: 0;
+    transform: translate3d(0, 2rem, 0);
+  }
+
+  75.742%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes bottom-right-scroll {
+  0%,
+  77.097% {
+    opacity: 0;
+    transform: translate3d(2rem, 0, 0);
+  }
+
+  82.516%,
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes hitbox-scroll {
+  0%,
+  82.45% {
+    visibility: hidden;
+  }
+
+  82.516%,
+  100% {
+    visibility: visible;
+  }
+}
+
+@media (width <= 56rem), (height < 650px) {
+  .section {
+    block-size: auto;
+  }
+
+  .sticky {
+    position: relative;
+    overflow: visible;
+    block-size: auto;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    block-size: auto;
+    min-block-size: 0;
+  }
+
+  .layout p {
+    font-size: 1.125rem;
+  }
+
+  .topLead p:first-child,
+  .bottomLead p:first-child {
+    inline-size: auto;
+  }
+
+  .gridLine,
   .cell,
-  .cell:nth-child(n + 4),
-  .cell:nth-child(3n) {
-    border-block-start: var(--line);
+  .cellHitbox {
+    display: none;
+  }
+
+  .titleGraphic,
+  .topLead,
+  .topRight,
+  .card,
+  .bottomLead,
+  .bottomCenter,
+  .bottomRight {
+    position: static;
+    inline-size: auto;
+    min-block-size: 18rem;
+    padding: 2rem var(--page-gutter);
+    border-block-end: var(--line);
+    animation: none !important;
+    opacity: 1;
+    transform: none !important;
+  }
+
+  .titleGraphic,
+  .card,
+  .topLead,
+  .bottomLead {
     border-inline-end: var(--line);
   }
 
-  .cell:nth-child(even) {
+  .titleGraphic {
+    display: flex;
+    grid-column: 1 / -1;
+    min-block-size: auto;
+    justify-content: center;
+    border-block-start: var(--line);
     border-inline-end: 0;
   }
 
-  .cell:nth-child(-n + 2) {
-    border-block-start: 0;
+  .titleGraphic img {
+    inline-size: min(100%, 52.8125rem);
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cardContent {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .cardGraphic {
+    inline-size: min(100%, 25.6875rem);
+    block-size: auto;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .topLead,
+  .bottomLead {
+    gap: 2rem;
+  }
+
+  .topRight,
+  .bottomRight {
+    text-align: end;
+  }
+
+  .bottomRight {
+    grid-column: 1 / -1;
+    min-block-size: auto;
+    border-inline-end: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .topLead:hover,
+    .topRight:hover,
+    .bottomLead:hover,
+    .bottomCenter:hover,
+    .bottomRight:hover {
+      background: #050505;
+      color: #fff;
+    }
+
+    .titleGraphic:hover {
+      background: #050505;
+      filter: invert(0);
+    }
+
+    .titleGraphic:hover img {
+      filter: invert(1);
+    }
+  }
+}
+
+.bottomGroup {
+  display: contents;
+}
+
+@media (40rem < width <= 56rem) {
+  .bottomLead {
+    grid-column: 1;
+    grid-row: 4;
+    min-block-size: 0;
+    border-inline-end: 0;
+  }
+
+  .bottomGroup {
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
+    grid-row: 4;
+    padding: 2rem var(--page-gutter);
+    border-inline-start: var(--line);
+    border-block-end: var(--line);
+    gap: 0.75rem;
+  }
+
+  .bottomCenter,
+  .bottomRight {
+    min-block-size: 0;
+    padding: 0;
+    border-block-end: 0;
+    text-align: start;
   }
 }
 
 @media (width <= 40rem) {
-  .section {
-    padding-block-start: 4.5rem;
+  .layout {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .titleGraphic {
-    inline-size: calc(100% - (2 * var(--page-gutter)));
+  .titleGraphic,
+  .topLead,
+  .topRight,
+  .bottomLead,
+  .bottomCenter,
+  .bottomRight {
+    grid-column: 1 / -1;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .cell,
-  .cell:nth-child(n + 4),
-  .cell:nth-child(3n),
-  .cell:nth-child(even),
-  .cell:nth-child(-n + 2) {
+  .titleGraphic,
+  .topLead,
+  .topRight,
+  .card,
+  .bottomLead,
+  .bottomCenter,
+  .bottomRight {
+    min-inline-size: 0;
     min-block-size: auto;
-    gap: 2.5rem;
-    padding-block: 2rem;
-    border-block-start: var(--line);
+    padding-block: 1.75rem;
     border-inline-end: 0;
   }
 
-  .cell:first-child {
-    border-block-start: 0;
+  .layout p {
+    font-size: clamp(1rem, 4.8vw, 1.1875rem);
+    line-height: 1.17;
   }
 
-  .cardCell {
-    min-block-size: 15rem;
+  .topLead p:first-child,
+  .bottomLead p:first-child {
+    inline-size: auto;
+  }
+
+  .card {
+    min-block-size: 0;
+    block-size: auto;
+    aspect-ratio: 411 / 238;
+    padding: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section {
+    block-size: auto;
+    view-timeline-name: none;
+  }
+
+  .sticky {
+    position: relative;
+    block-size: 100svh;
+  }
+
+  .gridLine,
+  .cell,
+  .titleGraphic,
+  .topLead,
+  .topRight,
+  .card,
+  .bottomLead,
+  .bottomCenter,
+  .bottomRight,
+  .cardContent,
+  .cellHitbox,
+  .cardGraphic {
+    transition: none;
+  }
+
+  .gridLine,
+  .titleGraphic,
+  .topLead,
+  .topRight,
+  .card,
+  .cardContent,
+  .bottomLead,
+  .bottomCenter,
+  .bottomRight,
+  .cellHitbox {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+}
+
+@media (width <= 56rem) and (prefers-reduced-motion: reduce),
+  (height < 650px) and (prefers-reduced-motion: reduce) {
+  .sticky {
+    block-size: auto;
+  }
+}
+
+.static,
+.hero {
+  block-size: 100svh;
+  view-timeline-name: none;
+}
+
+.static .sticky,
+.hero .sticky {
+  position: relative;
+}
+
+.hero .titleGraphic {
+  text-align: end;
+}
+
+.heroTitle {
+  inline-size: max-content;
+  max-inline-size: 100%;
+  margin: 0 0 0 auto;
+  anchor-name: --hero-approach-title;
+  font-family: var(--font-sans);
+  font-size: calc(124 * var(--approach-unit));
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.hero .layout p {
+  font-size: clamp(1rem, 1.15vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.35;
+  text-transform: none;
+  text-wrap: pretty;
+}
+
+.hero :is(.topLead, .bottomLead) {
+  gap: 1rem;
+}
+
+@media (width > 1920px) and (height >= 650px) {
+  .hero {
+    --approach-copy-size: clamp(1.25rem, calc(1.25rem + (100vw - 1920px) / 64), 1.75rem);
+    --approach-copy-unit: calc(var(--approach-copy-size) / 20);
+  }
+
+  .hero .layout p {
+    font-size: var(--approach-copy-size);
+  }
+}
+
+.static
+  :is(
+    .gridLine,
+    .titleGraphic,
+    .topLead,
+    .topRight,
+    .card,
+    .cardContent,
+    .bottomLead,
+    .bottomCenter,
+    .bottomRight,
+    .cellHitbox
+  ) {
+  animation: none;
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  will-change: auto;
+}
+
+@media (width <= 56rem), (height < 650px) {
+  .static,
+  .static .sticky,
+  .hero,
+  .hero .sticky {
+    overflow: visible;
+    block-size: auto;
+  }
+
+  .static .card,
+  .hero .card {
+    position: relative;
+    inset: auto;
+  }
+
+  .hero .titleGraphic {
+    justify-content: flex-start;
+    text-align: start;
+  }
+
+  /* The Directions header owns the shared bottom boundary. */
+  .hero .bottomRight {
+    border-block-end: 0;
+  }
+
+  .heroTitle {
+    margin-inline-start: 0;
+    font-size: clamp(2.75rem, 8.5vw, 5.75rem);
+  }
+
+  .hero .layout p {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hero .titleGraphic:hover {
+      color: #fff;
+    }
+  }
+}
+
+@media (40rem < width <= 56rem) {
+  .hero :is(.bottomLead, .bottomGroup) {
+    border-block-end: 0;
+  }
+}
+
+@media (width <= 40rem) {
+  .hero .titleGraphic {
+    padding-block: 1.25rem;
+  }
+
+  .hero :is(.topLead, .bottomLead) {
+    padding-block: 1rem 0.75rem;
+    border-block-end: 0;
+    gap: 0.5rem;
+  }
+
+  .hero :is(.topRight, .bottomRight) {
+    padding-block: 0 1.25rem;
+    text-align: start;
+  }
+
+  .hero .bottomCenter {
+    padding-block: 0 0.75rem;
+    border-block-end: 0;
+    text-align: end;
+  }
+
+  .hero .topRight {
+    border-block-end: 0;
+    text-align: end;
+  }
+}
+
+/* Keep the original choreography, but let the hero own the single sticky runway.
+   Its first 80svh expands the panel. At that point this range has the same
+   progress as the original 520svh section arriving at the top of the viewport. */
+@supports (animation-timeline: view()) and (animation-range: entry 100% entry calc(100% + 80svh)) {
+  @media (prefers-reduced-motion: no-preference) and (width > 56rem) and (height >= 650px) {
+    .hero
+      :is(
+        .gridLine,
+        .titleGraphic,
+        .topLead,
+        .topRight,
+        .card,
+        .cardContent,
+        .bottomLead,
+        .bottomCenter,
+        .bottomRight,
+        .cellHitbox
+      ) {
+      animation-timeline: --orbit-reveal;
+      animation-range: entry calc(100% - 20svh) entry calc(100% + 600svh);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) and (width <= 56rem),
+    (prefers-reduced-motion: no-preference) and (height < 650px) {
+    .hero :is(.topLead, .topRight, .card, .bottomLead, .bottomCenter, .bottomRight) {
+      animation: hero-mobile-content linear both !important;
+      animation-timeline: view() !important;
+      animation-range: entry 0% entry 90% !important;
+    }
+
+    .hero .titleGraphic {
+      border-block-start: var(--line);
+    }
+
+    .hero .cardContent {
+      animation: hero-mobile-card linear both !important;
+      animation-timeline: view() !important;
+      animation-range: entry 0% entry 100% !important;
+    }
+
+    @media (40rem < width <= 56rem) {
+      .hero .bottomLead {
+        animation-name: hero-mobile-surface !important;
+        translate: none;
+      }
+    }
+
+    @media (width <= 40rem) {
+      .hero {
+        view-timeline-name: --approach-mobile;
+        view-timeline-axis: block;
+        view-timeline-inset: 0;
+      }
+
+      .hero .card {
+        --approach-reveal-start: 40svh;
+
+        /* Reveal the surface without moving it away from the grid boundary. */
+        animation: hero-mobile-surface linear both !important;
+        translate: none;
+      }
+
+      .hero .topRight {
+        --approach-reveal-start: 35svh;
+      }
+
+      .hero :is(.bottomLead, .bottomCenter, .bottomRight) {
+        --approach-reveal-start: 45svh;
+      }
+
+      .hero
+        :is(.topLead, .topRight, .card, .cardContent, .bottomLead, .bottomCenter, .bottomRight) {
+        /* One section timeline reveals even the lower copy and card artwork
+           before the heading reaches the top of the viewport. */
+        animation-timeline: --approach-mobile !important;
+        animation-range: entry var(--approach-reveal-start, 30svh) entry 80svh !important;
+      }
+    }
+  }
+}
+
+@keyframes hero-mobile-surface {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-mobile-content {
+  from {
+    opacity: 0;
+    translate: 0 1.25rem;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes hero-mobile-card {
+  from {
+    clip-path: inset(50% 0);
+    translate: 0 1.5rem;
+  }
+
+  to {
+    clip-path: inset(0);
+    translate: 0 0;
   }
 }

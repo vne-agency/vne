@@ -1,0 +1,34 @@
+.artwork {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #e8e7e3;
+  color: #22231f;
+  contain: layout paint;
+}
+
+.canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+.artwork[data-transfer-hidden] {
+  visibility: hidden;
+}
+
+.fallback {
+  position: absolute;
+  inset: 15%;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  font:
+    0.75rem/1.5 'Courier New',
+    monospace;
+  text-align: center;
+}
+
+.artwork[data-ready='true'] .fallback {
+  visibility: hidden;
+}

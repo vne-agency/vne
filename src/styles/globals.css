@@ -53,6 +53,7 @@
     --space-5: 1.5rem;
     --space-6: 2rem;
     --font-size-sm: 0.875rem;
+    --z-cursor: 100;
   }
 }
 
@@ -61,12 +62,62 @@
     background: var(--color-background);
     color: var(--color-foreground);
     scroll-behavior: smooth;
+    scrollbar-color: var(--color-accent) var(--color-background);
+    scrollbar-width: thin;
+  }
+
+  html.lenis {
+    scroll-behavior: auto;
+  }
+
+  /* Grow rem-based type and spacing gently on large desktop canvases.
+     The height limit keeps ultrawide windows balanced; the percentage term
+     preserves the user's default font size and still allows zoom to enlarge text. */
+  @media (width > 1920px) {
+    html {
+      --wide-text-min: clamp(
+        0rem,
+        min(calc((100vw - 1920px) / 32), calc((100svh - 1080px) / 18)),
+        0.875rem
+      );
+
+      font-size: clamp(100%, calc(25% + min(100vw / 160, 100svh / 90)), 250%);
+    }
+  }
+
+  html[data-page-scrollbar='true'] {
+    --page-scrollbar-display: block;
+
+    scrollbar-width: none;
+  }
+
+  html[data-page-scrollbar='true']::-webkit-scrollbar {
+    display: none;
+  }
+
+  html[data-startup-loading='true'] [data-page-scrollbar-control] {
+    visibility: hidden;
+  }
+
+  body:has(dialog[open]) [data-page-scrollbar-control] {
+    visibility: hidden;
   }
 
   body {
     min-block-size: 100svh;
     font-family: var(--font-sans);
     text-rendering: optimizelegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
   }
 
   a {
@@ -76,6 +127,27 @@
 
   button {
     color: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    inline-size: 0.625rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-inline-start: var(--line);
+    background: var(--color-background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid var(--color-background);
+    background: var(--color-accent);
+  }
+
+  @media (any-pointer: fine) {
+    html[data-custom-cursor='true'],
+    html[data-custom-cursor='true'] * {
+      cursor: none !important;
+    }
   }
 
   ::selection {
@@ -114,4 +186,22 @@
       transition-duration: 0.01ms !important;
     }
   }
+}
+
+/* Particle language transitions mask glyph ink without changing layout,
+   borders, SVG icons, focus targets or the accessible text. */
+[data-language-ink-hidden],
+[data-language-ink-hidden] * {
+  -webkit-text-fill-color: transparent !important;
+  text-decoration-color: transparent !important;
+  text-shadow: none !important;
+}
+
+/* Lock the first server-rendered frame as well, before hydration installs handlers. */
+html:has([data-startup-loader]) {
+  overflow: hidden;
+}
+
+body:has([data-startup-loader][data-orbit-intro]) {
+  overflow: clip;
 }

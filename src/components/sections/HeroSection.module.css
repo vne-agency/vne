@@ -1,6 +1,28 @@
 .hero {
+  position: relative;
   block-size: 15.6875rem;
-  border-block: var(--line);
+}
+
+.hero::before,
+.hero::after {
+  position: absolute;
+  z-index: 4;
+  block-size: 1px;
+  background: var(--color-line);
+  content: '';
+  inset-inline: 0;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: draw-hero-line 560ms 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero::before {
+  inset-block-start: 0;
+}
+
+.hero::after {
+  inset-block-end: 0;
 }
 
 .statement {
@@ -12,7 +34,9 @@
 
 .titleWrap {
   position: relative;
+  display: flex;
   min-block-size: 0;
+  align-items: center;
   padding: 0.25rem var(--page-gutter);
 }
 
@@ -21,33 +45,98 @@
   font-size: clamp(3.5rem, 5.1vw, 4.375rem);
   font-weight: 680;
   letter-spacing: -0.065em;
-  line-height: 1.293;
+  line-height: 1.2;
   text-transform: uppercase;
-  transform: translateY(-0.15em);
 }
 
 .titleLine {
   display: block;
+  overflow: visible;
+}
+
+.titleLine > span {
+  display: block;
+  animation: title-line-in 650ms 1.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.titleLine:nth-child(2) > span {
+  animation-delay: 1.4s;
+}
+
+.titleLine:nth-child(3) > span {
+  animation-delay: 1.48s;
 }
 
 .script {
   position: absolute;
   z-index: 1;
   inline-size: min(68%, 36.5625rem);
-  block-size: auto;
+  aspect-ratio: 585 / 182;
   inset-block-start: 10rem;
-  inset-inline-start: 29%;
+  inset-inline-start: clamp(15rem, 18vw, 17.5rem);
+}
+
+.script img {
+  position: absolute;
+  inline-size: 100%;
+  block-size: 100%;
+  inset: 0;
+}
+
+.scriptImage {
+  clip-path: inset(-12% 100% -18% -6%);
+  animation: write-business 1.15s 2.18s linear both;
+}
+
+@keyframes draw-hero-line {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes write-business {
+  0% {
+    clip-path: inset(-12% 100% -18% -6%);
+  }
+
+  100% {
+    clip-path: inset(-12% -6% -18% -6%);
+  }
+}
+
+@keyframes title-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.55em);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .description {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   min-block-size: 0;
   align-items: center;
-  border-inline-start: var(--line);
-  background: #050505;
   color: #fff;
   padding-block: 1.875rem;
   padding-inline: clamp(2rem, 4.25vw, 3.875rem);
+}
+
+.description::before {
+  position: absolute;
+  z-index: -1;
+  background: #050505;
+  content: '';
+  inset: 0;
+  transform: scaleX(0);
+  transform-origin: right center;
+  animation: panel-enter 720ms 3.38s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .description p {
@@ -57,6 +146,23 @@
   letter-spacing: 0.095em;
   line-height: 1.28;
   text-transform: uppercase;
+  animation: description-copy-enter 550ms 3.9s ease-out both;
+}
+
+@keyframes panel-enter {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes description-copy-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @media (width <= 56rem) {
@@ -71,18 +177,17 @@
 
   .description {
     min-block-size: 14rem;
-    border-block-start: var(--line);
-    border-inline-start: 0;
   }
 }
 
 @media (width <= 40rem) {
   .titleWrap {
     min-block-size: 14.5rem;
-    padding-block-start: 1rem;
+    padding-block: 1rem;
   }
 
   .title {
+    max-inline-size: none;
     font-size: clamp(2.75rem, 13.2vw, 4rem);
   }
 
@@ -95,5 +200,44 @@
   .description {
     min-block-size: 11.5rem;
     padding: var(--page-gutter);
+  }
+
+  .description p {
+    max-inline-size: 31rem;
+    font-size: clamp(0.9375rem, 4.35vw, 1.125rem);
+    letter-spacing: 0.075em;
+    line-height: 1.35;
+  }
+}
+
+@media (width <= 23rem) {
+  .title {
+    font-size: 12.6vw;
+  }
+
+  .script {
+    inset-inline-start: 21%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero::before,
+  .hero::after,
+  .description::before {
+    transform: none;
+    animation: none;
+  }
+
+  .scriptImage {
+    clip-path: none;
+    animation: none;
+  }
+
+  .titleLine > span {
+    animation: none;
+  }
+
+  .description p {
+    animation: none;
   }
 }

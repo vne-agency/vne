@@ -3,6 +3,8 @@ import { getPayload } from 'payload'
 
 import { leadSchema, type LeadInput } from '@/features/leads/schema'
 import { verifyTurnstile } from '@/features/leads/verify-turnstile'
+import { leadConsentEvidence } from '@/lib/legal/consent-evidence'
+import { buildEnquiryMessage } from '@/features/leads/enquiry-message'
 
 export async function createLead(input: LeadInput) {
   const data = leadSchema.parse(input)
@@ -21,10 +23,11 @@ export async function createLead(input: LeadInput) {
       phone: data.phone || undefined,
       email: data.email || undefined,
       telegramUsername: data.telegramUsername || undefined,
-      message: data.message,
+      message: buildEnquiryMessage(data),
       pageUrl: data.pageUrl,
       source: 'website',
       status: 'new',
+      consentEvidence: leadConsentEvidence(),
       telegramNotificationStatus: 'pending',
       utm: {
         source: data.utmSource || undefined,

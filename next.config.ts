@@ -13,7 +13,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   agentRules: false,
-  allowedDevOrigins: ['127.0.0.1'],
+  devIndicators: false,
+  allowedDevOrigins: ['127.0.0.1', '*.trycloudflare.com'],
   poweredByHeader: false,
   reactStrictMode: true,
   output: 'standalone',
@@ -22,7 +23,10 @@ const nextConfig: NextConfig = {
     localPatterns: [{ pathname: '/api/media/file/**' }, { pathname: '/assets/**' }],
   },
   async headers() {
-    return [{ source: '/(.*)', headers: securityHeaders }]
+    return [
+      { source: '/(.*)', headers: securityHeaders },
+      { source: '/admin/:path*', headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }] },
+    ]
   },
 }
 

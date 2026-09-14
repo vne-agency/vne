@@ -1,0 +1,50 @@
+.button {
+  position: fixed;
+  z-index: 90;
+  display: grid;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--color-accent);
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  cursor: pointer;
+  inset-block-end: 0.75rem;
+  inset-inline-end: 0.75rem;
+  line-height: 1;
+  place-items: center;
+  transition:
+    background-color 220ms ease,
+    color 220ms ease;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: #fff;
+  color: var(--color-accent);
+}
+
+.label {
+  position: absolute;
+  overflow: hidden;
+  inline-size: 1px;
+  block-size: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.arrow {
+  display: grid;
+  inline-size: 100%;
+  block-size: 100%;
+  place-items: center;
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

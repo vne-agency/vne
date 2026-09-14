@@ -1,0 +1,78 @@
+/* Reuse the service/case scroll choreography with the pricing grid's axis.
+   Without native timelines (or with reduced motion), the original borders stay. */
+@supports (animation-timeline: view()) and (animation-range: cover 0 cover 28svh) {
+  @media (prefers-reduced-motion: no-preference) {
+    .motion[data-pricing-motion] :is([data-pricing-catalog], [data-pricing-hero-copy]) {
+      border-inline-start-color: transparent;
+    }
+
+    .motion[data-pricing-motion] [data-pricing-cell] > [data-closing-spine] {
+      inset-inline-start: -1px;
+      background: #22231f;
+    }
+
+    .motion[data-pricing-motion] :is([data-pricing-cell], [data-pricing-rule])::before {
+      transform-origin: left center;
+    }
+
+    .motion[data-pricing-motion] :is([data-pricing-cell='offer'], [data-pricing-rule]) {
+      --closing-line: #b9b9b2;
+    }
+
+    .motion[data-pricing-motion] [data-pricing-hero] > [data-closing-spine] {
+      inset-inline-start: var(--pricing-axis);
+      animation-timeline: scroll(root block);
+      animation-range: 0 65svh;
+    }
+
+    .motion[data-pricing-motion] [data-pricing-hero]::after {
+      transform-origin: var(--pricing-axis) center;
+      animation-timeline: scroll(root block);
+      animation-range: 1px 240px;
+    }
+
+    .motion[data-pricing-motion] [data-pricing-contact]::before {
+      transform-origin: center;
+    }
+
+    .motion[data-pricing-motion] [data-pricing-contact] > [data-closing-row] {
+      align-self: start;
+    }
+
+    /* Each field enters independently, including on tall mobile forms. */
+    .motion[data-pricing-motion] [data-pricing-form] form > :is(div, button, p) {
+      animation: pricing-field-arrive auto cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-timeline: view(block);
+      animation-range: entry 0% entry 100%;
+    }
+
+    .motion[data-pricing-motion] [data-pricing-form] form:focus-within > :is(div, button, p),
+    .motion[data-pricing-motion] [data-pricing-form] :is([role='alert'], [role='status']) {
+      animation: none;
+    }
+
+    @media (width <= 680px) {
+      .motion[data-pricing-motion]
+        :is([data-pricing-cell], [data-pricing-hero])
+        > [data-closing-spine] {
+        display: none;
+      }
+
+      .motion[data-pricing-motion] [data-pricing-hero]::after {
+        transform-origin: left center;
+      }
+    }
+  }
+}
+
+@keyframes pricing-field-arrive {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}

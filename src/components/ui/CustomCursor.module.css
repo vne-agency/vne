@@ -1,0 +1,107 @@
+.cursor {
+  position: fixed;
+  z-index: 2147483001;
+  inline-size: 0;
+  block-size: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  color: #22231f;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cursor[data-visible='true'] {
+  opacity: 1;
+}
+
+.halo,
+.arrow {
+  position: absolute;
+  inset: -17px auto auto -19px;
+  display: block;
+  inline-size: 48px;
+  max-inline-size: none;
+  block-size: 48px;
+  pointer-events: none;
+}
+
+.halo {
+  inset: -25px auto auto -26px;
+  inline-size: 64px;
+  block-size: 64px;
+  transition: transform 220ms ease;
+}
+
+.orbit {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+  stroke: currentcolor;
+  stroke-width: 0.75px;
+}
+
+.orbitOutline {
+  stroke: #fff;
+  stroke-width: 2.25px;
+}
+
+.star {
+  position: absolute;
+  inset: 0 auto auto 0;
+  inline-size: 8px;
+  max-inline-size: none;
+  block-size: 8px;
+  overflow: visible;
+  stroke: #fff;
+  stroke-width: 1.4px;
+  paint-order: stroke fill;
+  offset-path: path(
+    'M57.3717 22.7655 A27 20 -20 1 1 6.6283 41.2345 A27 20 -20 1 1 57.3717 22.7655 Z'
+  );
+  offset-anchor: center;
+  offset-rotate: 0deg;
+  animation: star-orbit 24s linear infinite;
+  animation-play-state: paused;
+}
+
+.cursor[data-visible='true'] .star {
+  animation-play-state: running;
+}
+
+.arrow {
+  stroke: #fff;
+  stroke-width: 1.3px;
+  stroke-linejoin: round;
+  paint-order: stroke fill;
+}
+
+.cursor[data-interactive='true'] .halo {
+  transform: scale(1.08);
+}
+
+.cursor[data-pressed='true'] .halo {
+  transform: scale(0.95);
+}
+
+@keyframes star-orbit {
+  to {
+    offset-distance: 100%;
+  }
+}
+
+@media (any-pointer: coarse) and (not (any-pointer: fine)) {
+  .cursor {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    animation-play-state: paused !important;
+  }
+
+  .halo {
+    transition: none;
+  }
+}

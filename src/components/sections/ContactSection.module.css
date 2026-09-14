@@ -1,153 +1,232 @@
 .section {
-  padding: var(--section-space) var(--page-gutter) 2rem;
+  padding: clamp(4.5rem, 7vw, 6.25rem) var(--page-gutter) 2rem;
+}
+
+.section.fullWidth {
+  padding-inline: clamp(0.875rem, 1.32vw, 1.25rem);
 }
 
 .frame {
   position: relative;
+  display: grid;
+  overflow: hidden;
+  min-block-size: 28.625rem;
+  grid-template-columns: minmax(0, 36.8%) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
   border: var(--line);
-  padding-block-start: 5.75rem;
 }
 
 .date {
-  position: absolute;
-  display: flex;
-  inline-size: 36.8%;
-  min-block-size: 5.75rem;
-  align-items: flex-start;
-  padding: 0.6rem;
+  grid-area: 1 / 1;
+  min-inline-size: 0;
+  min-block-size: 5.8125rem;
+  padding: 0.625rem;
   border-inline-end: var(--line);
   border-block-end: var(--line);
-  inset-block-start: 0;
-  inset-inline-start: 0;
   font-size: 0.75rem;
   font-weight: 520;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .heading {
-  position: absolute;
-  z-index: 2;
-  inline-size: min(62%, 51.6875rem);
-  inset-block-start: 0.5rem;
-  inset-inline-end: 0.75rem;
+  display: flex;
+  min-inline-size: 0;
+  grid-area: 1 / 2;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
 }
 
 .heading img {
-  inline-size: 100%;
+  inline-size: min(100%, 51.6875rem);
   block-size: auto;
 }
 
 .body {
-  display: grid;
-  grid-template-columns: 36.8% 1fr;
-  min-block-size: 22.8125rem;
+  display: contents;
 }
 
 .visual {
   position: relative;
   overflow: hidden;
-  min-block-size: 22.8125rem;
+  min-block-size: 21.5rem;
+  grid-area: 2 / 1;
   border-inline-end: var(--line);
 }
 
+.imageFrame {
+  position: absolute;
+  inset: 0;
+  container-type: size;
+}
+
 .contactImage {
+  inline-size: 100cqh !important;
+  block-size: 100cqw !important;
+  max-inline-size: none;
+  inset: 50% auto auto 50% !important;
   object-fit: cover;
+  transform: translate(-50%, -50%) rotate(90deg);
 }
 
 .content {
+  --contact-content-padding: clamp(0.75rem, 1.25vw, 1.5rem);
+
   display: flex;
   min-inline-size: 0;
+  grid-area: 2 / 2;
   flex-direction: column;
   justify-content: space-between;
-  padding: clamp(1.5rem, 3.4vw, 3.1rem) 0 0;
+  gap: 2.5rem;
+  padding: var(--contact-content-padding);
 }
 
 .copyGrid {
   display: grid;
-  grid-template-columns: 1fr 0.9fr;
-  gap: 2rem;
-  padding-inline: clamp(1.25rem, 3.4vw, 3rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 2.5rem);
 }
 
-.copyGrid p {
-  font-size: clamp(0.875rem, 1.4vw, 1.25rem);
+.copyPrimary,
+.copySecondary {
+  min-inline-size: 0;
+}
+
+.copyPrimary p,
+.copySecondary p {
+  font-size: clamp(1rem, 1.05vw, 1.25rem);
   font-weight: 620;
-  line-height: 1.3;
+  line-height: 1.25;
   text-transform: uppercase;
 }
 
-.copyGrid p:last-child {
+.copySecondary {
   text-align: end;
 }
 
 .actions {
   display: grid;
-  grid-template-columns: 1.35fr 0.85fr;
-  gap: clamp(1.25rem, 3vw, 3rem);
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
   align-items: end;
-  padding-inline: clamp(1.25rem, 3.4vw, 3rem) 0;
+  gap: clamp(1rem, 2vw, 2.5rem);
+}
+
+.formReveal,
+.contacts {
+  min-inline-size: 0;
 }
 
 .contacts {
+  margin-inline-end: calc(-1 * var(--contact-content-padding));
+}
+
+.formReveal {
+  max-inline-size: 28.1875rem;
+}
+
+.formReveal > form {
+  min-block-size: 7.6875rem;
+}
+
+.contactsInner {
   display: grid;
-  align-content: end;
-  margin: 0;
+  min-block-size: 7.6875rem;
+  grid-template-rows: repeat(3, minmax(0, 1fr));
   font-style: normal;
 }
 
 .contactRow {
   display: flex;
-  min-block-size: 3rem;
+  min-inline-size: 0;
+  min-block-size: 2.75rem;
   align-items: center;
   justify-content: flex-end;
   gap: 0.5rem;
-  padding-inline-end: 0.75rem;
+  padding-inline-end: var(--contact-content-padding);
   border-block-end: var(--line);
-  font-size: clamp(0.75rem, 1.25vw, 1.125rem);
+  font-size: clamp(0.75rem, 0.95vw, 1.125rem);
   font-weight: 620;
   text-transform: uppercase;
+  transition:
+    background-color 240ms ease,
+    border-color 240ms ease,
+    color 240ms ease;
 }
 
 .contactRow img {
   flex: 0 0 auto;
+  transition: filter 240ms ease;
+}
+
+.contactRow:hover,
+.contactRow:focus-visible {
+  border-color: #fff;
+  background: #050505;
+  color: #fff;
+}
+
+.contactRow:hover img,
+.contactRow:focus-visible img {
+  filter: invert(1);
+}
+
+.contactRow .emailIcon {
+  inline-size: 1.25rem;
+  block-size: auto;
 }
 
 .motto {
   position: absolute;
-  inset-block-end: 1.1rem;
-  inset-inline-start: 10.5%;
+  z-index: 2;
+  inline-size: 36.8%;
+  inset-block-end: 1.0625rem;
+  inset-inline-start: 0;
   color: var(--color-accent);
   font-size: 0.72rem;
   font-weight: 550;
   letter-spacing: 0.06em;
+  text-align: center;
   text-transform: uppercase;
 }
 
-@media (width <= 62rem) {
+@media (width <= 70rem) and (width > 56rem) {
+  .actions {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contactsInner {
+    min-block-size: 0;
+  }
+}
+
+@media (width <= 56rem) {
   .frame {
-    padding-block-start: 5rem;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+
+  .date {
+    min-block-size: 3rem;
+    border-inline-end: 0;
   }
 
   .heading {
-    inline-size: 64%;
-  }
-
-  .body {
-    grid-template-columns: 1fr;
+    grid-area: 2 / 1;
+    padding: 1rem;
   }
 
   .visual {
-    min-block-size: 23rem;
+    min-block-size: clamp(16rem, 40vw, 22rem);
+    grid-area: 3 / 1;
     border-inline-end: 0;
-    border-block-end: var(--line);
+    border-block: var(--line);
   }
 
-  .actions {
-    grid-template-columns: 1fr;
-    padding: 2rem;
-  }
+  .content {
+    --contact-content-padding: 1.5rem;
 
-  .contactRow {
-    padding-inline: 0;
+    grid-area: 4 / 1;
   }
 
   .motto {
@@ -163,28 +242,33 @@
 
   .frame {
     border-inline: 0;
-    padding-block-start: 6.5rem;
   }
 
-  .date {
-    inline-size: 40%;
-    min-block-size: 4rem;
+  .content {
+    --contact-content-padding: 1.25rem;
+
+    gap: 2rem;
   }
 
-  .heading {
-    inline-size: calc(100% - 1.5rem);
-    inset-block-start: 2.2rem;
-  }
-
-  .copyGrid {
+  .copyGrid,
+  .actions {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .copyGrid p:last-child {
+  .copySecondary {
     text-align: start;
   }
 
-  .actions {
-    padding-inline: 1.25rem;
+  .contactRow {
+    min-block-size: 3.25rem;
+    font-size: clamp(0.9375rem, 4.6vw, 1.125rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contactRow,
+  .contactRow img {
+    transition: none;
   }
 }

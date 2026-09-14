@@ -2,3 +2,7 @@
   inline-size: 100%;
   overflow: clip;
 }
+
+.legalFooter {
+  padding-inline: var(--page-gutter);
+}

@@ -1,0 +1,385 @@
+.section {
+  display: grid;
+  grid-template-columns: 41% 59%;
+
+  /* In normal flow the last case and the Services header own these edges. */
+  border-block: 0;
+  background: #fff;
+  color: #22231f;
+  scroll-margin-block-start: 1rem;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(1.25rem, 3vw, 3rem);
+  border-inline-end: 1px solid #22231f;
+  background: #f4f3ee;
+}
+
+.headingContent {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.boundary {
+  display: none;
+}
+
+.eyebrow,
+.number {
+  font:
+    max(0.6875rem, var(--wide-text-min, 0rem))/1.5 'Courier New',
+    monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.heading h2 {
+  margin-block: 3.5rem;
+  font-size: clamp(2.5rem, 5.7vw, 7rem);
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-block-size: 2.75rem;
+  max-inline-size: 100%;
+  padding-block: 0.5rem;
+  border-block-end: 1px solid currentcolor;
+  margin-block-start: auto;
+  gap: clamp(1rem, 5vw, 5rem);
+  font-size: max(0.8125rem, var(--wide-text-min, 0rem));
+}
+
+.contact span {
+  font-size: 1.25rem;
+}
+
+.list {
+  min-inline-size: 0;
+}
+
+.item {
+  background: #fff;
+  transition: background-color 280ms ease;
+}
+
+.item + .item {
+  border-block-start: 1px solid #22231f;
+}
+
+.item[data-expanded='true'] {
+  background: #f4f3ee;
+}
+
+.questionHeading {
+  margin: 0;
+}
+
+.question {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr) 1.5rem;
+  align-items: start;
+  inline-size: 100%;
+  min-block-size: 6.5rem;
+  padding: 2rem clamp(1.25rem, 3vw, 3rem);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  gap: clamp(0.75rem, 1.7vw, 2rem);
+  font-size: clamp(1.0625rem, 1.6vw, 1.625rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  text-align: start;
+  transition: background-color 280ms ease;
+}
+
+.item[data-expanded='true'] .question {
+  background: #ceb4f5;
+}
+
+.number {
+  padding-block-start: 0.2rem;
+}
+
+.icon {
+  position: relative;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  margin-block-start: 0.125rem;
+}
+
+.icon::before,
+.icon::after {
+  position: absolute;
+  inset: 50% 0 auto;
+  block-size: 1px;
+  background: currentcolor;
+  content: '';
+}
+
+.icon::after {
+  transform: rotate(90deg);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.item[data-expanded='true'] .icon::after {
+  transform: rotate(0);
+}
+
+.answerPanel {
+  overflow: hidden;
+}
+
+.answer {
+  padding: 1.25rem clamp(1.25rem, 3vw, 3rem) 2.25rem;
+  padding-inline-start: calc(clamp(1.25rem, 3vw, 3rem) + 1.5rem + clamp(0.75rem, 1.7vw, 2rem));
+}
+
+.answer p {
+  max-inline-size: 41rem;
+  font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
+  line-height: 1.65;
+}
+
+.section :is(a, button):focus-visible {
+  outline: 2px solid #22231f;
+  outline-offset: -5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item,
+  .question,
+  .icon::after {
+    transition: none;
+  }
+}
+
+@media (hover: hover) {
+  .question:hover {
+    background: rgb(34 35 31 / 4%);
+  }
+
+  .contact:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+@media (width <= 800px) {
+  .section {
+    grid-template-columns: 1fr;
+  }
+
+  .heading {
+    padding-block: 1.5rem 2rem;
+    border-inline-end: 0;
+    border-block-end: 1px solid #22231f;
+  }
+
+  .heading h2 {
+    margin-block: 2.5rem 2rem;
+    font-size: clamp(3rem, 11.5vw, 5rem);
+  }
+
+  .contact {
+    gap: 3rem;
+  }
+
+  .question {
+    min-block-size: 5.75rem;
+    padding-block: 1.625rem;
+  }
+
+  .answer {
+    padding-block: 1rem 1.75rem;
+  }
+}
+
+@supports (animation-timeline: view()) and (animation-range: entry 30svh entry 48svh) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section {
+      position: relative;
+      overflow-x: clip;
+      border-block: 1px solid transparent;
+    }
+
+    .heading {
+      border-inline-end-color: transparent;
+      view-timeline-name: --faq-heading;
+      view-timeline-axis: block;
+      view-timeline-inset: 0;
+    }
+
+    .headingContent {
+      animation-name: faq-enter-left;
+      animation-duration: auto;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-fill-mode: both;
+      animation-timeline: --faq-heading;
+      animation-range: entry 18svh entry 36svh;
+    }
+
+    .boundary {
+      position: absolute;
+      inset-inline: 0;
+      display: block;
+      block-size: 1px;
+      pointer-events: none;
+      view-timeline-name: --faq-boundary;
+      view-timeline-axis: block;
+      view-timeline-inset: 0;
+    }
+
+    .boundaryTop {
+      inset-block-start: -1px;
+    }
+
+    .boundaryBottom {
+      inset-block-end: -1px;
+    }
+
+    .boundary::before,
+    .item::before {
+      position: absolute;
+      inset: 0;
+      block-size: 1px;
+      background: #22231f;
+      content: '';
+      pointer-events: none;
+      animation-name: faq-rule;
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-range: entry 30svh entry 48svh;
+    }
+
+    .boundary::before {
+      transform-origin: 41% 50%;
+      animation-timeline: --faq-boundary;
+    }
+
+    .item {
+      position: relative;
+      view-timeline-name: --faq-row;
+      view-timeline-axis: block;
+      view-timeline-inset: 0;
+    }
+
+    .item + .item {
+      border-block-start-color: transparent;
+    }
+
+    .item::before {
+      inset-block-start: -1px;
+      transform-origin: 0 50%;
+      animation-timeline: --faq-row;
+    }
+
+    .questionHeading,
+    .answer {
+      animation-name: faq-enter-right;
+      animation-duration: auto;
+      animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      animation-fill-mode: both;
+      animation-timeline: --faq-row;
+      animation-range: entry 35svh entry 53svh;
+    }
+
+    .heading:focus-within .headingContent,
+    .item:focus-within .questionHeading,
+    .item:focus-within .answer {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .item:focus-within::before {
+      animation: none;
+      transform: scaleX(1);
+    }
+
+    @media (height >= 500px) {
+      /* Tail rows finish before the FAQ reaches its horizontal handoff. */
+      [data-services-transition='ready'] .item::before {
+        animation-range: entry max(0px, min(30svh, calc(var(--faq-tail) - 18svh))) entry
+          min(48svh, var(--faq-tail));
+      }
+
+      [data-services-transition='ready'] .questionHeading,
+      [data-services-transition='ready'] .answer {
+        animation-range: entry max(0px, min(35svh, calc(var(--faq-tail) - 18svh))) entry
+          min(53svh, var(--faq-tail));
+      }
+
+      [data-services-transition='ready'] .boundaryBottom::before {
+        animation-range: entry -18svh entry 0%;
+      }
+    }
+
+    @media (width <= 800px) {
+      .heading {
+        border-block-end-color: transparent;
+      }
+
+      .boundary::before {
+        transform-origin: 0 50%;
+      }
+    }
+  }
+}
+
+@keyframes faq-rule {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes faq-enter-left {
+  from {
+    opacity: 0;
+    transform: translateX(-5vw);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes faq-enter-right {
+  from {
+    opacity: 0;
+    transform: translateX(5vw);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Accordion reflow must not rewind the scroll entrance of neighbouring rows. */
+.section[data-interacted='true'] :is(.headingContent, .questionHeading, .answer),
+.section[data-interacted='true'] .item::before,
+.section[data-interacted='true'] .boundary::before {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}

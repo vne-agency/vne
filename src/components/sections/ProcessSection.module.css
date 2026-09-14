@@ -9,10 +9,6 @@
   background: #080808;
 }
 
-.bannerImage {
-  object-fit: cover;
-}
-
 .banner p {
   position: absolute;
   z-index: 1;
@@ -24,6 +20,8 @@
   font-weight: 750;
   letter-spacing: 0.1em;
   line-height: 1.25;
+  pointer-events: none;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 65%);
   text-transform: uppercase;
 }
 
@@ -38,64 +36,89 @@
 }
 
 .intro {
+  block-size: 4.5rem;
   margin-block-start: 0.5rem;
-  padding-block: 0.7rem;
+  padding-block: 0.625rem;
   border-block: var(--line);
-  font-size: clamp(0.875rem, 1.4vw, 1.25rem);
+}
+
+.intro p {
+  inline-size: 61.5625rem;
+  font-size: 1.25rem;
   font-weight: 350;
-  line-height: 1.35;
+  line-height: normal;
   text-transform: uppercase;
 }
 
 .content {
-  display: grid;
-  grid-template-columns: minmax(0, 2.25fr) minmax(14rem, 1.2fr) minmax(20rem, 1.7fr);
-  gap: clamp(1.5rem, 4vw, 4.5rem);
-  padding-block: 1rem 5.5rem;
+  inline-size: 30.0664rem;
+  block-size: 22.25rem;
+  margin-block-start: 1rem;
+  margin-inline-start: auto;
 }
 
 .stages {
   display: grid;
-  grid-template-columns: 1fr;
-  align-content: start;
-  gap: 1.5rem;
+  grid-template-columns: 16.75rem 1fr;
+  block-size: 8.625rem;
+  border-block-end: var(--line);
 }
 
 .stages h3 {
-  font-size: clamp(1.5rem, 2.2vw, 1.875rem);
+  font-size: 1.875rem;
   font-weight: 520;
+  line-height: normal;
   text-transform: uppercase;
 }
 
-.stages ol {
-  padding-inline-start: 1.2rem;
+.stages ul {
+  display: grid;
+  gap: 0.25rem;
+  padding-inline-start: 1.6875rem;
   margin: 0;
-  font-size: clamp(0.875rem, 1.25vw, 1.125rem);
+  font-size: 1.125rem;
   font-weight: 350;
-  line-height: 1.65;
+  line-height: 1.25;
+  list-style-type: disc;
   text-transform: uppercase;
+}
+
+.stages li {
+  margin: 0;
 }
 
 .description {
-  padding-block-start: 9.25rem;
-  border-block-start: var(--line);
-  font-size: clamp(0.875rem, 1.35vw, 1.25rem);
+  inline-size: 27.1875rem;
+  margin-block-start: 0.625rem;
+  font-size: 1.25rem;
   font-weight: 350;
-  line-height: 1.42;
+  line-height: normal;
   text-transform: uppercase;
 }
 
-@media (width <= 56rem) {
+@media (width <= 84rem) {
   .heading {
     inline-size: 82%;
   }
 
-  .content {
-    grid-template-columns: 1fr 1fr;
+  .intro {
+    block-size: auto;
   }
 
-  .content > :first-child {
-    display: none;
+  .intro p {
+    inline-size: 100%;
+  }
+
+  .content {
+    inline-size: min(100%, 36rem);
+  }
+
+  .stages {
+    grid-template-columns: minmax(14rem, 16.75rem) 1fr;
+  }
+
+  .description {
+    inline-size: min(100%, 32rem);
   }
 }
 
@@ -107,6 +130,7 @@
   .banner p {
     inset-block-start: 10%;
     inset-inline-start: 8%;
+    font-size: 0.875rem;
   }
 
   .heading {
@@ -114,11 +138,35 @@
   }
 
   .content {
+    inline-size: 100%;
+    block-size: auto;
+    margin-block-end: 0;
+  }
+
+  .intro p,
+  .stages ul,
+  .description {
+    font-size: clamp(0.9375rem, 4.25vw, 1.125rem);
+    line-height: 1.32;
+  }
+
+  .stages {
     grid-template-columns: 1fr;
-    padding-block-end: 3.5rem;
+    block-size: auto;
+    gap: 1rem;
+    padding-block-end: 1.5rem;
+  }
+
+  .stages ul {
+    padding-inline-start: 1.5rem;
+  }
+
+  .stages h3 {
+    font-size: clamp(1.5rem, 7vw, 1.75rem);
   }
 
   .description {
-    padding-block-start: 1.5rem;
+    inline-size: 100%;
+    margin-block-start: 1.5rem;
   }
 }

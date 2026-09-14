@@ -27,8 +27,29 @@
 .media {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 996 / 342;
+  min-block-size: clamp(15rem, 21vw, 21.375rem);
   background: var(--color-surface);
+}
+
+.mediaButton {
+  position: absolute;
+  display: grid;
+  overflow: hidden;
+  inline-size: 100%;
+  block-size: 100%;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  outline-offset: -0.35rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  inset: 0;
+}
+
+.imageMedia {
+  position: absolute;
+  inset: 0;
 }
 
 .mediaBlue {
@@ -38,31 +59,101 @@
 }
 
 .number {
+  position: relative;
+  z-index: 2;
   inline-size: clamp(1.5rem, 3.2vw, 2.5rem);
   block-size: auto;
+  transition:
+    opacity 420ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.previewImage {
+  z-index: 1;
+  object-fit: cover;
+  object-position: center top;
+  opacity: 0;
+  transform: scale(1.08);
+  transform-origin: center top;
+  transition:
+    opacity 420ms ease,
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .caseImage {
   object-fit: cover;
+  object-position: center top;
+  transform-origin: center top;
   transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.caseRow:hover .caseImage {
+.mediaButton:hover .previewImage,
+.mediaButton:focus-visible .previewImage {
+  opacity: 1;
   transform: scale(1.025);
+}
+
+.mediaButton:hover .number,
+.mediaButton:focus-visible .number {
+  opacity: 0;
+  transform: scale(1.12);
+}
+
+.mediaButton:hover .caseImage,
+.mediaButton:focus-visible .caseImage {
+  transform: scale(1.045);
+}
+
+.casePrompt {
+  position: absolute;
+  z-index: 4;
+  display: inline-flex;
+  min-block-size: 2.75rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem 0.55rem 1rem;
+  border: 1px solid rgb(255 255 255 / 75%);
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 92%);
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 580;
+  letter-spacing: 0.07em;
+  inset-block-end: 1rem;
+  inset-inline-end: 1rem;
+  text-transform: uppercase;
+  transform: translateY(0.35rem);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.promptArrow {
+  display: grid;
+  inline-size: 1.65rem;
+  block-size: 1.65rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 1rem;
+  place-items: center;
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mediaButton:hover .casePrompt,
+.mediaButton:focus-visible .casePrompt {
+  transform: translateY(0);
+}
+
+.mediaButton:hover .promptArrow,
+.mediaButton:focus-visible .promptArrow {
+  transform: rotate(45deg);
 }
 
 .details {
   display: flex;
-  min-block-size: 100%;
+  min-inline-size: 0;
   flex-direction: column;
   align-items: flex-start;
   padding-block: 0.1rem;
-}
-
-.caseLogo {
-  inline-size: min(100%, 10.75rem);
-  block-size: auto;
-  margin-block-end: 0.6rem;
 }
 
 .details h3 {
@@ -74,8 +165,11 @@
 }
 
 .details p {
-  max-inline-size: 16rem;
-  margin-block-start: 1.25rem;
+  display: -webkit-box;
+  overflow: hidden;
+  margin-block: clamp(0.75rem, 1vw, 1.25rem) 1rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
   font-size: clamp(0.875rem, 1.25vw, 1.125rem);
   font-weight: 330;
   line-height: 1.42;
@@ -93,6 +187,7 @@
   border-radius: var(--radius-pill);
   background: var(--color-accent);
   color: #fff;
+  cursor: pointer;
   font-size: 0.82rem;
   font-weight: 420;
   text-transform: uppercase;
@@ -119,6 +214,7 @@
   }
 
   .media {
+    min-block-size: 0;
     aspect-ratio: 1.75 / 1;
   }
 
@@ -133,24 +229,63 @@
   .learnMore {
     margin: 0;
   }
+
+  .details p {
+    display: block;
+  }
 }
 
 @media (width <= 40rem) {
   .heading {
     inline-size: 100%;
+    margin-block-end: 1rem;
   }
 
   .media {
-    aspect-ratio: 1.25 / 1;
+    aspect-ratio: 4 / 3;
   }
 
   .details {
     display: flex;
-    gap: 1rem;
+    gap: 0.875rem;
+  }
+
+  .details p {
+    max-inline-size: 28rem;
+    margin-block-start: 0;
+    line-height: 1.5;
   }
 
   .learnMore {
-    margin-block-start: 0.5rem;
+    min-block-size: 2.75rem;
+    margin-block-start: 0.25rem;
     margin-inline-start: 0;
+    padding-inline: 1rem;
   }
+
+  .casePrompt {
+    min-block-size: 2.5rem;
+    padding-inline-start: 0.85rem;
+    inset-block-end: 0.75rem;
+    inset-inline-end: 0.75rem;
+    font-size: 0.6875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caseImage,
+  .previewImage,
+  .number,
+  .casePrompt,
+  .promptArrow {
+    transition: none;
+  }
+}
+
+.details .projectName {
+  margin: 0 0 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: -0.04em;
 }

@@ -6,6 +6,19 @@ type TurnstileResponse = {
 
 export async function verifyTurnstile(token?: string): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  let isLocalSite = false
+
+  if (siteUrl) {
+    try {
+      const hostname = new URL(siteUrl).hostname
+      isLocalSite = hostname === 'localhost' || hostname === '127.0.0.1'
+    } catch {
+      isLocalSite = false
+    }
+  }
+
+  if (process.env.TURNSTILE_DISABLED === 'true' && isLocalSite) return true
 
   if (!secret) {
     if (process.env.NODE_ENV === 'production') {

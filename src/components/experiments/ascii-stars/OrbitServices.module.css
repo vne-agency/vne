@@ -1,0 +1,523 @@
+.section {
+  --service-axis: 41%;
+
+  position: relative;
+  background: #fff;
+  color: #22231f;
+  scroll-margin-block-start: 1rem;
+}
+
+.spine {
+  display: none;
+}
+
+.header,
+.row,
+.contactStrip {
+  position: relative;
+  display: grid;
+  grid-template-columns: 41% 59%;
+}
+
+@supports (animation-timeline: view()) and (animation-range: contain 0% contain 120svh) {
+  @media (height >= 500px) and (prefers-reduced-motion: no-preference) {
+    /* The parent timeline keeps advancing while this section is pinned. */
+    [data-services-transition='ready'] .section {
+      --service-offset: 0px;
+      --service-rule-start: var(--services-reveal);
+      --service-rule-end: calc(var(--service-rule-start) + 20svh);
+    }
+
+    /* Each branch starts when the growing spine reaches its row. Nothing
+       branches until the panel has arrived and one more wheel step is read. */
+    [data-services-transition='ready'] :is(.row, .contactStrip) {
+      --service-rule-start: calc(
+        var(--services-reveal) + max(0px, var(--service-offset) - var(--service-header-height)) *
+          0.5
+      );
+      --service-rule-end: calc(var(--service-rule-start) + 20svh);
+      --service-copy-start: calc(var(--service-rule-start) + 24px);
+      --service-copy-end: calc(var(--service-copy-start) + 28svh);
+    }
+
+    [data-services-transition='ready'] :is(.header, .row, .contactStrip) {
+      border-block-color: transparent;
+    }
+
+    [data-services-transition='ready'] :is(.heading, .details, .contactStrip a) {
+      border-inline-start-color: transparent;
+    }
+
+    [data-services-transition='ready'] .spine {
+      position: absolute;
+      z-index: 2;
+      inset-block: 0;
+      inset-inline-start: var(--service-axis);
+      display: block;
+      inline-size: 1px;
+      background: #b9b9b2;
+      pointer-events: none;
+      transform-origin: center top;
+      animation: services-spine-draw auto linear both;
+      animation-timeline: --services-transition;
+      animation-range: contain calc(var(--services-reveal) - var(--service-header-height) * 0.5)
+        contain
+        calc(var(--services-reveal) + (var(--service-height) - var(--service-header-height)) * 0.5);
+    }
+
+    [data-services-transition='ready'] :is(.header, .row, .contactStrip)::before,
+    [data-services-transition='ready'] .contactStrip::after {
+      position: absolute;
+      z-index: 2;
+      inset: 0 0 auto;
+      block-size: 1px;
+      background: #b9b9b2;
+      content: '';
+      pointer-events: none;
+      transform-origin: var(--service-axis) center;
+      animation: services-rule-spread auto cubic-bezier(0.45, 0, 0.3, 1) both;
+      animation-timeline: --services-transition;
+      animation-range: contain var(--service-rule-start) contain var(--service-rule-end);
+    }
+
+    [data-services-transition='ready'] .contactStrip::after {
+      inset-block: auto 0;
+      animation-range: contain
+        calc(var(--services-reveal) + (var(--service-height) - var(--service-header-height)) * 0.5)
+        contain
+        calc(
+          var(--services-reveal) + (var(--service-height) - var(--service-header-height)) * 0.5 +
+            20svh
+        );
+    }
+
+    [data-services-transition='ready'] :is(.introduction, .heading) {
+      animation: services-heading-arrive auto cubic-bezier(0.45, 0, 0.3, 1) both;
+      animation-timeline: --services-transition;
+      animation-range: contain calc(var(--services-end) - 34svh) contain var(--services-end);
+    }
+
+    @media (width <= 896px) {
+      [data-services-transition='ready'] :is(.introduction, .heading) {
+        /* The arriving panel already has an identity at the phone's edge. */
+        animation-range: contain var(--services-start) contain calc(var(--services-start) + 40svh);
+      }
+    }
+
+    [data-services-transition='ready'] :is(.serviceHeading, .contactStrip p) {
+      animation: services-copy-arrive auto cubic-bezier(0.45, 0, 0.3, 1) both;
+      animation-timeline: --services-transition;
+      animation-range: contain var(--service-copy-start) contain var(--service-copy-end);
+    }
+
+    [data-services-transition='ready'] :is(.details, .contactStrip a) {
+      animation: services-details-arrive auto cubic-bezier(0.45, 0, 0.3, 1) both;
+      animation-timeline: --services-transition;
+      animation-range: contain var(--service-copy-start) contain var(--service-copy-end);
+    }
+
+    [data-services-transition='ready'] .more {
+      position: relative;
+      border-block-start-color: transparent;
+    }
+
+    [data-services-transition='ready'] .more::before {
+      position: absolute;
+      inset: 0 0 auto;
+      block-size: 1px;
+      background: #b9b9b2;
+      content: '';
+      pointer-events: none;
+      transform-origin: left center;
+      animation: services-rule-spread auto cubic-bezier(0.45, 0, 0.3, 1) both;
+      animation-timeline: --services-transition;
+      animation-range: contain var(--service-copy-start) contain var(--service-copy-end);
+    }
+
+    [data-services-transition='ready'] .contactStrip {
+      animation: services-cell-arrive auto linear both;
+      animation-timeline: --services-transition;
+      animation-range: contain var(--service-rule-start) contain var(--service-rule-end);
+    }
+
+    @media (width <= 700px) {
+      /* Stacked rows are taller: reveal each one as it enters the viewport,
+         rather than completing the later rows below the screen. */
+      [data-services-transition='ready'] :is(.row, .contactStrip) {
+        --service-rule-start: calc(
+          var(--services-reveal) + max(0px, var(--service-offset) - 75svh)
+        );
+      }
+
+      [data-services-transition='ready'] .spine {
+        animation-range: contain var(--services-reveal) contain
+          calc(var(--services-reveal) + max(0px, var(--service-height) - 75svh));
+      }
+
+      [data-services-transition='ready'] .contactStrip::after {
+        animation-range: contain
+          calc(var(--services-reveal) + max(0px, var(--service-height) - 75svh)) contain
+          calc(var(--services-reveal) + max(0px, var(--service-height) - 75svh) + 20svh);
+      }
+    }
+
+    [data-services-transition='ready'] :is(.row, .contactStrip):has(:focus-visible) > *,
+    [data-services-transition='ready'] :is(.row, .contactStrip):has(:focus-visible)::before,
+    [data-services-transition='ready'] .contactStrip:has(:focus-visible)::after,
+    [data-services-transition='ready'] .row:has(:focus-visible) .more::before,
+    [data-services-transition='ready'] .contactStrip:has(:focus-visible) {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+}
+
+@keyframes services-cell-arrive {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes services-spine-draw {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes services-rule-spread {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes services-heading-arrive {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.5rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes services-copy-arrive {
+  from {
+    opacity: 0;
+    transform: translate3d(-2rem, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes services-details-arrive {
+  from {
+    opacity: 0;
+    transform: translate3d(2rem, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.header {
+  border-block-start: 1px solid #b9b9b2;
+}
+
+.introduction {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  gap: 3rem;
+  min-inline-size: 0;
+}
+
+.eyebrow,
+.number {
+  font:
+    max(0.6875rem, var(--wide-text-min, 0rem))/1.5 'Courier New',
+    monospace;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.note {
+  max-inline-size: 16rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.pricingLink {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  font-size: 0.875rem;
+  text-underline-offset: 0.25em;
+}
+
+.heading {
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  border-inline-start: 1px solid #b9b9b2;
+  font-size: clamp(3rem, 6.4vw, 7.5rem);
+  font-weight: 500;
+  letter-spacing: -0.065em;
+  line-height: 1;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.row {
+  border-block-start: 1px solid #b9b9b2;
+}
+
+.serviceHeading {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  align-content: start;
+  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  gap: 1rem;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+.number {
+  padding-block-start: 0.0625rem;
+}
+
+.serviceHeading h3 {
+  max-inline-size: 12ch;
+  margin-block-start: 1.25rem;
+  font-size: clamp(2rem, 3.35vw, 4rem);
+  font-weight: 450;
+  letter-spacing: -0.055em;
+  line-height: 1.06;
+  text-wrap: balance;
+}
+
+.details {
+  display: flex;
+  min-inline-size: 0;
+  flex-direction: column;
+  padding: clamp(1.25rem, 2.5vw, 2.5rem);
+  border-inline-start: 1px solid #b9b9b2;
+}
+
+.description {
+  max-inline-size: 43rem;
+  font-size: clamp(0.9375rem, 1.15vw, 1.1875rem);
+  line-height: 1.55;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0;
+  margin: 1.75rem 0 0;
+  gap: 0.75rem 1.5rem;
+  list-style: none;
+  font:
+    max(0.6875rem, var(--wide-text-min, 0rem))/1.5 'Courier New',
+    monospace;
+}
+
+.platforms {
+  margin-block-start: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.items li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.625rem;
+}
+
+.items li::before {
+  flex-shrink: 0;
+  content: '+';
+}
+
+.more {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-block-size: 3rem;
+  padding: 0.5rem 0;
+  border: 0;
+  border-block-start: 1px solid #b9b9b2;
+  margin-block-start: 2rem;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  gap: 1rem;
+  font-size: max(0.8125rem, var(--wide-text-min, 0rem));
+  text-align: start;
+}
+
+.more span {
+  font-size: 1.5rem;
+}
+
+.contactStrip {
+  align-items: stretch;
+
+  /* The following Process section owns the shared bottom boundary. */
+  border-block-start: 1px solid #b9b9b2;
+  background: #ceb4f5;
+}
+
+.contactStrip p,
+.contactStrip a {
+  display: flex;
+  align-items: center;
+  min-block-size: 5.5rem;
+  padding: 1.25rem clamp(1.25rem, 2.5vw, 2.5rem);
+  font-size: 0.875rem;
+}
+
+.contactStrip a {
+  justify-content: space-between;
+  border-inline-start: 1px solid #9c88b9;
+  gap: 1rem;
+  font-size: clamp(1.25rem, 2vw, 2rem);
+  letter-spacing: -0.035em;
+}
+
+.section :is(a, button):focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: -4px;
+}
+
+@media (hover: hover) {
+  .more:hover,
+  .contactStrip a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}
+
+@media (width <= 900px) {
+  .items {
+    grid-template-columns: 1fr;
+  }
+
+  .serviceHeading {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (width <= 700px) {
+  .section {
+    --service-axis: 0%;
+  }
+
+  .header,
+  .row,
+  .contactStrip {
+    grid-template-columns: 1fr;
+  }
+
+  .introduction {
+    flex-flow: row wrap;
+    gap: 1.5rem;
+  }
+
+  .note {
+    max-inline-size: 10rem;
+    font-size: max(0.75rem, var(--wide-text-min, 0rem));
+  }
+
+  .heading {
+    padding-block: 1rem 2rem;
+    border-inline-start: 0;
+    font-size: clamp(3.25rem, 11vw, 5rem);
+  }
+
+  .serviceHeading {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    padding-block-start: 1.75rem;
+    gap: 0.75rem;
+  }
+
+  .serviceHeading h3 {
+    max-inline-size: none;
+    margin-block-start: 0.75rem;
+    font-size: clamp(2rem, 7vw, 3rem);
+    text-wrap: initial;
+  }
+
+  .details {
+    padding-block-start: 0.5rem;
+    border-inline-start: 0;
+  }
+
+  .items {
+    gap: 0.625rem;
+  }
+
+  .contactStrip p {
+    min-block-size: 0;
+    padding-block: 1.25rem 0;
+  }
+
+  .contactStrip a {
+    min-block-size: 4.5rem;
+    border-inline-start: 0;
+  }
+}
+
+/* A short landscape screen reads vertically, while retaining the same
+   sideways arrivals and branching rules without a pinned scroll runway. */
+@supports (animation-timeline: view()) {
+  @media (height < 500px) and (prefers-reduced-motion: no-preference) {
+    .row,
+    .header,
+    .contactStrip {
+      view-timeline-name: --service-compact-row;
+      view-timeline-axis: block;
+    }
+
+    .serviceHeading,
+    .introduction {
+      animation: services-copy-arrive auto ease both;
+      animation-timeline: --service-compact-row;
+      animation-range: entry 0% entry 75%;
+    }
+
+    .details,
+    .heading {
+      animation: services-details-arrive auto ease both;
+      animation-timeline: --service-compact-row;
+      animation-range: entry 0% entry 75%;
+    }
+
+    .row:focus-within > * {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

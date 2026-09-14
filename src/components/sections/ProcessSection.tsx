@@ -1,5 +1,7 @@
 import Image from 'next/image'
 
+import { Stagger, StaggerItem } from '@/components/ui/MotionPrimitives'
+import { NoiseBackground } from '@/components/ui/NoiseBackground'
 import { Reveal } from '@/components/ui/Reveal'
 
 import styles from './ProcessSection.module.css'
@@ -8,15 +10,9 @@ const stages = ['Аудит и бриф', 'Прототип и UX', 'Дизай�
 
 export function ProcessSection() {
   return (
-    <section className={styles.section} aria-labelledby="process-title">
+    <section className={styles.section} id="process" aria-labelledby="process-title">
       <Reveal className={styles.banner}>
-        <Image
-          src="/assets/home/support-image.png"
-          alt="Абстрактная черная архитектурная поверхность"
-          fill
-          sizes="100vw"
-          className={styles.bannerImage}
-        />
+        <NoiseBackground />
         <p>From concept to solid launch</p>
       </Reveal>
 
@@ -33,27 +29,30 @@ export function ProcessSection() {
         />
       </Reveal>
 
-      <p className={styles.intro}>
-        Прозрачный пайплайн: фиксируем сроки на старте, берем на себя всю техническую рутину и
-        остаемся на связи после релиза.
-      </p>
+      <Reveal className={styles.intro} direction="right" distance={28}>
+        <p>
+          Прозрачный пайплайн: фиксируем сроки на старте, берем на себя всю техническую рутину и
+          остаемся на связи после релиза.
+        </p>
+      </Reveal>
 
-      <div className={styles.content}>
-        <div aria-hidden="true" />
-        <div className={styles.stages}>
+      <Stagger className={styles.content} stagger={0.12}>
+        <StaggerItem className={styles.stages} x={24} y={0}>
           <h3>Этапы</h3>
-          <ol>
+          <Stagger as="ul" stagger={0.055} amount={0.4}>
             {stages.map((stage) => (
-              <li key={stage}>{stage}</li>
+              <StaggerItem key={stage} as="li" y={9}>
+                {stage}
+              </StaggerItem>
             ))}
-          </ol>
-        </div>
-        <p className={styles.description}>
+          </Stagger>
+        </StaggerItem>
+        <StaggerItem as="p" className={styles.description} x={24} y={0}>
           Постоянное сопровождение и развитие проекта. После запуска мы не оставляем вас один на
           один с сайтом. Контролируем стабильность работы, оперативно вносим правки, добавляем новые
           разделы и помогаем масштабировать функционал по мере роста бизнеса.
-        </p>
-      </div>
+        </StaggerItem>
+      </Stagger>
     </section>
   )
 }

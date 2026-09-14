@@ -1,0 +1,113 @@
+.compact {
+  margin-block-start: 1.5rem;
+  font-size: max(0.85rem, var(--wide-text-min, 0rem));
+  line-height: 1.6;
+}
+
+.compact > a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  min-block-size: 2.75rem;
+  padding-block: 0.5rem;
+  color: inherit;
+  text-underline-offset: 0.25em;
+}
+
+.summaryItem {
+  display: inline-block;
+  max-inline-size: 100%;
+}
+
+.compact > p {
+  margin-block-start: 0.25rem;
+  font-size: max(0.75rem, var(--wide-text-min, 0rem));
+}
+
+.section {
+  padding: 2.5rem clamp(1.25rem, 3vw, 3rem);
+  border-block-start: 1px solid #b9b9b2;
+}
+
+.section > :is(h2, h3) {
+  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  font-weight: 450;
+  letter-spacing: -0.04em;
+}
+
+.section > p {
+  margin-block-start: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.list {
+  padding: 0;
+  margin-block: 1.5rem;
+  list-style: none;
+}
+
+.list li {
+  padding-block: 1.25rem;
+  border-block-start: 1px solid #b9b9b2;
+}
+
+.list a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  flex-wrap: wrap;
+  min-block-size: 2.75rem;
+  color: inherit;
+  font-size: 1rem;
+  text-decoration: none;
+}
+
+.list strong {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.list p {
+  margin-block-start: 0.75rem;
+  font-size: max(0.85rem, var(--wide-text-min, 0rem));
+  line-height: 1.65;
+}
+
+.list summary {
+  min-block-size: 2.75rem;
+  padding-block: 0.75rem;
+  cursor: pointer;
+  font-size: max(0.8rem, var(--wide-text-min, 0rem));
+}
+
+.section > .note {
+  font-size: max(0.8rem, var(--wide-text-min, 0rem));
+}
+
+.all {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  min-block-size: 2.75rem;
+  margin-block-start: 1rem;
+  padding-block: 0.75rem;
+  color: inherit;
+  font-size: 0.9rem;
+  text-underline-offset: 0.25em;
+}
+
+.section :is(a, summary):focus-visible {
+  outline: 2px solid currentcolor;
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .list a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+}

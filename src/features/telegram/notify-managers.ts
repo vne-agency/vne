@@ -56,7 +56,7 @@ export function formatLeadMessage(lead: LeadNotification): string {
   ].filter(Boolean)
 
   return [
-    "<b>Новая заявка EL'DA</b>",
+    '<b>Новая заявка ВНЕ</b>',
     '',
     `<b>Имя:</b> ${escapeHtml(lead.name)}`,
     ...contacts,
@@ -76,6 +76,10 @@ function getManagerChatIds(): string[] {
     .split(',')
     .map((chatId) => chatId.trim())
     .filter(Boolean)
+}
+
+export function isTelegramManagerChat(chatId: string): boolean {
+  return getManagerChatIds().includes(chatId)
 }
 
 export function getTelegramReadiness(): TelegramReadiness {
@@ -141,6 +145,13 @@ async function sendMessage(token: string, chatId: string, text: string): Promise
   })
 }
 
+export async function sendTelegramMessage(chatId: string, text: string): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN
+  if (!token) throw new Error('TELEGRAM_BOT_TOKEN is not configured.')
+
+  await sendMessage(token, chatId, text)
+}
+
 export async function notifyManagersOfLead(
   lead: LeadNotification,
 ): Promise<TelegramNotificationResult> {
@@ -193,7 +204,7 @@ export async function verifyTelegramSetup(options: { sendTest?: boolean } = {}) 
   if (options.sendTest) {
     await Promise.all(
       chatIds.map((chatId) =>
-        sendMessage(token, chatId, "<b>EL'DA</b>\nTelegram-уведомления настроены и работают."),
+        sendMessage(token, chatId, '<b>ВНЕ</b>\nTelegram-уведомления настроены и работают.'),
       ),
     )
   }

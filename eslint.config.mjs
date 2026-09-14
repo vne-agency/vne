@@ -7,6 +7,11 @@ export default defineConfig([
   ...nextTypescript,
   globalIgnores([
     '.next/**',
+    '.runtime/**',
+    '.tools/**',
+    '.seo-cache/**',
+    '.playwright-cli/**',
+    'output/**',
     'coverage/**',
     'node_modules/**',
     'playwright-report/**',

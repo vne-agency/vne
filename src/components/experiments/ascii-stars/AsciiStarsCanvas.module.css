@@ -1,0 +1,53 @@
+.host {
+  position: relative;
+  isolation: isolate;
+  inline-size: 100%;
+  block-size: 100%;
+  min-block-size: 0;
+  cursor: grab;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+}
+
+.host[data-dragging='true'] {
+  cursor: grabbing;
+}
+
+.host:focus-visible {
+  outline: 1px dashed currentcolor;
+  outline-offset: -8px;
+}
+
+.instructions {
+  position: absolute;
+  overflow: hidden;
+  inline-size: 1px;
+  block-size: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  color: inherit;
+}
+
+.notice {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 1rem;
+  font: 11px/1.5 monospace;
+  text-align: center;
+}
+
+.host[data-renderer='fallback'] canvas {
+  display: none !important;
+}
+
+.host[data-renderer='fallback'] {
+  cursor: default;
+  touch-action: auto;
+}

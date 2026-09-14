@@ -1,0 +1,49 @@
+.switch {
+  margin-inline-end: auto;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  white-space: nowrap;
+  font:
+    max(0.6875rem, var(--wide-text-min, 0rem))/1 'Courier New',
+    monospace;
+}
+
+.switch button {
+  min-block-size: 2.75rem;
+  padding: 0.25rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.switch button[aria-pressed='true'] {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.switch button:focus-visible {
+  outline: 1px solid currentcolor;
+  outline-offset: -2px;
+}
+
+@media (width > 1920px) {
+  .switch {
+    font-size: clamp(0.6875rem, calc(0.6875rem + (100vw - 1920px) / 64), 1.25rem);
+  }
+}
+
+@media (width <= 700px) {
+  .switch {
+    font-size: max(0.5625rem, var(--wide-text-min, 0rem));
+  }
+}
+
+@media (width <= 896px), (pointer: coarse) {
+  .switch button {
+    min-inline-size: 2.75rem;
+  }
+}

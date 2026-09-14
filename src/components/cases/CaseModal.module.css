@@ -1,0 +1,51 @@
+.dialog {
+  position: fixed;
+  overflow: hidden;
+  inline-size: 100vw;
+  max-inline-size: none;
+  block-size: 100dvh;
+  max-block-size: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  cursor: auto;
+  inset: 0;
+}
+
+.dialog::backdrop {
+  background: #fff;
+}
+
+.shell {
+  display: grid;
+  block-size: 100%;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.toolbar {
+  display: flex;
+  min-block-size: 3rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-inline: clamp(0.875rem, 1.32vw, 1.25rem);
+  border-block-end: 1px solid #e7e7e7;
+}
+
+.caption {
+  overflow: hidden;
+  min-inline-size: 0;
+  font-size: 0.75rem;
+  font-weight: 550;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viewport {
+  overflow: auto;
+  min-block-size: 0;
+  padding-block-end: calc(clamp(1.5rem, 2.5vw, 3rem) + env(safe-area-inset-bottom, 0px));
+  overscroll-behavior: contain;
+}

@@ -1,0 +1,53 @@
+/* Enabled by feature detection only when native scroll timelines are missing. */
+.copy {
+  animation: none !important;
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 480ms ease,
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rule {
+  border-block-start-color: transparent !important;
+  border-block-end-color: transparent !important;
+}
+
+/* Static grid cells still carry the desktop's absolute insets. Clear those
+   only when establishing a containing block; preserve positioned elements. */
+.flowRule {
+  position: relative;
+  inset: auto;
+}
+
+.rule::before {
+  position: absolute;
+  z-index: 3;
+  inset: calc(-1 * var(--fallback-line-start, 0px)) 0 calc(-1 * var(--fallback-line-end, 0px));
+  border-block-start: var(--fallback-line-start, 0) solid var(--fallback-line-color, currentcolor);
+  border-block-end: var(--fallback-line-end, 0) solid var(--fallback-line-color, currentcolor);
+  content: '';
+  pointer-events: none;
+  animation: none !important;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.copy[data-fallback-visible='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+.rule[data-fallback-visible='true']::before {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy,
+  .rule::before {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

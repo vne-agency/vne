@@ -1,0 +1,123 @@
+@media (prefers-reduced-motion: no-preference) {
+  .motion [data-detail-enter] {
+    animation: detail-enter 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 160ms;
+  }
+
+  .motion [data-detail-enter='title'] {
+    animation-delay: 260ms;
+  }
+
+  .motion [data-detail-enter='copy'] {
+    animation-delay: 380ms;
+  }
+
+  .motion [data-detail-enter='control'] {
+    animation-delay: 480ms;
+  }
+
+  .motion [data-detail-enter]:focus-visible {
+    animation: none;
+  }
+}
+
+@supports (animation-timeline: view()) and (animation-range: cover 0 cover 28svh) {
+  @media (prefers-reduced-motion: no-preference) {
+    .motion[data-detail-flow] [data-detail-content] {
+      border-inline-start-color: transparent;
+    }
+
+    .motion[data-detail-flow] [data-detail-segment] > [data-closing-spine] {
+      inset-inline-start: -1px;
+      animation-timing-function: cubic-bezier(0.45, 0, 0.3, 1);
+      animation-range: cover 0% cover 100%;
+    }
+
+    /* The first cell is already established when the case opens. Its bottom
+       rule starts at zero and only draws in response to actual scrolling. */
+    .motion[data-detail-flow] [data-detail-hero] > [data-closing-spine] {
+      animation: none;
+      transform: scaleY(1);
+      inset-block-end: -1px;
+    }
+
+    .motion[data-detail-flow] [data-detail-hero]::after,
+    .motion[data-detail-flow] [data-detail-first-rule]::before {
+      animation-timeline: var(--detail-scroll-timeline, scroll(root block));
+      animation-range: 1px 240px;
+    }
+
+    .motion[data-detail-flow] [data-detail-intro] > [data-closing-spine] {
+      animation: detail-descend 1300ms cubic-bezier(0.45, 0, 0.3, 1) 180ms both;
+    }
+
+    .motion[data-detail-flow] [data-detail-segment][data-closing-end] > [data-closing-spine] {
+      animation-range: entry 0% entry 100%;
+    }
+
+    .motion[data-detail-flow] [data-closing-copy] {
+      --closing-x: 0px;
+      --closing-y: 1.25rem;
+    }
+
+    /* Automatic focus on the case title must not finish every line in its row. */
+    .motion[data-detail-flow] [data-detail-hero]:focus-within::after,
+    .motion[data-detail-flow] [data-detail-first-rule]:focus-within::before {
+      animation: detail-spread auto cubic-bezier(0.45, 0, 0.3, 1) both;
+      animation-timeline: var(--detail-scroll-timeline, scroll(root block));
+      animation-range: 1px 240px;
+    }
+
+    @media (width <= 800px) {
+      .motion[data-detail-flow] [data-detail-segment] > [data-closing-spine],
+      .motion[data-detail-flow] [data-closing-split='contact'] > [data-closing-spine] {
+        display: block;
+        inset-inline-start: 0;
+      }
+    }
+
+    @media (height <= 500px) and (600px <= width <= 800px) {
+      .motion[data-detail-flow='case'] [data-detail-hero] > [data-closing-spine] {
+        inset-inline-start: 41%;
+      }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (width <= 800px) {
+  .motion [data-detail-enter] {
+    animation-duration: 650ms;
+  }
+}
+
+@keyframes detail-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes detail-descend {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes detail-spread {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}

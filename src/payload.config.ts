@@ -21,7 +21,7 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: path.resolve(dirname) },
     meta: {
-      titleSuffix: " — EL'DA CMS",
+      titleSuffix: ' — ВНЕ CMS',
     },
   },
   collections: [Users, Media, Cases, Services, Leads],

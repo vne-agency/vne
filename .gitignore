@@ -1,6 +1,12 @@
 # dependencies
 node_modules/
 
+# .pen Design
+.pen-design/
+
+#docs
+docs/
+
 # Next.js
 .next/
 out/
@@ -27,6 +33,14 @@ output/playwright/
 .pnpm-debug.log*
 npm-debug.log*
 
+# local preview processes
+.tools/
+dev-server*.log
+cloudflared*.log
+public-preview-proxy*.log
+.runtime/
+.seo-cache/
+
 # operating systems and editors
 .DS_Store
 Thumbs.db
@@ -34,3 +48,6 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+
+# Local audit artifacts
+output/

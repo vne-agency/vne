@@ -1,0 +1,109 @@
+.sequence {
+  --services-horizontal: 0;
+  --services-travel: 120svh;
+  --services-hold: clamp(72px, 8.4svh, 108px);
+  --services-entry-hold: var(--services-hold);
+
+  position: relative;
+  isolation: isolate;
+  overflow-anchor: none;
+  overflow-x: clip;
+}
+
+.anchor,
+.releaseAnchor {
+  block-size: 0;
+  pointer-events: none;
+}
+
+@media (width > 896px) and (hover: hover) and (pointer: fine) {
+  .sequence {
+    /* Leave one reading scroll after the FAQ before moving sideways. */
+    --services-entry-hold: clamp(320px, 40svh, 480px);
+  }
+}
+
+/* Keep the sideways chapter change on phones and tablets. The hold is one
+   short reading step; vertical input remains native throughout the transition. */
+@media (width <= 896px) {
+  .sequence {
+    --services-travel: 100svh;
+  }
+}
+
+@supports (animation-timeline: view()) and (animation-range: contain 0% contain 120svh) {
+  @media (height >= 500px) and (prefers-reduced-motion: no-preference) {
+    .sequence[data-services-transition='ready'] {
+      --services-horizontal: 1;
+      --services-pin: calc(var(--outgoing-height) - 100svh + var(--services-scroll-rounding, 0px));
+      --services-start: calc(var(--services-pin) + var(--services-entry-hold));
+      --services-end: calc(var(--services-start) + var(--services-travel));
+      --services-reveal: calc(var(--services-end) + min(84px, var(--services-hold)));
+      --services-release: calc(var(--services-end) + var(--services-hold));
+
+      overflow: clip;
+      block-size: calc(var(--services-release) + var(--incoming-height));
+      view-timeline-name: --services-transition;
+      view-timeline-axis: block;
+      view-timeline-inset: 0;
+    }
+
+    .sequence[data-services-transition='ready'] .outgoing {
+      position: sticky;
+      inset-block-start: calc(100svh - var(--outgoing-height));
+      animation: outgoing-slide auto linear both;
+      animation-timeline: --services-transition;
+      animation-range: contain var(--services-start) contain var(--services-end);
+    }
+
+    .sequence[data-services-transition='ready'] .anchor {
+      position: absolute;
+      inset-block-start: var(--services-end);
+      inset-inline-start: 0;
+    }
+
+    .sequence[data-services-transition='ready'] .releaseAnchor {
+      position: absolute;
+      inset-block-start: var(--services-release);
+      inset-inline-start: 0;
+    }
+
+    .sequence[data-services-transition='ready'] .runway {
+      position: absolute;
+      inset-block: var(--services-pin) 0;
+      inset-inline: 0;
+      pointer-events: none;
+    }
+
+    .sequence[data-services-transition='ready'] .incoming {
+      position: sticky;
+      inset-block-start: 0;
+      min-block-size: 100svh;
+      background: #f4f3ee;
+      pointer-events: auto;
+      animation: incoming-slide auto linear both;
+      animation-timeline: --services-transition;
+      animation-range: contain var(--services-start) contain var(--services-end);
+    }
+  }
+}
+
+@keyframes outgoing-slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes incoming-slide {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,50 @@
+.slogan {
+  position: relative;
+  display: grid;
+  overflow: visible;
+  text-align: end;
+  line-height: 1.6;
+}
+
+.slogan > span {
+  grid-area: 1 / 1;
+  opacity: 0;
+}
+
+.slogan > span[data-active='true'] {
+  opacity: 1;
+}
+
+.filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.slogan[data-distorting='true'] > span[data-active='true'] {
+  animation: distortion-shift 800ms ease-in-out both;
+}
+
+@keyframes distortion-shift {
+  0%,
+  100% {
+    transform: translateX(0) skewX(0);
+  }
+
+  35% {
+    transform: translateX(-2px) skewX(-5deg);
+  }
+
+  55% {
+    transform: translateX(2px) skewX(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slogan[data-distorting='true'] > span[data-active='true'] {
+    animation: none;
+    filter: none !important;
+    transform: none;
+  }
+}

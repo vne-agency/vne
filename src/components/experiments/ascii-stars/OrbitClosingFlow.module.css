@@ -1,0 +1,257 @@
+.flow {
+  overflow: clip;
+}
+
+.flow [data-closing-spine] {
+  display: none;
+}
+
+/* Native timelines keep the drawing attached to scroll without layout writes.
+   Static borders and readable content remain the fallback. */
+@supports (animation-timeline: view()) and (animation-range: cover 0 cover 28svh) {
+  @media (prefers-reduced-motion: no-preference) {
+    .flow {
+      --closing-line: #22231f;
+    }
+
+    .flow [data-closing-dark] {
+      --closing-line: #60615a;
+    }
+
+    .flow[data-detail-flow] {
+      --closing-line: #b9b9b2;
+    }
+
+    .flow [data-closing-axis='edge'] {
+      border-inline-start-color: transparent;
+    }
+
+    .flow [data-closing-row] {
+      position: relative;
+      view-timeline-name: --closing-row;
+      view-timeline-axis: block;
+      view-timeline-inset: 70% 30%;
+    }
+
+    .flow [data-closing-rule],
+    .flow [data-closing-stage],
+    .flow [data-closing-split] > :not([data-closing-spine]),
+    .flow > section:first-child {
+      border-color: transparent;
+    }
+
+    .flow [data-closing-rule]::before,
+    .flow [data-closing-rule]::after,
+    .flow [data-closing-stage]::before,
+    .flow [data-closing-stage]::after,
+    .flow [data-closing-form]::before,
+    .flow [data-closing-spine] {
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      background: var(--closing-line);
+    }
+
+    .flow [data-closing-rule]::before,
+    .flow [data-closing-rule]::after,
+    .flow [data-closing-stage]::before,
+    .flow [data-closing-form]::before {
+      inset-inline: 0;
+      block-size: 1px;
+      transform-origin: 41% center;
+      animation: closing-spread auto cubic-bezier(0.45, 0, 0.3, 1) both;
+      animation-timeline: --closing-row;
+      animation-range: cover 0 cover 28svh;
+    }
+
+    .flow [data-closing-rule='top']::before,
+    .flow [data-closing-rule='both']::before {
+      content: '';
+      inset-block-start: 0;
+    }
+
+    .flow [data-closing-rule='bottom']::after,
+    .flow [data-closing-rule='both']::after {
+      content: '';
+      inset-block-end: 0;
+      animation-range: cover calc(100% - 14svh) cover calc(100% + 14svh);
+    }
+
+    .flow [data-closing-spine],
+    .flow [data-closing-stage]::after {
+      display: block;
+      inset-block: 0;
+      inset-inline-start: 41%;
+      inline-size: 1px;
+      transform-origin: center top;
+      animation: closing-descend auto linear both;
+      animation-timeline: --closing-row;
+      animation-range: cover 0% cover 100%;
+    }
+
+    .flow [data-closing-stage] + [data-closing-stage]::after {
+      content: '';
+      inset-inline-start: -1px;
+    }
+
+    .flow [data-closing-copy] {
+      --closing-x: 0px;
+      --closing-y: 1.25rem;
+
+      animation: closing-arrive auto cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-timeline: --closing-row;
+      animation-range: cover -10svh cover 26svh;
+    }
+
+    .flow h2 > span[data-closing-copy] {
+      display: inline-block;
+    }
+
+    .flow [data-closing-copy='left'] {
+      --closing-x: -1.75rem;
+      --closing-y: 0px;
+    }
+
+    .flow [data-closing-copy='right'] {
+      --closing-x: 1.75rem;
+      --closing-y: 0px;
+    }
+
+    /* The last row must finish at the document bottom, without spare scroll. */
+    .flow [data-closing-axis='edge'] > [data-closing-spine] {
+      inset-inline-start: 0;
+    }
+
+    /* Case switching already fades its content; keep the reading grid still. */
+    .flow[data-detail-flow='case'] [data-closing-copy] {
+      --closing-x: 0px;
+      --closing-y: 0px;
+    }
+
+    .flow [data-closing-footer] [data-closing-row] {
+      view-timeline-inset: 0;
+    }
+
+    .flow [data-closing-end] {
+      view-timeline-inset: 0;
+    }
+
+    .flow [data-closing-end] > [data-closing-copy],
+    .flow [data-closing-end] > [data-closing-spine],
+    .flow [data-closing-end]::before,
+    .flow [data-closing-end]::after {
+      animation-range: entry 0% entry 100%;
+    }
+
+    .flow [data-closing-footer] [data-closing-copy],
+    .flow [data-closing-footer] [data-closing-rule]::before,
+    .flow [data-closing-footer] [data-closing-rule]::after {
+      animation-range: entry 0% entry 100%;
+    }
+
+    .flow [data-closing-row]:focus-within [data-closing-copy],
+    .flow [data-closing-row]:focus-within [data-closing-spine],
+    .flow [data-closing-row]:focus-within::before,
+    .flow [data-closing-row]:focus-within::after {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (width <= 800px) {
+      .flow [data-closing-axis='edge'] > [data-closing-spine] {
+        display: none;
+      }
+
+      .flow [data-closing-mobile-rule] {
+        position: relative;
+        border-block-start-color: transparent;
+      }
+
+      .flow [data-closing-mobile-rule]::before {
+        position: absolute;
+        inset: 0 0 auto;
+        block-size: 1px;
+        background: var(--closing-line);
+        content: '';
+        pointer-events: none;
+        transform-origin: center;
+        animation: closing-spread auto ease both;
+        animation-timeline: --closing-row;
+        animation-range: entry 0% entry 100%;
+      }
+
+      .flow [data-closing-copy] {
+        --closing-x: 0px;
+        --closing-y: 1rem;
+      }
+
+      .flow [data-closing-split='contact'] > [data-closing-spine] {
+        display: none;
+      }
+
+      .flow [data-closing-form] {
+        position: relative;
+        view-timeline-name: --closing-row;
+        view-timeline-inset: 70% 30%;
+      }
+
+      .flow [data-closing-form]::before {
+        content: '';
+        inset-block-start: 0;
+      }
+    }
+
+    @media (width <= 700px) {
+      .flow [data-closing-split='process'] > [data-closing-spine],
+      .flow [data-closing-stage]:nth-child(3)::after {
+        display: none;
+      }
+
+      .flow [data-closing-stage]:nth-child(n + 3)::before {
+        content: '';
+        inset-block-start: -1px;
+      }
+
+      .flow [data-closing-stage]:nth-child(3)::before {
+        transform-origin: right center;
+      }
+
+      .flow [data-closing-stage]:nth-child(4)::before {
+        transform-origin: left center;
+      }
+    }
+  }
+}
+
+@keyframes closing-spread {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes closing-descend {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes closing-arrive {
+  from {
+    opacity: 0;
+    transform: translate3d(var(--closing-x), var(--closing-y), 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
