@@ -112,6 +112,31 @@
   transform: scale(0.98);
 }
 
+.turnstile {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 0.35rem;
+}
+
+.turnstileStatus {
+  margin: 0;
+  font-size: max(0.7rem, var(--wide-text-min, 0rem));
+  line-height: 1.35;
+}
+
+.turnstileStatus[data-state='ready'] {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.turnstileStatus[data-state='error'] {
+  font-weight: 620;
+}
+
 .consent {
   display: flex;
   align-items: flex-start;

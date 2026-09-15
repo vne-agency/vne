@@ -9,6 +9,8 @@ import styles from './StartupLoader.module.css'
 import { animateLoaderScene, INTRO_DURATION, loaderGroups } from './startup-loader-scene'
 import { assembleStartupConstellation } from './startup-constellation'
 
+const FORCE_RELEASE_DELAY = 12_000
+
 // Typographic position/scale choreography inspired by Codrops ScrollTextMotion.
 // This is a time-driven adaptation using the existing browser animation stack.
 export function StartupLoader() {
@@ -61,6 +63,10 @@ export function StartupLoader() {
     // view timelines to their end state. `clip` locks overflow without doing so.
     document.body.style.overflow = orbitIntro ? 'clip' : 'hidden'
     document.documentElement.dataset.startupLoading = 'true'
+
+    // Resource loading, Web Animations and the constellation callback must all
+    // be allowed to fail without leaving the document inert or non-scrollable.
+    const forceReleaseTimer = setTimeout(() => setVisible(false), FORCE_RELEASE_DELAY)
 
     const preventScroll = (event: Event) => event.preventDefault()
     window.addEventListener('wheel', preventScroll, { passive: false })
@@ -321,6 +327,7 @@ export function StartupLoader() {
     return () => {
       cancelled = true
       clearTimeout(deadline)
+      clearTimeout(forceReleaseTimer)
       clearTimeout(finishTimer)
       clearTimeout(exitTimer)
       dockAnimations.forEach((animation) => animation.cancel())

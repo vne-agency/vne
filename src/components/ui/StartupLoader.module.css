@@ -10,7 +10,7 @@
   inset: 0;
   touch-action: none;
   transition: opacity 400ms ease;
-  animation: fail-open 1ms 16s forwards;
+  animation: fail-open 1ms 12s forwards;
 }
 
 .backdrop {

@@ -6,7 +6,7 @@ import { useSiteLanguage } from '@/components/ui/SiteLanguage'
 import Script from 'next/script'
 import Link from 'next/link'
 import { LEGAL_VERSION } from '@/lib/legal/documents'
-import { useActionState, useEffect, useRef, type ChangeEvent } from 'react'
+import { useActionState, useEffect, useRef, useState, type ChangeEvent } from 'react'
 
 import { type LeadFormState, submitLeadAction } from '@/features/leads/submit-lead-action'
 import { formatRussianPhoneInput } from '@/lib/format-russian-phone'
@@ -15,6 +15,15 @@ import { pricingGroups, pricingOffers } from '@/lib/pricing/catalog'
 import styles from './LeadForm.module.css'
 
 const initialLeadFormState: LeadFormState = { status: 'idle', message: '' }
+
+type TurnstileStatus = 'idle' | 'loading' | 'ready' | 'error'
+
+type TurnstileWindow = Window & {
+  turnstile?: { reset: () => void }
+  vneTurnstileReady?: () => void
+  vneTurnstileError?: () => boolean
+  vneTurnstileExpired?: () => void
+}
 
 function formatPhone(event: ChangeEvent<HTMLInputElement>) {
   event.currentTarget.value = formatRussianPhoneInput(event.currentTarget.value)
@@ -37,6 +46,8 @@ export function LeadForm({
   const formRef = useRef<HTMLFormElement>(null)
   const successRef = useRef<HTMLDivElement>(null)
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+  const [turnstileRequested, setTurnstileRequested] = useState(false)
+  const [turnstileStatus, setTurnstileStatus] = useState<TurnstileStatus>('idle')
   const nameError = state.fieldErrors?.name?.[0]
   const phoneError = state.fieldErrors?.phone?.[0]
   const messageError = state.fieldErrors?.message?.[0]
@@ -56,6 +67,80 @@ export function LeadForm({
     invalid?.focus()
   }, [state])
 
+  useEffect(() => {
+    if (!turnstileSiteKey || turnstileRequested) return
+    const form = formRef.current
+    if (!form) return
+
+    const supportsIntersectionObserver = typeof globalThis.IntersectionObserver === 'function'
+    if (!supportsIntersectionObserver) {
+      const fallbackTimer = window.setTimeout(() => {
+        setTurnstileStatus('loading')
+        setTurnstileRequested(true)
+      }, 0)
+      return () => window.clearTimeout(fallbackTimer)
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return
+        setTurnstileStatus('loading')
+        setTurnstileRequested(true)
+        observer.disconnect()
+      },
+      { rootMargin: '800px 0px' },
+    )
+    observer.observe(form)
+    return () => observer.disconnect()
+  }, [turnstileRequested, turnstileSiteKey])
+
+  useEffect(() => {
+    if (!turnstileRequested) return
+    const challengeWindow = window as TurnstileWindow
+    challengeWindow.vneTurnstileReady = () => setTurnstileStatus('ready')
+    challengeWindow.vneTurnstileError = () => {
+      setTurnstileStatus('error')
+      return true
+    }
+    challengeWindow.vneTurnstileExpired = () => setTurnstileStatus('loading')
+
+    return () => {
+      delete challengeWindow.vneTurnstileReady
+      delete challengeWindow.vneTurnstileError
+      delete challengeWindow.vneTurnstileExpired
+    }
+  }, [turnstileRequested])
+
+  useEffect(() => {
+    if (state.status !== 'error' || !turnstileRequested) return
+    const challengeWindow = window as TurnstileWindow
+    if (!challengeWindow.turnstile) return
+    const resetTimer = window.setTimeout(() => {
+      setTurnstileStatus('loading')
+      challengeWindow.turnstile?.reset()
+    }, 0)
+    return () => window.clearTimeout(resetTimer)
+  }, [state.status, turnstileRequested])
+
+  const requestTurnstile = () => {
+    if (!turnstileSiteKey || turnstileRequested) return
+    setTurnstileStatus('loading')
+    setTurnstileRequested(true)
+  }
+
+  const turnstileMessage =
+    turnstileStatus === 'error'
+      ? language === 'ru'
+        ? 'Не удалось загрузить защиту формы. Обновите страницу или напишите нам напрямую.'
+        : 'Form protection could not load. Refresh the page or contact us directly.'
+      : turnstileStatus === 'ready'
+        ? language === 'ru'
+          ? 'Защита формы готова.'
+          : 'Form protection is ready.'
+        : language === 'ru'
+          ? 'Защита формы загрузится при заполнении.'
+          : 'Form protection will load when you start filling in the form.'
+
   return (
     <form
       ref={formRef}
@@ -64,6 +149,7 @@ export function LeadForm({
       id="contact-form"
       aria-busy={pending}
       data-status={state.status}
+      onFocusCapture={requestTurnstile}
     >
       {state.status === 'success' ? (
         <div
@@ -205,10 +291,38 @@ export function LeadForm({
           <input type="hidden" name="consentVersion" value={LEGAL_VERSION} />
 
           {turnstileSiteKey ? (
-            <>
-              <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
-              <div className="cf-turnstile" data-sitekey={turnstileSiteKey} data-theme="light" />
-            </>
+            <div className={styles.turnstile}>
+              {turnstileRequested ? (
+                <>
+                  <Script
+                    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                    async
+                    defer
+                    onError={() => setTurnstileStatus('error')}
+                  />
+                  <div
+                    className="cf-turnstile"
+                    data-sitekey={turnstileSiteKey}
+                    data-theme="light"
+                    data-callback="vneTurnstileReady"
+                    data-error-callback="vneTurnstileError"
+                    data-expired-callback="vneTurnstileExpired"
+                    data-timeout-callback="vneTurnstileError"
+                    data-unsupported-callback="vneTurnstileError"
+                    data-retry="auto"
+                    data-retry-interval="8000"
+                  />
+                </>
+              ) : null}
+              <p
+                id="lead-turnstile-status"
+                className={styles.turnstileStatus}
+                data-state={turnstileStatus}
+                role={turnstileStatus === 'error' ? 'alert' : 'status'}
+              >
+                {turnstileMessage}
+              </p>
+            </div>
           ) : null}
 
           <div className={styles.consent}>
@@ -235,7 +349,12 @@ export function LeadForm({
 
           <button
             type="submit"
-            disabled={pending}
+            disabled={pending || Boolean(turnstileSiteKey && turnstileStatus !== 'ready')}
+            aria-describedby={
+              turnstileSiteKey && turnstileStatus !== 'ready'
+                ? 'lead-turnstile-status'
+                : undefined
+            }
             className={variant === 'orbit' ? styles.orbitSubmit : undefined}
           >
             {pending ? <span className={styles.spinner} aria-hidden="true" /> : null}
