@@ -3,6 +3,11 @@ import { pricingEnglish } from './pricing-english'
 
 export const english: Record<string, string> = {
   ...pricingEnglish,
+  'Разработка сайтов в Казани': 'Website development in Kazan',
+  'Telegram-боты в Казани': 'Telegram bots in Kazan',
+  'Разработка Telegram-ботов в Казани': 'Telegram bot development in Kazan',
+  'Автоматизация бизнеса в Казани': 'Business automation in Kazan',
+  'Видеопродвижение бизнеса в Казани': 'Video marketing in Kazan',
   'Текст согласия обновлён. Обновите страницу и ознакомьтесь с новой редакцией.':
     'The consent text has changed. Refresh the page and read the updated version.',
   'ВНЕ — в начало страницы': 'VNE — back to top',

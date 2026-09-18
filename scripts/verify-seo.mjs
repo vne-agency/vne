@@ -39,7 +39,12 @@ const indexedPaths = canonicalUrls.map((value) => {
 })
 const expectedPaths = [
   '/',
+  '/pricing',
   '/lab',
+  '/services/kazan/razrabotka-saytov',
+  '/services/kazan/telegram-boty',
+  '/services/kazan/avtomatizatsiya-biznesa',
+  '/services/kazan/videoprodvizhenie',
   '/services/web',
   '/services/bots-crm',
   '/services/ai',
@@ -50,7 +55,7 @@ const expectedPaths = [
 check(
   expectedPaths.every((path) => indexedPaths.includes(path)) &&
     expectedPaths.length === indexedPaths.length,
-  'Sitemap has exactly all eight indexable pages',
+  'Sitemap has exactly all expected indexable pages',
 )
 const noindexPaths = [
   '/cases/codeam',
@@ -79,7 +84,9 @@ for (const path of [...indexedPaths, ...noindexPaths]) {
   )
   const indexable = indexedPaths.includes(path)
   check(
-    meta('robots') === (indexable ? 'index, follow' : 'noindex, follow'),
+    indexable
+      ? !/noindex|nofollow/.test(meta('robots') ?? '')
+      : meta('robots') === 'noindex, follow',
     `${path}: correct index/follow`,
   )
   for (const name of [

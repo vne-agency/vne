@@ -38,7 +38,7 @@ export function LeadForm({
   variant?: 'default' | 'orbit'
   selectedService?: string
   onServiceChange?: (service: string) => void
-  pagePath?: '/' | '/pricing'
+  pagePath?: string
 }) {
   const { t, language } = useSiteLanguage()
 

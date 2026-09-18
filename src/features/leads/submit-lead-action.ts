@@ -4,6 +4,7 @@ import { createLead } from '@/features/leads/create-lead'
 import { leadSchema } from '@/features/leads/schema'
 import { getSiteUrl } from '@/lib/site'
 import { LEGAL_VERSION } from '@/lib/legal/documents'
+import { getLeadPagePath } from '@/features/leads/page-path'
 
 export type LeadFormState = {
   status: 'idle' | 'success' | 'error'
@@ -31,10 +32,7 @@ export async function submitLeadAction(
     service: String(formData.get('service') ?? ''),
     consent: formData.get('consent') === 'on',
     turnstileToken: String(formData.get('cf-turnstile-response') ?? '') || undefined,
-    pageUrl: new URL(
-      formData.get('pagePath') === '/pricing' ? '/pricing' : '/',
-      getSiteUrl(),
-    ).toString(),
+    pageUrl: new URL(getLeadPagePath(formData.get('pagePath')), getSiteUrl()).toString(),
     utmSource: String(formData.get('utmSource') ?? ''),
     utmMedium: String(formData.get('utmMedium') ?? ''),
     utmCampaign: String(formData.get('utmCampaign') ?? ''),

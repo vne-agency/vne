@@ -4,6 +4,7 @@ import { getCaseHref, isIndexableCase } from '@/lib/cases/catalog'
 import { getHomeCases } from '@/lib/cases/get-home-cases'
 import { getSiteUrl } from '@/lib/site'
 import { getServiceHref, serviceExperiences } from '@/lib/services/catalog'
+import { getKazanServiceHref, kazanServices } from '@/lib/services/kazan'
 
 // CMS noIndex changes must be reflected just as they are on the case routes.
 export const dynamic = 'force-dynamic'
@@ -22,6 +23,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     { url: new URL('/lab', getSiteUrl()).toString() },
+    ...kazanServices.map((page) => ({
+      url: new URL(getKazanServiceHref(page.slug), getSiteUrl()).toString(),
+    })),
     ...serviceExperiences.map((service) => ({
       url: new URL(getServiceHref(service.id), getSiteUrl()).toString(),
     })),

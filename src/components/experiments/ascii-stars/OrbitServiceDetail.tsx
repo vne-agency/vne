@@ -9,6 +9,7 @@ import { RotatingSlogan } from '@/components/ui/RotatingSlogan'
 import { LanguageSwitch, useSiteLanguage } from '@/components/ui/SiteLanguage'
 import type { ServiceExperience } from '@/lib/services/catalog'
 import { siteConfig } from '@/lib/site'
+import { getKazanServiceHref, kazanServices } from '@/lib/services/kazan'
 
 import { AsciiStarsCanvas } from './AsciiStarsCanvas'
 import styles from './OrbitServiceDialog.module.css'
@@ -130,6 +131,15 @@ export function OrbitServiceDetail({ service }: { service: ServiceExperience }) 
           </section>
 
           <ServicePricing serviceId={service.id} headingLevel={2} />
+          {kazanServices
+            .filter((page) => page.serviceId === service.id)
+            .map((page) => (
+              <div key={page.slug} className={styles.introduction}>
+                <Link className={styles.introContact} href={getKazanServiceHref(page.slug)}>
+                  {t(page.title.ru)} <ArrowIcon />
+                </Link>
+              </div>
+            ))}
 
           <section
             className={styles.process}

@@ -16,6 +16,10 @@ const footerLinks = [
   { label: 'Проекты', href: '#cases' },
   { label: 'Услуги', href: '#services' },
   { label: 'Прайс и условия', href: '/pricing' },
+  { label: 'Разработка сайтов в Казани', href: '/services/kazan/razrabotka-saytov' },
+  { label: 'Telegram-боты в Казани', href: '/services/kazan/telegram-boty' },
+  { label: 'Автоматизация бизнеса в Казани', href: '/services/kazan/avtomatizatsiya-biznesa' },
+  { label: 'Видеопродвижение бизнеса в Казани', href: '/services/kazan/videoprodvizhenie' },
   { label: 'Этапы работы', href: '#process' },
   { label: 'Вопросы и ответы', href: '#faq' },
 ] as const
