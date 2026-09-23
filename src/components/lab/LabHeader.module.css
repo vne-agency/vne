@@ -1,0 +1,76 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-block-size: 5.25rem;
+  padding-inline: var(--lab-gutter);
+  border-block-end: 1px solid var(--lab-line);
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  flex-shrink: 0;
+  font-size: 1.75rem;
+  font-weight: 550;
+  letter-spacing: -0.055em;
+}
+
+.brand span {
+  font-weight: 400;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.75rem, 2.4vw, 2.75rem);
+}
+
+.back,
+.home {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  gap: 0.625rem;
+  font-family: var(--lab-mono);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.back:hover,
+.home:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.home img {
+  flex-shrink: 0;
+  inline-size: 24px;
+  block-size: 28px;
+}
+
+@media (width <= 640px) {
+  .header {
+    min-block-size: 4.5rem;
+  }
+
+  .brand {
+    font-size: 1.5rem;
+  }
+
+  .back {
+    font-size: 0;
+  }
+
+  .back span {
+    font-size: 1.25rem;
+  }
+
+  .home {
+    gap: 0.35rem;
+    font-size: 0.6875rem;
+  }
+}

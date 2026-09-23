@@ -41,6 +41,8 @@ const expectedPaths = [
   '/',
   '/pricing',
   '/lab',
+  '/lab/ascii-dither',
+  '/lab/orbit',
   '/services/kazan/razrabotka-saytov',
   '/services/kazan/telegram-boty',
   '/services/kazan/avtomatizatsiya-biznesa',
@@ -164,7 +166,7 @@ for (const [path, doc] of documents) {
 }
 for (const [path, location] of [
   ['/preview/studio', '/'],
-  ['/preview/ascii-stars', '/lab'],
+  ['/preview/ascii-stars', '/lab/orbit'],
   ['/preview/ascii-stars/hero-light', '/'],
   ['/preview/ascii-stars/hero-dark', '/'],
 ]) {

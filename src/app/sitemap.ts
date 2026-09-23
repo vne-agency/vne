@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 
 import { getCaseHref, isIndexableCase } from '@/lib/cases/catalog'
 import { getHomeCases } from '@/lib/cases/get-home-cases'
+import { labTools } from '@/lib/lab/catalog'
 import { getSiteUrl } from '@/lib/site'
 import { getServiceHref, serviceExperiences } from '@/lib/services/catalog'
 import { getKazanServiceHref, kazanServices } from '@/lib/services/kazan'
@@ -23,6 +24,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     { url: new URL('/lab', getSiteUrl()).toString() },
+    ...labTools.map((tool) => ({
+      url: new URL(tool.href, getSiteUrl()).toString(),
+    })),
+    { url: new URL('/lab/orbit', getSiteUrl()).toString() },
     ...kazanServices.map((page) => ({
       url: new URL(getKazanServiceHref(page.slug), getSiteUrl()).toString(),
     })),
