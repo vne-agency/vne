@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { useReducedMotion } from 'motion/react'
 
+import { WebsiteFormats } from '@/components/pricing/WebsiteFormats'
 import { LegalLinks } from '@/components/legal/LegalLinks'
 import { LeadForm } from '@/components/sections/LeadForm'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
@@ -146,17 +147,10 @@ export function KazanServicePage({ page }: { page: KazanService }) {
           <h2 id="price-title" data-closing-copy="up">
             {copy('Форматы и стоимость.', 'Options and pricing.')}
           </h2>
-          {page.serviceId === 'web' && (
-            <p>
-              {copy(
-                '29 000 ₽ и 45 000 ₽ — условия пилотной серии из трёх подходящих проектов. Участие подтверждаем после обсуждения задачи и доступности студии.',
-                '₽29,000 and ₽45,000 apply to a pilot series of three suitable projects. Participation depends on the task and studio availability.',
-              )}
-            </p>
-          )}
+          {page.serviceId === 'web' && <WebsiteFormats />}
           <ul className={styles.prices}>
             {pricingOffers
-              .filter((offer) => page.offerIds.includes(offer.id))
+              .filter((offer) => page.offerIds.includes(offer.id) && offer.id !== 'landing')
               .map((offer) => (
                 <li key={offer.id} data-closing-row data-closing-rule="top">
                   <div data-closing-copy="up">

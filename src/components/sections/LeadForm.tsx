@@ -12,6 +12,7 @@ import { type LeadFormState, submitLeadAction } from '@/features/leads/submit-le
 import { formatRussianPhoneInput } from '@/lib/format-russian-phone'
 import { pricingGroups, pricingOffers } from '@/lib/pricing/catalog'
 
+import { turnkeyOffer } from '@/lib/services/turnkey'
 import styles from './LeadForm.module.css'
 
 const initialLeadFormState: LeadFormState = { status: 'idle', message: '' }
@@ -34,16 +35,19 @@ export function LeadForm({
   selectedService,
   onServiceChange,
   pagePath = '/',
+  fixedOffer,
 }: {
   variant?: 'default' | 'orbit'
   selectedService?: string
   onServiceChange?: (service: string) => void
   pagePath?: string
+  fixedOffer?: typeof turnkeyOffer.id
 }) {
   const { t, language } = useSiteLanguage()
 
   const [state, action, pending] = useActionState(submitLeadAction, initialLeadFormState)
   const formRef = useRef<HTMLFormElement>(null)
+  const submittingRef = useRef(false)
   const successRef = useRef<HTMLDivElement>(null)
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
   const [turnstileRequested, setTurnstileRequested] = useState(false)
@@ -53,6 +57,10 @@ export function LeadForm({
   const messageError = state.fieldErrors?.message?.[0]
   const budgetError = state.fieldErrors?.budget?.[0]
   const serviceError = state.fieldErrors?.service?.[0]
+
+  useEffect(() => {
+    if (!pending) submittingRef.current = false
+  }, [pending, state])
 
   useEffect(() => {
     if (state.status !== 'success') return
@@ -145,6 +153,13 @@ export function LeadForm({
     <form
       ref={formRef}
       action={action}
+      onSubmit={(event) => {
+        if (submittingRef.current || pending || state.status === 'success') {
+          event.preventDefault()
+          return
+        }
+        submittingRef.current = true
+      }}
       className={`${styles.form} ${variant === 'orbit' ? styles.orbit : ''}`}
       id="contact-form"
       aria-busy={pending}
@@ -211,39 +226,48 @@ export function LeadForm({
             ) : null}
           </div>
 
-          <div className={styles.field}>
-            <label htmlFor="lead-service">{t('Услуга — необязательно')}</label>
-            <select
-              id="lead-service"
-              data-lenis-prevent
-              name="service"
-              value={selectedService}
-              defaultValue={selectedService === undefined ? '' : undefined}
-              onChange={
-                onServiceChange ? (event) => onServiceChange(event.target.value) : undefined
-              }
-              aria-invalid={Boolean(serviceError)}
-              aria-describedby={serviceError ? 'lead-service-error' : undefined}
-            >
-              <option value="">{t('Помогите выбрать формат')}</option>
-              {pricingGroups.map((group) => (
-                <optgroup key={group.id} label={group.name[language]}>
-                  {pricingOffers
-                    .filter((offer) => offer.category === group.id)
-                    .map((offer) => (
-                      <option key={offer.id} value={offer.id}>
-                        {offer.name[language]}
-                      </option>
-                    ))}
-                </optgroup>
-              ))}
-            </select>
-            {serviceError && (
-              <span id="lead-service-error" className={styles.fieldError}>
-                {t(serviceError)}
-              </span>
-            )}
-          </div>
+          {fixedOffer ? (
+            <div className={`${styles.field} ${styles.wideField}`}>
+              <p>{turnkeyOffer.name[language]}</p>
+              <input type="hidden" name="service" value={turnkeyOffer.id} />
+              {serviceError && <span className={styles.fieldError}>{t(serviceError)}</span>}
+            </div>
+          ) : (
+            <div className={styles.field}>
+              <label htmlFor="lead-service">{t('Услуга — необязательно')}</label>
+              <select
+                id="lead-service"
+                data-lenis-prevent
+                name="service"
+                value={selectedService}
+                defaultValue={selectedService === undefined ? '' : undefined}
+                onChange={
+                  onServiceChange ? (event) => onServiceChange(event.target.value) : undefined
+                }
+                aria-invalid={Boolean(serviceError)}
+                aria-describedby={serviceError ? 'lead-service-error' : undefined}
+              >
+                <option value="">{t('Помогите выбрать формат')}</option>
+                <option value={turnkeyOffer.id}>{turnkeyOffer.name[language]}</option>
+                {pricingGroups.map((group) => (
+                  <optgroup key={group.id} label={group.name[language]}>
+                    {pricingOffers
+                      .filter((offer) => offer.category === group.id)
+                      .map((offer) => (
+                        <option key={offer.id} value={offer.id}>
+                          {offer.name[language]}
+                        </option>
+                      ))}
+                  </optgroup>
+                ))}
+              </select>
+              {serviceError && (
+                <span id="lead-service-error" className={styles.fieldError}>
+                  {t(serviceError)}
+                </span>
+              )}
+            </div>
+          )}
           <div className={`${styles.field} ${styles.wideField}`}>
             <label htmlFor="lead-message">{t('Что нужно сделать?')}</label>
             <textarea
@@ -253,9 +277,13 @@ export function LeadForm({
               required
               minLength={5}
               maxLength={3000}
-              placeholder={t(
-                'Например: нужна страница для одной услуги. Тексты и фотографии уже есть.',
-              )}
+              placeholder={
+                fixedOffer
+                  ? language === 'ru'
+                    ? 'Например: я открываю мастерскую. Хочу рассказать об услугах и получать заявки.'
+                    : 'For example: I am opening a workshop and need a page to explain my services and receive enquiries.'
+                  : t('Например: нужна страница для одной услуги. Тексты и фотографии уже есть.')
+              }
               aria-invalid={Boolean(messageError)}
               aria-describedby={messageError ? 'lead-message-error' : undefined}
             />
@@ -265,28 +293,30 @@ export function LeadForm({
               </span>
             )}
           </div>
-          <div className={`${styles.field} ${styles.wideField}`}>
-            <label htmlFor="lead-budget">{t('Ориентир по бюджету — необязательно')}</label>
-            <input
-              id="lead-budget"
-              name="budget"
-              type="text"
-              maxLength={120}
-              placeholder={t('До 40 000 ₽ или «нужна помощь с оценкой»')}
-              aria-invalid={Boolean(budgetError)}
-              aria-describedby={`lead-budget-help${budgetError ? ' lead-budget-error' : ''}`}
-            />
-            <span id="lead-budget-help" className={styles.helper}>
-              {t(
-                'Общий бюджет на задачу. Для поддержки можно указать сумму в месяц. Это ориентир, не согласие на цену.',
-              )}
-            </span>
-            {budgetError && (
-              <span id="lead-budget-error" className={styles.fieldError}>
-                {t(budgetError)}
+          {!fixedOffer && (
+            <div className={`${styles.field} ${styles.wideField}`}>
+              <label htmlFor="lead-budget">{t('Ориентир по бюджету — необязательно')}</label>
+              <input
+                id="lead-budget"
+                name="budget"
+                type="text"
+                maxLength={120}
+                placeholder={t('До 40 000 ₽ или «нужна помощь с оценкой»')}
+                aria-invalid={Boolean(budgetError)}
+                aria-describedby={`lead-budget-help${budgetError ? ' lead-budget-error' : ''}`}
+              />
+              <span id="lead-budget-help" className={styles.helper}>
+                {t(
+                  'Общий бюджет на задачу. Для поддержки можно указать сумму в месяц. Это ориентир, не согласие на цену.',
+                )}
               </span>
-            )}
-          </div>
+              {budgetError && (
+                <span id="lead-budget-error" className={styles.fieldError}>
+                  {t(budgetError)}
+                </span>
+              )}
+            </div>
+          )}
           <input type="hidden" name="pagePath" value={pagePath} />
           <input type="hidden" name="consentVersion" value={LEGAL_VERSION} />
 
@@ -351,9 +381,7 @@ export function LeadForm({
             type="submit"
             disabled={pending || Boolean(turnstileSiteKey && turnstileStatus !== 'ready')}
             aria-describedby={
-              turnstileSiteKey && turnstileStatus !== 'ready'
-                ? 'lead-turnstile-status'
-                : undefined
+              turnstileSiteKey && turnstileStatus !== 'ready' ? 'lead-turnstile-status' : undefined
             }
             className={variant === 'orbit' ? styles.orbitSubmit : undefined}
           >

@@ -111,7 +111,9 @@ describe('service page server content', () => {
         'Форматы и цены',
       )
       expect(document.querySelector(`a[href="/pricing#${service.id}"]`)).not.toBeNull()
-      expect(document.querySelectorAll('h3')).toHaveLength(service.steps.length)
+      expect(
+        document.querySelectorAll('section[aria-labelledby="service-process"] h3'),
+      ).toHaveLength(service.steps.length)
       expect(document.querySelector('a[href="/#services"]')).not.toBeNull()
       expect(document.querySelector('a[href="/#contact-form"]')).not.toBeNull()
       expect(document.querySelector('a[href="mailto:vne.agency@internet.ru"]')).not.toBeNull()

@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 import { normalizeRussianPhone } from '@/lib/format-russian-phone'
 import { pricingOffers } from '@/lib/pricing/catalog'
+import { turnkeyOffer } from '@/lib/services/turnkey'
 
 const optionalText = z.string().trim().max(500).optional().or(z.literal(''))
 const russianPhone = z
@@ -28,7 +29,10 @@ export const leadSchema = z
     service: z
       .string()
       .refine(
-        (value) => value === '' || pricingOffers.some((offer) => offer.id === value),
+        (value) =>
+          value === '' ||
+          value === turnkeyOffer.id ||
+          pricingOffers.some((offer) => offer.id === value),
         'Выберите услугу из списка.',
       )
       .optional(),

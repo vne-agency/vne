@@ -2,6 +2,7 @@
 export const leadPagePaths = [
   '/',
   '/pricing',
+  '/services/sayt-pod-klyuch',
   '/services/kazan/razrabotka-saytov',
   '/services/kazan/telegram-boty',
   '/services/kazan/avtomatizatsiya-biznesa',

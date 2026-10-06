@@ -26,7 +26,7 @@ export const kazanServices: KazanService[] = [
       'Сайт должен помогать человеку понять ваше предложение и сделать следующий шаг. Для компаний из Казани проектируем этот путь целиком: от структуры и дизайна до рабочей формы, адаптации и запуска. Можно начать с небольшой страницы и развивать её по мере роста задачи.',
       'A website should help people understand your offer and take the next step. For businesses in Kazan, the work covers structure, design, responsive development and launch. Start with a focused page and expand when the business needs more.',
     ),
-    offerIds: ['compact', 'landing', 'company', 'image-site'],
+    offerIds: ['landing', 'company', 'image-site'],
     scenarios: [
       {
         title: copy('Лендинг для одной услуги', 'A landing page for one service'),
@@ -72,8 +72,8 @@ export const kazanServices: KazanService[] = [
       {
         question: copy('Сколько стоит разработка сайта в Казани?', 'How much does a website cost?'),
         answer: copy(
-          'Цена зависит от структуры, дизайна и функций. На странице приведены действующие форматы из общего прайса. Компактный запуск и индивидуальный лендинг по фиксированной цене относятся к пилотной серии: соответствие задачи и участие подтверждаем до начала. Для остальных проектов составляем смету.',
-          'Pricing depends on structure, design and functionality. The options on this page use the current studio price list. Fixed-price compact and landing-page packages belong to a pilot series; scope fit and participation are confirmed before starting. Other projects receive an individual estimate.',
+          'Пакет «Сайт под ключ» стоит 11 999 ₽. Проект по индивидуальному заданию — 45 000 ₽ за объём до семи секций с отдельным согласованием концепции и двумя итерациями правок. Индивидуальный дизайн есть в обоих вариантах. Состав и сроки фиксируем до начала; для остальных проектов составляем смету.',
+          'The turnkey website package is ₽11,999. A project with an individual brief is ₽45,000 for up to seven sections, with a separate concept review and two revision rounds. Both include custom design. Scope and timing are agreed before starting; other projects receive an estimate.',
         ),
       },
       {

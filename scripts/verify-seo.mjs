@@ -48,6 +48,7 @@ const expectedPaths = [
   '/services/kazan/avtomatizatsiya-biznesa',
   '/services/kazan/videoprodvizhenie',
   '/services/web',
+  '/services/sayt-pod-klyuch',
   '/services/bots-crm',
   '/services/ai',
   '/services/video-content',
@@ -144,6 +145,42 @@ for (const path of [...indexedPaths, ...noindexPaths]) {
   })
 }
 const home = documents.get('/')
+for (const path of ['/', '/pricing', '/services/web', '/services/kazan/razrabotka-saytov']) {
+  const doc = documents.get(path)
+  const visible = doc.querySelector('main').textContent.replace(/\s+/g, ' ')
+  check(
+    !visible.includes('29 000') && !visible.includes('Компактный запуск'),
+    `${path}: retired offer absent`,
+  )
+  check(
+    visible.includes('11 999') && visible.includes('45 000'),
+    `${path}: both current options visible`,
+  )
+  check(
+    Boolean(doc.querySelector('a[href="/services/sayt-pod-klyuch"]')),
+    `${path}: launch package link`,
+  )
+}
+const turnkey = documents.get('/services/sayt-pod-klyuch')
+check(
+  turnkey.querySelector('input[name="service"]')?.value === 'turnkey-11999',
+  'Fixed package in enquiry',
+)
+check(
+  !turnkey.querySelector('select[name="service"]'),
+  'No ambiguous service choice on package form',
+)
+check(
+  turnkey.querySelector('input[name="pagePath"]')?.value === '/services/sayt-pod-klyuch',
+  'Package enquiry source',
+)
+const turnkeySchema = [...turnkey.querySelectorAll('script[type="application/ld+json"]')]
+  .map((node) => JSON.parse(node.textContent))
+  .find((data) => data['@type'] === 'Service')
+check(
+  turnkeySchema?.offers?.price === 11999 && turnkeySchema.offers.priceCurrency === 'RUB',
+  'Package structured price',
+)
 for (const path of expectedPaths.filter(
   (path) => path.startsWith('/services/') || path.startsWith('/cases/'),
 )) {

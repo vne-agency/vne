@@ -6,10 +6,10 @@ export const pricingEnglish: Record<string, string> = {
   'Базовая SEO-подготовка': 'Basic SEO setup',
   'Сайт с согласованным запуском, рабочая сборка приложения или макеты в Figma — в зависимости от выбранного формата. Передаём предусмотренные проектом файлы, доступы и инструкцию.':
     'An agreed website launch, a working app build or Figma files, depending on the chosen service. We hand over the project files, access and instructions.',
-  'Уточняем задачу, бюджет, материалы и нужный результат. Выбираем готовую основу, индивидуальный проект или дизайн отдельно.':
-    'We clarify the task, budget, materials and deliverable. We choose an existing foundation, a custom project or design only.',
-  'Для индивидуального проекта готовим структуру и визуальную концепцию. В компактном формате адаптируем выбранную готовую основу под ваши материалы.':
-    'For a custom project, we create the structure and visual concept. For a compact launch, we adapt the chosen foundation to your materials.',
+  'Уточняем задачу, бюджет, материалы и нужный результат. Выбираем пакет под ключ, проект по индивидуальному заданию или дизайн отдельно.':
+    'We clarify the task, budget, materials and deliverable. We choose a turnkey package, a project with an individual brief or design only.',
+  'В обоих форматах продумываем структуру и индивидуальный дизайн. Для проекта за 45 000 ₽ отдельно согласуем концепцию по вашему заданию и проводим две итерации правок.':
+    'Both options include structure and custom design. For the ₽45,000 project, we review the concept against your brief as a separate stage and provide two revision rounds.',
   'Согласованная структура и дизайн в рамках выбранного формата.':
     'Agreed structure and design within the chosen scope.',
   'Собираем согласованный сайт или приложение. Формы, CMS и внешние сервисы подключаем по смете. Для дизайна отдельно готовим передачу макетов.':
@@ -63,15 +63,15 @@ export const pricingEnglish: Record<string, string> = {
   'Выберите услугу из списка.': 'Choose a service from the list.',
   'Создаём сайты и приложения, проектируем интерфейсы, разрабатываем ботов, настраиваем CRM и автоматизацию, работаем с ИИ и видеоконтентом. Для цифровых продуктов можно заказать отдельную задачу или проект из нескольких направлений. Видеопродвижение предоставляем только комплексным пакетом от 100 000 ₽ с индивидуальным составом под задачи и сферу бизнеса.':
     'Websites, apps, interfaces, bots, CRM, automation, AI and video marketing. Digital product work can cover a single task or several services. Video marketing is available only as a complete package from ₽100,000, tailored to your goals and industry.',
-  'Компактный запуск — 29 000 ₽, индивидуальный лендинг — 45 000 ₽ в пилотном формате. Состав и условия есть на странице прайса. Другие проекты оцениваем по объёму, материалам и подключениям. Стоимость, сроки и отдельные расходы согласуем до начала.':
-    'A compact launch is ₽29,000; a custom landing page is ₽45,000 in the pilot format. Scope and terms are on the pricing page. Other work is estimated by scope, materials and integrations. Price, schedule and separate expenses are agreed before starting.',
+  'Сайт под ключ — 11 999 ₽ за описанный пакет. Индивидуальный проект — 45 000 ₽: работа по вашему заданию, до семи секций, отдельное согласование концепции и две итерации правок. Состав, сроки и дополнительные расходы фиксируем до начала. Другие проекты оцениваем по объёму и функциям.':
+    'A turnkey website is ₽11,999 for the described package. A custom project is ₽45,000: work to your brief, up to seven sections, a separate concept review and two revision rounds. Scope, timing and extra costs are agreed before starting. Other projects are priced by scope and functionality.',
   'Да. Разовые доработки выполняем по смете без обязательной подписки. Поддержка — от 30 000 ₽ за до 10 часов в месяц, развитие — от 70 000 ₽ за до 20 часов. Режим, реакцию и состав работ фиксируем заранее; новые функции в пакет поддержки не входят.':
     'Yes. One-off updates have separate quotes and need no subscription. Support starts at ₽30,000 for up to 10 hours a month; development at ₽70,000 for up to 20 hours. Service hours, response and scope are agreed in advance; support does not include new features.',
   'Можно обратиться с небольшим бюджетом?': 'Can I get in touch with a small budget?',
   'Да. Обсудим любую сумму и посмотрим, какой полезный результат можно получить: доработку, компактную страницу или самостоятельный этап. Если нужный объём в бюджет не помещается, объясним ограничения и варианты.':
     'Yes. We’ll discuss any amount and look for a useful result: an update, a compact page or a standalone stage. If the required scope does not fit, we’ll explain the limitations and options.',
-  'Чем компактный запуск отличается от индивидуального?':
-    'How does a compact launch differ from a custom landing page?',
-  'Компактную страницу собираем на готовой основе из ваших материалов под одну задачу. Индивидуальный лендинг включает проектирование структуры и собственной визуальной концепции. В обоих форматах есть адаптивность, работающая форма и согласованные границы.':
-    'A compact page uses an existing foundation and your materials for one task. A custom landing page includes its own structure and visual concept. Both include responsive behaviour, a working form and agreed scope limits.',
+  'Чем отличаются сайт за 11 999 ₽ и проект за 45 000 ₽?':
+    'How do the ₽11,999 and ₽45,000 options differ?',
+  'За 11 999 ₽ вы получаете лендинг с индивидуальным дизайном, текстами, админкой, формой и подключениями из пакета. За 45 000 ₽ работаем по индивидуальному заданию: до семи секций, отдельное согласование концепции и две итерации правок. Доплата связана с требованиями и процессом работы. Если вам подходит состав пакета за 11 999 ₽, выбирайте его.':
+    'The ₽11,999 package includes a custom landing page, copy, content admin, form and listed integrations. For ₽45,000 we work to an individual brief: up to seven sections, a separate concept review and two revision rounds. The extra cost reflects your requirements and the review process. If the ₽11,999 package meets your needs, choose it.',
 }

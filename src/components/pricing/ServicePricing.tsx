@@ -4,7 +4,9 @@ import { ArrowIcon } from '@/components/ui/ArrowIcon'
 import Link from 'next/link'
 import { useSiteLanguage } from '@/components/ui/SiteLanguage'
 import { pricingGroups, pricingOffers, formatPrice } from '@/lib/pricing/catalog'
+import { turnkeyOffer } from '@/lib/services/turnkey'
 import styles from './ServicePricing.module.css'
+import { WebsiteFormats } from './WebsiteFormats'
 
 export function ServicePricing({
   serviceId,
@@ -24,6 +26,11 @@ export function ServicePricing({
   if (compact)
     return (
       <div className={styles.compact}>
+        {group.id === 'web' && (
+          <Link href={turnkeyOffer.path}>
+            {turnkeyOffer.name[language]} <ArrowIcon />
+          </Link>
+        )}
         <Link href={`/pricing#${group.id}`}>
           {summaryItems.map((item, index) => (
             <span className={styles.summaryItem} key={item}>
@@ -39,14 +46,6 @@ export function ServicePricing({
             </span>
           ))}
         </Link>
-        {group.id === 'web' && (
-          <p>
-            {copy(
-              'Стартовые условия пилота. Состав и участие согласуем до начала.',
-              'Pilot launch terms. Scope and participation are confirmed before starting.',
-            )}
-          </p>
-        )}
       </div>
     )
   return (
@@ -55,17 +54,10 @@ export function ServicePricing({
         {copy('Форматы и цены', 'Options and pricing')}
       </Heading>
       <p>{group.description[language]}</p>
-      {group.id === 'web' && (
-        <p className={styles.note}>
-          {copy(
-            '29 000 ₽ и 45 000 ₽ — условия пилотной серии из трёх подходящих проектов. Участие подтверждаем после обсуждения задачи и доступности студии.',
-            '₽29,000 and ₽45,000 apply to a pilot series of three suitable projects. Participation depends on the task and studio availability.',
-          )}
-        </p>
-      )}
+      {group.id === 'web' && <WebsiteFormats />}
       <ul className={styles.list}>
         {pricingOffers
-          .filter((offer) => offer.category === group.id)
+          .filter((offer) => offer.category === group.id && offer.id !== 'landing')
           .map((offer) => (
             <li key={offer.id}>
               <Link href={`/pricing#${offer.id}`}>

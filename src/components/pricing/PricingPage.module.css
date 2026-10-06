@@ -497,3 +497,7 @@
     font-size: 1.5rem;
   }
 }
+
+.websiteFormats {
+  padding-inline: clamp(1.25rem, 3vw, 3rem);
+}

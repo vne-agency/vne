@@ -30,8 +30,8 @@ export const pricingGroups: {
       en: 'From a small page to a digital product. Design can be commissioned separately.',
     },
     summary: {
-      ru: 'Компактный запуск — 29 000 ₽ · Индивидуальный лендинг — 45 000 ₽',
-      en: 'Compact launch — ₽29,000 · Custom landing page — ₽45,000',
+      ru: 'Индивидуальный проект — 45 000 ₽',
+      en: 'Custom project — ₽45,000',
     },
   },
   {
@@ -97,37 +97,14 @@ export const pricingGroups: {
 ]
 export const pricingOffers: PricingOffer[] = [
   {
-    id: 'compact',
-    category: 'web',
-    amount: 29000,
-    priceType: 'fixed',
-    pilot: true,
-    name: {
-      ru: 'Компактный запуск',
-      en: 'Compact launch',
-    },
-    scope: {
-      ru: 'До пяти секций на готовой основе, один язык, ваши тексты и изображения. Мобильная версия, одна форма до пяти полей, один канал заявок, аналитика и до двух целей.',
-      en: 'Up to five sections on an existing foundation, one language, your copy and images. Responsive layout, one form with up to five fields, one enquiry channel, analytics and up to two goals.',
-    },
-    limits: {
-      ru: 'Одна итерация правок в выбранной структуре. Без индивидуальной концепции, CRM, оплаты и написания текстов с нуля.',
-      en: 'One revision round within the chosen structure. Custom concepts, CRM, payments and copywriting from scratch are separate.',
-    },
-    timing: {
-      ru: '5–7 рабочих дней',
-      en: '5–7 working days',
-    },
-  },
-  {
     id: 'landing',
     category: 'web',
     amount: 45000,
     priceType: 'fixed',
-    pilot: true,
+    pilot: false,
     name: {
-      ru: 'Индивидуальный лендинг',
-      en: 'Custom landing page',
+      ru: 'Индивидуальный проект',
+      en: 'Custom project',
     },
     scope: {
       ru: 'Структура под задачу, индивидуальная визуальная концепция и до семи секций. Один язык, адаптивная сборка, одна форма, аналитика и базовая SEO-подготовка.',

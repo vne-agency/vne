@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next'
 
 import { getCaseHref, isIndexableCase } from '@/lib/cases/catalog'
 import { getHomeCases } from '@/lib/cases/get-home-cases'
+import { turnkeyOffer } from '@/lib/services/turnkey'
 import { labTools } from '@/lib/lab/catalog'
 import { getSiteUrl } from '@/lib/site'
 import { getServiceHref, serviceExperiences } from '@/lib/services/catalog'
@@ -20,6 +21,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: new URL('/pricing', getSiteUrl()).toString(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: new URL(turnkeyOffer.path, getSiteUrl()).toString(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },

@@ -33,11 +33,11 @@ describe('Pricing enquiry through validation and persistence', () => {
   it('saves the selected offer and free-text budget in the message used by manager notifications', async () => {
     const result = await submitLeadAction(
       { status: 'idle', message: '' },
-      enquiry({ service: 'compact', budget: ' до 20 000 ₽ <обсудим> ', pagePath: '/pricing' }),
+      enquiry({ service: 'landing', budget: ' до 20 000 ₽ <обсудим> ', pagePath: '/pricing' }),
     )
     expect(result.status).toBe('success')
     const saved = save.mock.calls[0][0].data
-    expect(saved.message).toContain('Услуга: Компактный запуск')
+    expect(saved.message).toContain('Услуга: Индивидуальный проект')
     expect(saved.message).toContain('Ориентир по бюджету: до 20 000 ₽ <обсудим>')
     expect(saved.message).toContain('Нужна страница услуги')
     expect(new URL(saved.pageUrl).pathname).toBe('/pricing')

@@ -15,6 +15,8 @@ import detailMotion from '@/components/experiments/ascii-stars/OrbitDetailMotion
 import contactStyles from '@/components/experiments/ascii-stars/OrbitContact.module.css'
 import styles from './PricingPage.module.css'
 import motion from './PricingMotion.module.css'
+import { WebsiteFormats } from './WebsiteFormats'
+import { turnkeyOffer } from '@/lib/services/turnkey'
 import { PricingDisclosure } from './PricingDisclosure'
 
 export function PricingPage() {
@@ -86,22 +88,25 @@ export function PricingPage() {
             </h1>
             <p className={styles.lead} data-detail-enter="copy">
               {copy(
-                'Обсудим любой бюджет. Предложим понятный объём: отдельную доработку, компактный запуск или большой проект по этапам.',
-                'We’re open to discussing any budget. We’ll suggest a clear scope: a small update, a compact launch or a larger project in stages.',
+                'Обсудим любой бюджет. Предложим понятный объём: отдельную доработку, сайт под ключ или большой проект по этапам.',
+                'We’re open to discussing any budget. We’ll suggest a clear scope: a small update, a turnkey website or a larger project in stages.',
               )}
             </p>
             <div className={styles.quickPrices}>
-              {pricingOffers
-                .filter((offer) => offer.pilot)
-                .map((offer) => (
-                  <a href={`#${offer.id}`} key={offer.id} data-detail-enter="control">
-                    <span>{offer.name[language]}</span>
-                    <strong>{formatPrice(offer, language)}</strong>
-                    <span className={styles.meta}>
-                      {copy('Пилотный формат', 'Pilot offer')} <ArrowIcon />
-                    </span>
-                  </a>
-                ))}
+              <Link href={turnkeyOffer.path} data-detail-enter="control">
+                <span>{copy('Пакет для запуска', 'Launch package')}</span>
+                <strong>11 999 ₽</strong>
+                <span className={styles.meta}>
+                  {copy('Сайт под ключ', 'Turnkey website')} <ArrowIcon />
+                </span>
+              </Link>
+              <a href="#landing" data-detail-enter="control">
+                <span>{copy('Индивидуальный проект', 'Custom project')}</span>
+                <strong>45 000 ₽</strong>
+                <span className={styles.meta}>
+                  {copy('По вашему заданию', 'Built to your brief')} <ArrowIcon />
+                </span>
+              </a>
             </div>
             <a href="#contact" className={styles.textLink} data-detail-enter="control">
               {copy('Обсудить задачу', 'Discuss your task')}{' '}
@@ -139,27 +144,6 @@ export function PricingPage() {
             </p>
           </aside>
           <div className={styles.catalog} data-pricing-catalog>
-            <div className={styles.pilot} id="pilot" data-closing-row data-pricing-cell>
-              <span data-closing-spine aria-hidden="true" />
-              <p className={styles.meta} data-closing-copy="up">
-                {copy('Стартовые условия / пилот', 'Launch terms / pilot')}
-              </p>
-              <h2 data-closing-copy="up">
-                {copy('Небольшой проект. Понятный результат.', 'A small project. A clear result.')}
-              </h2>
-              <p data-closing-copy="up">
-                {copy(
-                  '29 000 ₽ за компактный запуск и 45 000 ₽ за индивидуальный лендинг — условия пилотной серии из трёх подходящих проектов. Участие подтверждаем после обсуждения задачи и доступности студии. Цена принятого объёма фиксируется до старта.',
-                  '₽29,000 for a compact launch and ₽45,000 for a custom landing page apply to a pilot series of three suitable projects. Participation is confirmed after reviewing the task and studio availability. The price of the agreed scope is fixed before starting.',
-                )}
-              </p>
-              <p data-closing-copy="up">
-                {copy(
-                  'Готовые материалы, одно предложение и ограниченный объём помогают сделать запуск доступнее. Домены, хостинг и платные сервисы покажем отдельно в полной смете.',
-                  'Ready materials, one offer and a focused scope help keep the launch affordable. Domains, hosting and paid services are listed separately in the full quote.',
-                )}
-              </p>
-            </div>
             {pricingGroups.map((group, index) => (
               <section
                 className={styles.group}
@@ -182,9 +166,14 @@ export function PricingPage() {
                   </h2>
                   <p data-closing-copy="up">{group.description[language]}</p>
                 </header>
+                {group.id === 'web' && (
+                  <div className={styles.websiteFormats}>
+                    <WebsiteFormats onSelectIndividual={() => setService('landing')} />
+                  </div>
+                )}
                 <div className={styles.offers}>
                   {pricingOffers
-                    .filter((offer) => offer.category === group.id)
+                    .filter((offer) => offer.category === group.id && offer.id !== 'landing')
                     .map((offer) => (
                       <article
                         className={`${styles.offer} ${offer.pilot ? styles.featured : ''}`}
@@ -273,8 +262,8 @@ export function PricingPage() {
                 [
                   'Материалы и дополнительные расходы',
                   'Materials and additional costs',
-                  'Для стартовых сайтов нужны ваши тексты и изображения. Домен, хостинг, платформа, лицензии, CRM и AI-сервисы — отдельные строки сметы. Согласованные служебные тексты и ссылки разместим; подготовка юридических документов не включена.',
-                  'Launch websites use your copy and images. Domains, hosting, platforms, licences, CRM and AI usage are separate quote items. We place agreed legal copy and links; drafting legal documents is not included.',
+                  'Материалы и подключения зависят от формата. В пакете за 11 999 ₽ помогаем с текстами; один домен .ru или .рф на год до 300 ₽ и первый месяц хостинга — в подарок. Продление, платформа, лицензии, CRM и AI-сервисы — отдельные строки сметы. Согласованные служебные тексты и ссылки разместим; подготовка юридических документов не включена.',
+                  'Materials and integrations depend on the option. The ₽11,999 package includes help with copy, one .ru or .рф domain for a year up to ₽300 and the first month of hosting. Renewals, platforms, licences, CRM and AI usage are separate quote items. We place agreed legal copy and links; drafting legal documents is not included.',
                 ],
                 [
                   'Правки и изменение задачи',
