@@ -35,7 +35,7 @@ const stepHeading: CSSProperties = {
 }
 
 export function OrbitServiceDetail({ service }: { service: ServiceExperience }) {
-  const { t } = useSiteLanguage()
+  const { t, language } = useSiteLanguage()
   const constellation = serviceConstellations[service.id] ?? serviceConstellations.web
 
   return (
@@ -217,6 +217,19 @@ export function OrbitServiceDetail({ service }: { service: ServiceExperience }) 
                 )}
               </h2>
               <p className={styles.outcomeDescription}>{t(service.outcome)}</p>
+              {service.id !== 'ai' &&
+                kazanServices
+                  .find((entry) => entry.serviceId === service.id)
+                  ?.proof.map((item) => (
+                    <Link
+                      className={styles.introContact}
+                      href={`/cases/${item.slug}`}
+                      key={item.slug}
+                    >
+                      {language === 'ru' ? 'Пример работы: ' : 'Related project: '}
+                      {item.title[language]} <ArrowIcon />
+                    </Link>
+                  ))}
               <Link className={styles.contact} href="/#contact-form">
                 {t('Обсудить проект')}
                 <span aria-hidden="true">

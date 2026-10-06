@@ -94,7 +94,7 @@ export function PricingPage() {
             </p>
             <div className={styles.quickPrices}>
               <Link href={turnkeyOffer.path} data-detail-enter="control">
-                <span>{copy('Пакет для запуска', 'Launch package')}</span>
+                <span>{copy('Стартовая серия: три проекта', 'Launch series: three projects')}</span>
                 <strong>11 999 ₽</strong>
                 <span className={styles.meta}>
                   {copy('Сайт под ключ', 'Turnkey website')} <ArrowIcon />
@@ -256,14 +256,14 @@ export function PricingPage() {
                 [
                   'Цена и состав',
                   'Price and scope',
-                  'Фиксированные цены действуют для описанной комплектации, «от» — для базового объёма. Итоговую цену, включённые работы и применимые налоги фиксируем в предложении до начала. Для цифровых продуктов при меньшем бюджете ищем полезную отдельную задачу. Видеопродвижение предоставляем только единым пакетом от 100 000 ₽; отдельные ролики и этапы не продаются.',
-                  'Fixed prices cover the described package; “from” prices cover the base scope. The final price, included work and applicable taxes are set out before starting. For digital products, a smaller budget can cover a useful standalone task. Video marketing is available only as a complete package from ₽100,000; individual videos and stages are not sold separately.',
+                  '11 999 ₽ — цена трёх подтверждённых проектов стартовой серии, после которой цена для новых заказов пересматривается. Для принятого проекта цена сохраняется. Публикацию кейса согласуем отдельно. Фиксированные цены действуют для описанной комплектации, «от» — для базового объёма. Итоговую цену, включённые работы и применимые налоги фиксируем в предложении до начала. Для цифровых продуктов при меньшем бюджете ищем полезную отдельную задачу. Видеопродвижение предоставляем только единым пакетом от 100 000 ₽; отдельные ролики и этапы не продаются.',
+                  '₽11,999 applies to three confirmed launch-series projects; prices for new orders are reviewed after that. Accepted projects keep their agreed price. Case publication is agreed separately. Fixed prices cover the described package; “from” prices cover the base scope. The final price, included work and applicable taxes are set out before starting. For digital products, a smaller budget can cover a useful standalone task. Video marketing is available only as a complete package from ₽100,000; individual videos and stages are not sold separately.',
                 ],
                 [
                   'Материалы и дополнительные расходы',
                   'Materials and additional costs',
-                  'Материалы и подключения зависят от формата. В пакете за 11 999 ₽ помогаем с текстами; один домен .ru или .рф на год до 300 ₽ и первый месяц хостинга — в подарок. Продление, платформа, лицензии, CRM и AI-сервисы — отдельные строки сметы. Согласованные служебные тексты и ссылки разместим; подготовка юридических документов не включена.',
-                  'Materials and integrations depend on the option. The ₽11,999 package includes help with copy, one .ru or .рф domain for a year up to ₽300 and the first month of hosting. Renewals, platforms, licences, CRM and AI usage are separate quote items. We place agreed legal copy and links; drafting legal documents is not included.',
+                  'Материалы и подключения зависят от формата. В пакете за 11 999 ₽ готовим тексты по предоставленным фактам и материалам; один домен .ru или .рф на год до 300 ₽ и первый месяц хостинга — в подарок. Продление, платформа, лицензии, CRM и AI-сервисы — отдельные строки сметы. Согласованные служебные тексты и ссылки разместим; подготовка юридических документов не включена.',
+                  'Materials and integrations depend on the option. The ₽11,999 package includes copy based on supplied facts and materials, one .ru or .рф domain for a year up to ₽300 and the first month of hosting. Renewals, platforms, licences, CRM and AI usage are separate quote items. We place agreed legal copy and links; drafting legal documents is not included.',
                 ],
                 [
                   'Правки и изменение задачи',

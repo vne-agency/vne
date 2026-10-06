@@ -1,6 +1,7 @@
 import { getCaseHref, type CaseItem } from '@/lib/cases/catalog'
 import { getServiceHref, type ServiceExperience } from '@/lib/services/catalog'
 import { getSiteUrl, siteConfig } from '@/lib/site'
+import { turnkeyLaunch, turnkeyOffer } from '@/lib/services/turnkey'
 
 const url = (path: string) => new URL(path, getSiteUrl()).href
 const reference = (path: string) => ({ '@id': url(path) })
@@ -17,6 +18,7 @@ export function organizationSchema() {
         legalName: siteConfig.legalName,
         url: url('/'),
         email: siteConfig.email,
+        sameAs: [...siteConfig.socialProfiles],
         logo: url('/assets/brand/vne-wordmark.svg'),
       },
       {
@@ -81,6 +83,44 @@ export function servicePageSchema(service: ServiceExperience) {
         mainEntityOfPage: reference(`${path}#webpage`),
       },
       breadcrumbs(path, service.title),
+    ],
+  }
+}
+
+export function turnkeyPageSchema() {
+  const path = turnkeyOffer.path
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        ...webPage(path, turnkeyOffer.name.ru, turnkeyOffer.introduction),
+        mainEntity: reference(`${path}#service`),
+        breadcrumb: reference(`${path}#breadcrumb`),
+      },
+      {
+        '@type': 'Service',
+        '@id': url(`${path}#service`),
+        name: turnkeyOffer.name.ru,
+        description: turnkeyOffer.introduction,
+        url: url(path),
+        provider: reference('/#organization'),
+        mainEntityOfPage: reference(`${path}#webpage`),
+        offers: {
+          '@type': 'Offer',
+          price: turnkeyOffer.amount,
+          priceCurrency: 'RUB',
+          description: turnkeyLaunch.terms.ru,
+          url: url(path),
+        },
+      },
+      {
+        ...breadcrumbs(path, turnkeyOffer.name.ru),
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'ВНЕ', item: url('/') },
+          { '@type': 'ListItem', position: 2, name: 'Сайты', item: url('/services/web') },
+          { '@type': 'ListItem', position: 3, name: 'Сайт под ключ', item: url(path) },
+        ],
+      },
     ],
   }
 }

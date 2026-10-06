@@ -21,10 +21,14 @@ export type CaseItem = {
 }
 
 // The current showcase follows the expanded case layouts supplied in Figma.
-// Payload overrides these entries by slug; unpublished records are never exposed.
+// Launch showcase content is maintained in code (see getHomeCases).
 export const fallbackCases: readonly CaseItem[] = [
   {
     slug: 'kotopes',
+    seo: {
+      description:
+        'Кейс ВНЕ: сайт ветеринарной клиники «Котопёс». Дизайн, разработка, админка услуг и статей, уведомления о заявках, Яндекс.Метрика и Вебмастер.',
+    },
     projectName: 'КОТОПЕС',
     title: 'Сайт ветеринарной клиники',
     description:
@@ -40,6 +44,10 @@ export const fallbackCases: readonly CaseItem[] = [
   },
   {
     slug: 'arc-store',
+    seo: {
+      description:
+        'Кейс ВНЕ: магазин цифровых товаров ARC Store. Дизайн, разработка, управление каталогом и заказами, эквайринг, аналитика и видеоконтент.',
+    },
     projectName: 'ARC STORE',
     logo: '/assets/home/case-arc-logo.svg',
     logoWidth: 171,

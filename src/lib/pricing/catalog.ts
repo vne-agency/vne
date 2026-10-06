@@ -107,12 +107,12 @@ export const pricingOffers: PricingOffer[] = [
       en: 'Custom project',
     },
     scope: {
-      ru: 'Структура под задачу, индивидуальная визуальная концепция и до семи секций. Один язык, адаптивная сборка, одна форма, аналитика и базовая SEO-подготовка.',
-      en: 'A structure built around your task, an individual visual concept and up to seven sections. One language, responsive build, one form, analytics and basic SEO setup.',
+      ru: 'Бриф и разбор до трёх конкурентов: аудитория, предложение и возражения. Отдельный прототип до семи секций и индивидуальная визуальная концепция. Один язык, адаптивная сборка, одна форма, аналитика и базовая SEO-подготовка.',
+      en: 'A brief and review of up to three competitors covering the audience, offer and objections. A separate prototype of up to seven sections and a custom visual concept. One language, responsive build, one form, analytics and basic SEO.',
     },
     limits: {
-      ru: 'Одна концепция, две итерации правок. Редактируем предоставленные тексты; контент с нуля, 3D и сложные подключения — отдельно.',
-      en: 'One concept and two revision rounds. Editing of supplied copy is included; new content, 3D and complex integrations are separate.',
+      ru: '45 000 ₽ за описанный объём. Одна концепция и две собранные итерации правок. Редактируем предоставленные тексты; контент с нуля, 3D, CMS, сложные подключения, домен и хостинг — отдельно. Расширение задания оцениваем до выполнения.',
+      en: '₽45,000 covers the described scope, with one concept and two consolidated revision rounds. Editing supplied copy is included; new content, 3D, CMS, complex integrations, domain and hosting are separate. Scope extensions are quoted before work.',
     },
     timing: {
       ru: '7–20 рабочих дней',
@@ -314,8 +314,8 @@ export const pricingOffers: PricingOffer[] = [
       en: 'Telegram enquiry bot',
     },
     scope: {
-      ru: 'Один сценарий до десяти шагов, меню, сбор заявки и уведомление в один согласованный канал. Запуск и инструкция.',
-      en: 'One flow of up to ten steps, a menu, enquiry collection and notification to one agreed channel. Launch and instructions.',
+      ru: 'Самостоятельный Telegram-бот: один сценарий до десяти шагов, меню, сбор заявки и уведомление в один канал. Запуск и инструкция. Это отдельный продукт; уведомления с формы сайта не требуют покупки этого пакета.',
+      en: 'A standalone Telegram bot with one flow of up to ten steps, a menu, enquiry collection and notifications to one channel. Launch and instructions included. Website form notifications do not require this separate package.',
     },
     limits: {
       ru: 'Без CRM, оплаты и отдельной панели управления. Один бот и один язык.',
@@ -521,8 +521,8 @@ export const pricingOffers: PricingOffer[] = [
       en: 'Technical support',
     },
     scope: {
-      ru: 'До 10 часов сопровождения одного проекта в месяц: диагностика, небольшие исправления, контент и согласованные проверки.',
-      en: 'Up to 10 hours of monthly support for one project: diagnosis, minor fixes, content and agreed checks.',
+      ru: 'Для регулярной работы: до 10 часов сопровождения одного проекта в месяц — диагностика, небольшие исправления, контент и согласованные проверки. Для небольшого сайта можно выбрать разовые задачи без подписки.',
+      en: 'For regular work: up to 10 hours of monthly support for one project, including diagnosis, minor fixes, content and agreed checks. Small websites can use one-off tasks without a subscription.',
     },
     limits: {
       ru: 'Новые функции — отдельная смета или пакет развития независимо от остатка часов. Общий регламент ниже.',

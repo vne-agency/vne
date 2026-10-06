@@ -19,17 +19,13 @@ export function StartupLoader() {
     language === 'en' ? (startupLoaderEnglish[text] ?? t(text)) : text
   const pathname = usePathname()
   const orbitIntro = pathname === '/'
-  const legalPage = /^\/(privacy|consent|cookies|analytics-consent|terms|pricing)\/?$/.test(
-    pathname,
-  )
-  const [visible, setVisible] = useState(
-    orbitIntro || (!pathname.startsWith('/preview') && pathname !== '/lab' && !legalPage),
-  )
+  // Keep the home introduction; visitors arriving at a service or case can act immediately.
+  const [visible, setVisible] = useState(orbitIntro)
   const overlayRef = useRef<HTMLDivElement>(null)
   const progressRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!visible) return
+    if (!visible || !orbitIntro) return
     if (window.self !== window.top) {
       const frame = requestAnimationFrame(() => setVisible(false))
       return () => cancelAnimationFrame(frame)
@@ -345,13 +341,14 @@ export function StartupLoader() {
     }
   }, [visible, orbitIntro])
 
-  if (!visible) return null
+  if (!visible || !orbitIntro) return null
 
   return (
     <div
       ref={overlayRef}
       className={styles.loader}
       data-startup-loader
+      data-nosnippet
       data-orbit-intro={orbitIntro || undefined}
       data-lenis-prevent
       data-native-cursor

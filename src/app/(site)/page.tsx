@@ -19,10 +19,10 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = {
   ...createMetadata({
-    title: 'vne.home',
+    title: siteConfig.homeTitle,
     description: siteConfig.description,
   }),
-  title: { absolute: 'vne.home' },
+  title: { absolute: siteConfig.homeTitle },
 }
 
 export default async function HomePage() {
@@ -30,7 +30,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <JsonLd data={pageSchema('/', 'vne.home', siteConfig.description)} />
+      <JsonLd data={pageSchema('/', siteConfig.homeTitle, siteConfig.description)} />
       <AsciiStarsScrollHero directions={<OrbitDirections />}>
         <OrbitServicesTransition services={<OrbitServices id="services-content" />}>
           <OrbitPortfolioFlow>

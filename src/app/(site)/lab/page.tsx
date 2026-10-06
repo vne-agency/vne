@@ -5,13 +5,13 @@ import { pageSchema } from '@/lib/seo/structured-data'
 
 export const metadata = {
   ...createMetadata({
-    title: 'vne.lab',
+    title: 'vne.lab — инструменты для визуальных экспериментов',
     description:
       'Лаборатория ВНЕ: инструменты для экспериментов с изображением, символами и фактурой.',
     path: '/lab',
     image: '/og/lab',
   }),
-  title: { absolute: 'vne.lab' },
+  title: { absolute: 'vne.lab — инструменты для визуальных экспериментов' },
 }
 
 export default function LabPage() {
@@ -20,7 +20,7 @@ export default function LabPage() {
       <JsonLd
         data={pageSchema(
           '/lab',
-          'vne.lab',
+          'vne.lab — инструменты для визуальных экспериментов',
           'Лаборатория ВНЕ: инструменты для экспериментов с изображением, символами и фактурой.',
         )}
       />

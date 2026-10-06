@@ -48,7 +48,8 @@ describe('public SEO contract', () => {
       legalName: siteConfig.legalName,
       email: siteConfig.email,
     })
-    for (const key of ['address', 'aggregateRating', 'review', 'award', 'sameAs']) {
+    expect(organization.sameAs).toEqual([...siteConfig.socialProfiles])
+    for (const key of ['address', 'aggregateRating', 'review', 'award']) {
       expect(organization).not.toHaveProperty(key)
     }
     for (const service of serviceExperiences) {

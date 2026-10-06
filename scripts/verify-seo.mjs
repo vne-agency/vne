@@ -108,7 +108,12 @@ for (const path of [...indexedPaths, ...noindexPaths]) {
     new URL(meta('og:url')).href === new URL(canonical).href,
     `${path}: OG URL matches canonical`,
   )
-  const title = path === '/' ? 'vne.home' : path === '/lab' ? 'vne.lab' : undefined
+  const title =
+    path === '/'
+      ? 'ВНЕ — разработка сайтов, боты и автоматизация'
+      : path === '/lab'
+        ? 'vne.lab — инструменты для визуальных экспериментов'
+        : undefined
   if (title)
     check(
       doc.title === title && meta('og:title') === title && meta('twitter:title') === title,
@@ -145,6 +150,20 @@ for (const path of [...indexedPaths, ...noindexPaths]) {
   })
 }
 const home = documents.get('/')
+for (const selector of ['title', 'meta[name="description"]']) {
+  const values = [...documents.values()].map((doc) => {
+    const el = doc.querySelector(selector)
+    return el?.getAttribute('content') ?? el?.textContent
+  })
+  check(new Set(values).size === values.length, `Unique page ${selector}`)
+}
+for (const [path, doc] of documents) {
+  if (path !== '/')
+    check(!doc.querySelector('[data-startup-loader]'), `${path}: immediate content access`)
+  for (const img of doc.querySelectorAll('img')) {
+    check(img.hasAttribute('alt'), `${path}: image alternative text attribute`)
+  }
+}
 for (const path of ['/', '/pricing', '/services/web', '/services/kazan/razrabotka-saytov']) {
   const doc = documents.get(path)
   const visible = doc.querySelector('main').textContent.replace(/\s+/g, ' ')
@@ -163,6 +182,12 @@ for (const path of ['/', '/pricing', '/services/web', '/services/kazan/razrabotk
 }
 const turnkey = documents.get('/services/sayt-pod-klyuch')
 check(
+  turnkey.querySelector('main').textContent.includes('стартовую серию из трёх проектов'),
+  'Launch-series condition visible',
+)
+check(turnkey.querySelector('main').textContent.includes('до пяти секций'), 'Launch scope visible')
+check(turnkey.querySelector('main').textContent.includes('50%'), 'Payment milestones visible')
+check(
   turnkey.querySelector('input[name="service"]')?.value === 'turnkey-11999',
   'Fixed package in enquiry',
 )
@@ -175,7 +200,10 @@ check(
   'Package enquiry source',
 )
 const turnkeySchema = [...turnkey.querySelectorAll('script[type="application/ld+json"]')]
-  .map((node) => JSON.parse(node.textContent))
+  .flatMap((node) => {
+    const data = JSON.parse(node.textContent)
+    return data['@graph'] ?? [data]
+  })
   .find((data) => data['@type'] === 'Service')
 check(
   turnkeySchema?.offers?.price === 11999 && turnkeySchema.offers.priceCurrency === 'RUB',

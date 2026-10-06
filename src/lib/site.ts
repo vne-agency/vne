@@ -2,12 +2,14 @@ export const siteConfig = {
   url: 'https://vne.agency',
   name: 'ВНЕ — дизайн-студия',
   shortName: 'ВНЕ',
+  homeTitle: 'ВНЕ — разработка сайтов, боты и автоматизация',
   searchName: 'вне',
   description:
     'Студия ВНЕ: сайты и веб-дизайн, боты и CRM, ИИ и автоматизация, видеоконтент для социальных сетей.',
   locale: 'ru_RU',
   language: 'ru',
   email: 'vne.agency@internet.ru',
+  socialProfiles: ['https://t.me/vneagency', 'https://t.me/wearevne'],
   legalName: 'ИП Баров Евгений Алексеевич',
 } as const
 

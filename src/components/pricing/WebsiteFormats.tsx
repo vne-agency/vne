@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
 import { useSiteLanguage } from '@/components/ui/SiteLanguage'
 import { pricingOffers, formatPrice } from '@/lib/pricing/catalog'
-import { turnkeyOffer } from '@/lib/services/turnkey'
+import { turnkeyLaunch, turnkeyOffer } from '@/lib/services/turnkey'
 import styles from './WebsiteFormats.module.css'
 
 export function WebsiteFormats({ onSelectIndividual }: { onSelectIndividual?: () => void }) {
@@ -16,34 +16,34 @@ export function WebsiteFormats({ onSelectIndividual }: { onSelectIndividual?: ()
     <div className={styles.formats}>
       <p className={styles.intro}>
         {copy(
-          'Два способа запустить лендинг. Выберите по задаче и составу работ.',
-          'Two ways to launch a landing page. Choose by your task and scope.',
+          'Для первого запуска — стартовая серия. Для подробной проработки предложения и дизайна — индивидуальный проект.',
+          'Choose the launch series for a focused first website, or a custom project for deeper work on your offer and design.',
         )}
       </p>
       <div className={styles.options}>
         <article className={`${styles.option} ${styles.package}`}>
-          <p className={styles.label}>{copy('01 / Пакет для запуска', '01 / Launch package')}</p>
+          <p className={styles.label}>{turnkeyLaunch.label[language]}</p>
           <div className={styles.heading}>
             <h3>{copy('Сайт под ключ', 'Turnkey website')}</h3>
             <p className={styles.price}>11 999 ₽</p>
           </div>
           <p>
             {copy(
-              'Когда нужен лендинг с готовым набором подключений. Можно прийти с идеей — поможем со структурой и текстами.',
-              'For a landing page with a defined set of integrations. Start with an idea — we help with structure and copy.',
+              'Для одной услуги и понятного пути к заявке. Цена стартовой серии из трёх подходящих проектов: отрабатываем пакет и собираем кейсы.',
+              'For one service and a clear enquiry flow. This launch-series price applies to three suitable projects as we refine the package and build case studies.',
             )}
           </p>
           <ul>
             <li>
               {copy(
-                'Индивидуальный дизайн и адаптивная разработка.',
-                'Custom design and responsive development.',
+                'До пяти секций, один язык, индивидуальный дизайн и одна итерация правок.',
+                'Up to five sections, one language, custom design and one revision round.',
               )}
             </li>
             <li>
               {copy(
-                'Тексты, админка, форма и Telegram-уведомления.',
-                'Copy, content admin, enquiry form and Telegram notifications.',
+                'Тексты по вашим материалам, редактирование контента в админке, одна форма и Telegram-уведомления.',
+                'Copy based on your materials, content editing in the admin panel, one form and Telegram notifications.',
               )}
             </li>
             <li>
@@ -61,8 +61,8 @@ export function WebsiteFormats({ onSelectIndividual }: { onSelectIndividual?: ()
           </ul>
           <p className={styles.note}>
             {copy(
-              'Структуру и срок согласуем до старта. Функции вне пакета и дальнейшее продление домена и хостинга оплачиваются отдельно.',
-              'Structure and timing are agreed before starting. Extra features and later domain and hosting renewals are paid separately.',
+              'Участие подтверждаем после обсуждения задачи. Оплата 50% до начала и 50% после проверки результата. Срок фиксируем до старта. Новые функции и продление домена и хостинга — отдельно.',
+              'Participation is confirmed after scoping. Payment is 50% before work and 50% after review. Timing is agreed before starting. Extra features and domain and hosting renewals are separate.',
             )}
           </p>
           <Link className={styles.cta} href={turnkeyOffer.path}>
@@ -79,35 +79,35 @@ export function WebsiteFormats({ onSelectIndividual }: { onSelectIndividual?: ()
           </div>
           <p>
             {copy(
-              'Когда есть свои требования к структуре, подаче и объёму. Проектируем лендинг по согласованному заданию и отдельно согласуем концепцию.',
-              'For specific requirements for structure, presentation and scope. We design the landing page to an agreed brief and review the concept as a separate stage.',
+              'Когда нужно проработать предложение, возражения покупателей и визуальную подачу до разработки. Отдельные этапы исследования, прототипа и согласования дизайна.',
+              'For deeper work on your offer, customer objections and visual presentation before development. Research, prototyping and design review are separate stages.',
             )}
           </p>
           <ul>
             <li>
               {copy(
-                'До семи секций под вашу задачу, один язык.',
-                'Up to seven sections for your task, one language.',
+                'Бриф и разбор до трёх конкурентов: фиксируем аудиторию, предложение и возражения.',
+                'A brief and review of up to three competitors to define the audience, offer and objections.',
               )}
             </li>
             <li>
               {copy(
-                'Одна визуальная концепция и две итерации правок.',
-                'One visual concept and two revision rounds.',
+                'Отдельный прототип до семи секций, одна дизайн-концепция и две итерации правок.',
+                'A separate prototype of up to seven sections, one design concept and two revision rounds.',
               )}
             </li>
             <li>
               {copy(
-                'Адаптивная разработка, форма, аналитика и базовая SEO-подготовка.',
-                'Responsive development, a form, analytics and basic SEO.',
+                'Один язык, адаптивная разработка, форма, аналитика и базовая SEO-подготовка.',
+                'One language, responsive development, a form, analytics and basic SEO.',
               )}
             </li>
             <li>{copy('Редактирование предоставленных текстов.', 'Editing of supplied copy.')}</li>
           </ul>
           <p className={styles.note}>
             {copy(
-              'Ориентир — 7–20 рабочих дней. Точные даты и состав фиксируем до старта. Контент с нуля, 3D, сложные подключения, домен и хостинг — отдельно.',
-              'Estimated timing: 7–20 working days. Dates and scope are agreed before starting. New content, 3D, complex integrations, domain and hosting are separate.',
+              'Ориентир — 7–20 рабочих дней. Точные даты и состав фиксируем до старта. Контент с нуля, 3D, CMS, сложные подключения, домен и хостинг — отдельно.',
+              'Estimated timing: 7–20 working days. Dates and scope are agreed before starting. New content, 3D, CMS, complex integrations, domain and hosting are separate.',
             )}
           </p>
           {onSelectIndividual ? (
@@ -123,8 +123,8 @@ export function WebsiteFormats({ onSelectIndividual }: { onSelectIndividual?: ()
       </div>
       <p className={styles.difference}>
         {copy(
-          'За что доплата: за работу по индивидуальному заданию, отдельное согласование концепции и две итерации правок в объёме до семи секций. Индивидуальный дизайн есть в обоих вариантах. Если вам подходит состав пакета за 11 999 ₽, выбирайте его.',
-          'The higher price covers work to an individual brief, a separate concept review and two revision rounds for up to seven sections. Both options include custom design. If the ₽11,999 package meets your needs, choose it.',
+          '11 999 ₽ — временная цена ограниченной стартовой серии. В проекте за 45 000 ₽ дополнительно прорабатываем предложение и конкурентов, согласуем отдельный прототип и дизайн. Индивидуальное оформление есть в обоих вариантах; если задача укладывается в стартовый пакет, переплачивать не нужно.',
+          '₽11,999 is the temporary price of a limited launch series. The ₽45,000 project adds work on the offer and competitors, plus a separate prototype and design review. Both include custom styling; if your task fits the launch package, there is no need to pay more.',
         )}
       </p>
     </div>

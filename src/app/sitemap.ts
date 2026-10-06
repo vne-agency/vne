@@ -8,7 +8,7 @@ import { getSiteUrl } from '@/lib/site'
 import { getServiceHref, serviceExperiences } from '@/lib/services/catalog'
 import { getKazanServiceHref, kazanServices } from '@/lib/services/kazan'
 
-// CMS noIndex changes must be reflected just as they are on the case routes.
+// Use the same public case visibility as the case routes.
 export const dynamic = 'force-dynamic'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

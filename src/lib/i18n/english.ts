@@ -386,6 +386,10 @@ export const english: Record<string, string> = {
     'Yes. Support can cover content updates, new sections, interface improvements and technical work. The scope is agreed separately to suit the project.',
   КОТОПЕС: 'KOTOPES',
   'Сайт ветеринарной клиники': 'Veterinary clinic website',
+  'Кейс ВНЕ: сайт ветеринарной клиники «Котопёс». Дизайн, разработка, админка услуг и статей, уведомления о заявках, Яндекс.Метрика и Вебмастер.':
+    'VNE case study: the Kotopes veterinary clinic website. Design, development, service and article admin, enquiry notifications, Yandex Metrika and Webmaster.',
+  'Кейс ВНЕ: магазин цифровых товаров ARC Store. Дизайн, разработка, управление каталогом и заказами, эквайринг, аналитика и видеоконтент.':
+    'VNE case study: the ARC Store digital goods shop. Design, development, catalogue and order management, payments, analytics and video content.',
   'Сайт многопрофильной ветеринарной клиники, который знакомит владельцев животных с услугами и помогает записаться на приём. Разработали дизайн и сайт, подключили и настроили Яндекс Вебмастер и Метрику. Создали админ-панель для редактирования услуг и написания статей для сайта, а также бота, который оповещает о новых заявках. Всё реализовано на коде, без сторонних готовых решений.':
     'A website for a veterinary clinic that introduces pet owners to its services and helps them book appointments. We designed and developed the site, connected and configured Yandex Webmaster and Metrica, and built an admin panel for editing services and writing website articles. We also created a bot that sends notifications about new inquiries. Everything was custom-coded, without ready-made third-party solutions.',
   'Главная страница ветеринарной клиники «Котопес»': 'Kotopes veterinary clinic home page',

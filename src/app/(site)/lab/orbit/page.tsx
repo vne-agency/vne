@@ -1,4 +1,6 @@
 import { AsciiStarsExperiment } from '@/components/experiments/ascii-stars/AsciiStarsExperiment'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { pageSchema } from '@/lib/seo/structured-data'
 import { createMetadata } from '@/lib/seo/create-metadata'
 
 export const metadata = createMetadata({
@@ -9,5 +11,16 @@ export const metadata = createMetadata({
 })
 
 export default function OrbitPage() {
-  return <AsciiStarsExperiment />
+  return (
+    <>
+      <JsonLd
+        data={pageSchema(
+          '/lab/orbit',
+          'Orbit — vne.lab',
+          'Интерактивный эксперимент ВНЕ с формой, символами и движением.',
+        )}
+      />
+      <AsciiStarsExperiment />
+    </>
+  )
 }

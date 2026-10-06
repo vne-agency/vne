@@ -72,8 +72,8 @@ export const kazanServices: KazanService[] = [
       {
         question: copy('Сколько стоит разработка сайта в Казани?', 'How much does a website cost?'),
         answer: copy(
-          'Пакет «Сайт под ключ» стоит 11 999 ₽. Проект по индивидуальному заданию — 45 000 ₽ за объём до семи секций с отдельным согласованием концепции и двумя итерациями правок. Индивидуальный дизайн есть в обоих вариантах. Состав и сроки фиксируем до начала; для остальных проектов составляем смету.',
-          'The turnkey website package is ₽11,999. A project with an individual brief is ₽45,000 for up to seven sections, with a separate concept review and two revision rounds. Both include custom design. Scope and timing are agreed before starting; other projects receive an estimate.',
+          'Пакет «Сайт под ключ» стоит 11 999 ₽ для трёх подходящих проектов стартовой серии: одна услуга, до пяти секций и одна итерация правок. Проект за 45 000 ₽ включает разбор предложения и конкурентов, отдельный прототип до семи секций, дизайн и две итерации правок. Индивидуальный дизайн есть в обоих вариантах. Состав и сроки фиксируем до начала; для остальных проектов составляем смету.',
+          'The ₽11,999 turnkey package is for three suitable launch-series projects: one service, up to five sections and one revision round. The ₽45,000 project includes offer and competitor review, a separate prototype of up to seven sections, design and two revision rounds. Both include custom design. Scope and timing are agreed before starting; other projects receive an estimate.',
         ),
       },
       {

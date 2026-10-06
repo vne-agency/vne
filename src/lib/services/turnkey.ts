@@ -1,36 +1,58 @@
-// The launch package has its own terms; it does not replace the general price list.
+// Limited launch series. Close or revise this offer after three accepted projects; no simulated remaining-slot counter.
 export const turnkeyOffer = {
   id: 'turnkey-11999',
   path: '/services/sayt-pod-klyuch',
   amount: 11999,
   name: { ru: 'Сайт под ключ за 11 999 ₽', en: 'A turnkey website for ₽11,999' },
   introduction:
-    'Ваша идея — готовый лендинг. Индивидуальный дизайн, админка, заявки в Telegram и базовая SEO-настройка в одном пакете.',
+    'ВНЕ запускает стартовую серию из трёх проектов: лендинг для одной услуги за 11 999 ₽. Индивидуальный дизайн, тексты по вашим материалам, админка и уведомления о заявках в Telegram.',
   description:
-    'Создание лендинга под ключ за 11 999 ₽: индивидуальный дизайн, админка, форма, Telegram-бот и базовая SEO-настройка. Метрика, Вебмастер, домен на год и хостинг на месяц.',
+    'Сайт под ключ за 11 999 ₽ — стартовая серия ВНЕ из трёх проектов. До пяти секций, индивидуальный дизайн, админка, Telegram-уведомления и базовая SEO-настройка.',
+} as const
+
+export const turnkeyLaunch = {
+  label: { ru: 'Стартовая серия — три проекта', en: 'Launch series — three projects' },
+  terms: {
+    ru: 'Цена 11 999 ₽ действует для трёх подходящих проектов стартовой серии. Участие подтверждаем после обсуждения задачи; заявка не бронирует место. Для принятого проекта цену и состав фиксируем до начала.',
+    en: 'The ₽11,999 price applies to three suitable projects in the launch series. Participation is confirmed after scoping; an enquiry does not reserve a place. The price and scope of an accepted project are agreed before starting.',
+  },
+  scope: {
+    ru: 'Одна страница для одной услуги, до пяти секций, один язык и одна форма. Одна версия индивидуального дизайна и одна собранная итерация правок в согласованном объёме.',
+    en: 'One page for one service, up to five sections, one language and one form. One custom design proposal and one consolidated revision round within the agreed scope.',
+  },
+  payment: {
+    ru: 'Оплата: 50% после согласования состава перед началом работы, 50% после проверки результата перед публикацией и передачей доступов. Срок фиксируем до старта. Исправление несоответствий согласованному заданию не расходует итерацию правок.',
+    en: 'Payment: 50% after scoping and before work starts; 50% after reviewing the result, before publication and handover. Timing is agreed before starting. Corrections needed to meet the agreed brief do not count against the revision round.',
+  },
 } as const
 
 export const turnkeyPackage = [
   {
+    title: 'Объём и правки',
+    text: turnkeyLaunch.scope.ru,
+    enTitle: 'Scope and revisions',
+    enText: turnkeyLaunch.scope.en,
+  },
+  {
     title: 'Индивидуальный дизайн и разработка',
-    text: 'Лендинг под ваш бизнес с адаптацией для телефона и компьютера. Продумываем структуру, заголовки и текстовое наполнение, чтобы посетитель понял предложение.',
+    text: 'Лендинг с адаптацией для телефона и компьютера. Оформление под ваш бизнес; заголовки и тексты готовим по предоставленным фактам, услугам и материалам. Отдельное исследование рынка и несколько дизайн-концепций не входят.',
     enTitle: 'Custom design and development',
     enText:
-      'A landing page for your business, adapted for phones and computers. Structure, headings and copy help visitors understand your offer.',
+      'A responsive landing page with design for your business. Headings and copy are based on the facts, services and materials you provide. Separate market research and multiple design concepts are not included.',
   },
   {
     title: 'Админка для контента',
-    text: 'Управляйте содержимым сайта через административную панель. Покажем, как обновлять тексты и изображения.',
+    text: 'Меняйте тексты и изображения в согласованных блоках через административную панель. Покажем, как ей пользоваться. Конструктор новых страниц и сложный каталог в пакет не входят.',
     enTitle: 'Content administration',
     enText:
-      'Manage website content through an admin panel. We show you how to update text and images.',
+      'Edit text and images in the agreed sections through the admin panel. Handover includes instructions. A page builder and complex catalogue are outside the package.',
   },
   {
-    title: 'Форма заявки и Telegram-бот',
-    text: 'Посетитель оставляет заявку на сайте, а бот присылает уведомление в Telegram. Проверяем форму и доставку уведомлений перед запуском.',
-    enTitle: 'Enquiry form and Telegram bot',
+    title: 'Форма и Telegram-уведомления',
+    text: 'Одна форма отправляет уведомление о заявке в один согласованный Telegram-чат через бота. Проверяем доставку перед запуском. Бот с меню и диалогами, CRM, онлайн-оплата и личный кабинет в пакет не входят.',
+    enTitle: 'Enquiry form and Telegram notifications',
     enText:
-      'Visitors send an enquiry on the website and a bot notifies you in Telegram. We check the form and notification delivery before launch.',
+      'One form sends enquiry notifications to one agreed Telegram chat through a bot. Delivery is checked before launch. A conversational bot with menus, CRM, online payments and user accounts are outside the package.',
   },
   {
     title: 'Яндекс.Метрика и Вебмастер',
@@ -50,20 +72,34 @@ export const turnkeyPackage = [
 
 export const turnkeyFaq = [
   {
+    question: 'Почему сайт стоит 11 999 ₽?',
+    answer:
+      'Это цена стартовой серии из трёх подходящих проектов. Мы отрабатываем пакет запуска и собираем кейсы. Объём ограничен одной услугой и пятью секциями; качество сборки, адаптивность и проверка формы входят. После серии пересмотрим цену для новых заказов. Публикацию кейса согласуем отдельно; положительный отзыв не является условием цены.',
+    enQuestion: 'Why does the website cost ₽11,999?',
+    enAnswer:
+      'This price is for a launch series of three suitable projects, used to refine the package and build case studies. Scope is limited to one service and five sections; responsive development and form testing are included. Pricing for new orders will be reviewed after the series. Case publication is agreed separately; a positive review is not a condition of the price.',
+  },
+  {
+    question: 'Как проходит оплата?',
+    answer: turnkeyLaunch.payment.ru,
+    enQuestion: 'How does payment work?',
+    enAnswer: turnkeyLaunch.payment.en,
+  },
+  {
     question: 'У меня только идея. Можно без ТЗ?',
     answer:
-      'Да. Расскажите простыми словами, чем занимаетесь, кому предлагаете услугу и что хотите показать на сайте. Поможем собрать структуру и текстовое наполнение. Фотографии, контакты и факты о бизнесе уточним вместе.',
+      'Да. Расскажите, чем занимаетесь и какую одну услугу хотите представить. Вы предоставляете достоверные факты о бизнесе, контакты и доступные изображения, мы помогаем со структурой и текстами на их основе. До оплаты проверим, подходит ли задача под стартовую серию.',
     enQuestion: 'Can I start with an idea and no specification?',
     enAnswer:
-      'Yes. Tell us what you do, who your customers are and what the website should explain. We help with structure and copy, and clarify photos, contact details and business facts together.',
+      'Yes. Describe your business and the one service you want to present. You provide accurate business facts, contacts and available images; we help with structure and copy. Before payment we confirm that the task fits the launch series.',
   },
   {
     question: 'Сколько стоит сайт под ключ и что входит?',
     answer:
-      'Весь описанный пакет: лендинг с индивидуальным дизайном, админка, форма, Telegram-уведомления, подключение Метрики и Вебмастера, базовая SEO-настройка и текстовое наполнение. До начала зафиксируем структуру и состав работ. Если понадобятся функции за пределами пакета, обсудим их отдельно до выполнения.',
+      'Цена 11 999 ₽ включает одну страницу до пяти секций для одной услуги, один язык, одну версию индивидуального дизайна и одну итерацию правок. Также входят тексты по вашим материалам, админка контента, одна форма, Telegram-уведомления, Метрика, Вебмастер и базовая SEO-настройка. Цена действует для трёх подтверждённых проектов стартовой серии; дополнительные функции оцениваем до выполнения.',
     enQuestion: 'What does ₽11,999 cover?',
     enAnswer:
-      'The complete package described here: a custom landing page, admin panel, enquiry form, Telegram notifications, Metrika, Webmaster, foundational SEO and page copy. We agree on structure and scope before starting. Any features beyond this package are discussed separately before implementation.',
+      'The ₽11,999 package covers one page with up to five sections for one service, one language, one custom design and one revision round. It includes copy based on your materials, content admin, one form, Telegram notifications, Metrika, Webmaster and basic SEO. The price applies to three confirmed launch-series projects; extra features are quoted before implementation.',
   },
   {
     question: 'Домен и хостинг останутся бесплатными?',

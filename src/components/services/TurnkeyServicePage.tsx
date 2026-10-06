@@ -14,7 +14,7 @@ import page from '@/components/experiments/ascii-stars/OrbitServiceDetail.module
 import flow from '@/components/experiments/ascii-stars/OrbitClosingFlow.module.css'
 import motion from '@/components/experiments/ascii-stars/OrbitDetailMotion.module.css'
 import { type CaseItem, getCaseHref } from '@/lib/cases/catalog'
-import { turnkeyFaq, turnkeyOffer, turnkeyPackage } from '@/lib/services/turnkey'
+import { turnkeyFaq, turnkeyLaunch, turnkeyOffer, turnkeyPackage } from '@/lib/services/turnkey'
 import { siteConfig } from '@/lib/site'
 import { ServiceDisclosure } from './ServiceDisclosure'
 import styles from './TurnkeyServicePage.module.css'
@@ -27,15 +27,15 @@ export function TurnkeyServicePage({ cases }: { cases: readonly CaseItem[] }) {
     [
       copy('Расскажите об идее', 'Share your idea'),
       copy(
-        'Вы описываете бизнес и задачу. Вместе определяем структуру, материалы и срок работы.',
-        'Tell us about your business and goals. Together we agree on structure, materials and timing.',
+        'Проверяем, подходит ли задача под стартовую серию. Фиксируем структуру, материалы, цену и срок; затем вносится предоплата 50%.',
+        'We confirm whether your task fits the launch series, agree on structure, materials, price and timing, then take a 50% advance.',
       ),
     ],
     [
       copy('Согласуем дизайн', 'Review the design'),
       copy(
-        'Продумываем содержание и путь к заявке. Показываем индивидуальный дизайн лендинга.',
-        'We plan the content and the path to an enquiry, then show you a custom landing page design.',
+        'Готовим содержание по вашим материалам и одну версию индивидуального дизайна. Включена одна собранная итерация правок.',
+        'We prepare content from your materials and one custom design proposal. One consolidated revision round is included.',
       ),
     ],
     [
@@ -48,8 +48,8 @@ export function TurnkeyServicePage({ cases }: { cases: readonly CaseItem[] }) {
     [
       copy('Проверим и передадим', 'Check and hand over'),
       copy(
-        'Проверяем сайт на телефоне и компьютере, заявки и уведомления. Публикуем сайт и передаём доступы.',
-        'We check desktop and mobile layouts, enquiries and notifications, publish the site and hand over access.',
+        'Проверяем мобильную версию, форму и уведомления. После согласования результата и оплаты оставшихся 50% публикуем сайт и передаём доступы.',
+        'We check mobile layout, the form and notifications. After result approval and the remaining 50% payment, we publish the site and hand over access.',
       ),
     ],
   ]
@@ -121,7 +121,7 @@ export function TurnkeyServicePage({ cases }: { cases: readonly CaseItem[] }) {
               <span>{copy('Под ключ', 'Turnkey')}</span>
             </nav>
             <p className={shell.eyebrow} data-detail-enter>
-              {copy('Для первого запуска бизнеса', 'For your first business launch')}
+              {turnkeyLaunch.label[language]}
             </p>
             <h1 id="turnkey-title" className={shell.title} data-detail-enter="title">
               {copy('Сайт под ключ', 'A turnkey website')}
@@ -131,7 +131,7 @@ export function TurnkeyServicePage({ cases }: { cases: readonly CaseItem[] }) {
             <p className={shell.description} data-detail-enter="copy">
               {copy(
                 turnkeyOffer.introduction,
-                'Your idea, brought to life as a landing page. Custom design, a content admin panel, Telegram enquiries and foundational SEO in one package.',
+                'VNE is launching a series of three projects: a landing page for one service for ₽11,999. Custom design, copy based on your materials, content admin and Telegram enquiry notifications.',
               )}
             </p>
             <a
@@ -151,6 +151,7 @@ export function TurnkeyServicePage({ cases }: { cases: readonly CaseItem[] }) {
               {copy('Что входит в стоимость', 'What the package includes')}{' '}
               <span aria-hidden="true">↓</span>
             </a>
+            <p className={styles.giftNote}>{turnkeyLaunch.terms[language]}</p>
             <p className={styles.giftNote}>
               {copy(
                 'В подарок: один домен .ru или .рф на год до 300 ₽ и первый месяц хостинга.',

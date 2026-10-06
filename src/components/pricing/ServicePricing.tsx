@@ -4,7 +4,7 @@ import { ArrowIcon } from '@/components/ui/ArrowIcon'
 import Link from 'next/link'
 import { useSiteLanguage } from '@/components/ui/SiteLanguage'
 import { pricingGroups, pricingOffers, formatPrice } from '@/lib/pricing/catalog'
-import { turnkeyOffer } from '@/lib/services/turnkey'
+import { turnkeyLaunch, turnkeyOffer } from '@/lib/services/turnkey'
 import styles from './ServicePricing.module.css'
 import { WebsiteFormats } from './WebsiteFormats'
 
@@ -28,7 +28,7 @@ export function ServicePricing({
       <div className={styles.compact}>
         {group.id === 'web' && (
           <Link href={turnkeyOffer.path}>
-            {turnkeyOffer.name[language]} <ArrowIcon />
+            {turnkeyOffer.name[language]} — {turnkeyLaunch.label[language]} <ArrowIcon />
           </Link>
         )}
         <Link href={`/pricing#${group.id}`}>
