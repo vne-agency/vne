@@ -1,31 +1,30 @@
 .formats {
-  margin-block: 1.5rem 2rem;
-  font-size: max(0.9rem, var(--wide-text-min, 0rem));
+  container-type: inline-size;
+  background: var(--website-formats-surface, transparent);
+  font-size: max(0.85rem, var(--wide-text-min, 0rem));
   line-height: 1.65;
 }
 
 .intro {
-  margin-block-end: 1.25rem;
+  padding: 1.5rem var(--website-formats-inset, 0);
+  text-wrap: pretty;
 }
 
 .options {
   display: grid;
-  gap: 1rem;
 }
 
 .option {
-  padding: clamp(1rem, 2vw, 1.75rem);
-  border: 1px solid #b9b9b2;
-  scroll-margin-block-start: 5rem;
-}
-
-.package {
-  background: #eeebff;
+  padding: 2rem var(--website-formats-inset, 0);
+  border-block-start: 1px solid #b9b9b2;
+  scroll-margin-block-start: 6rem;
 }
 
 .label {
   margin-block-end: 0.75rem;
-  font-size: 0.8rem;
+  font:
+    max(0.6875rem, var(--wide-text-min, 0rem))/1.5 'Courier New',
+    monospace;
 }
 
 .heading {
@@ -33,34 +32,55 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: baseline;
-  gap: 0.5rem 1rem;
-  margin-block-end: 1rem;
+  gap: 0.75rem 2rem;
 }
 
 .heading h3 {
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
-  font-weight: 450;
-  line-height: 1.3;
+  max-inline-size: 28ch;
+  font-size: clamp(1.2rem, 1.75vw, 1.75rem);
+  font-weight: 500;
+  line-height: 1.25;
+  text-wrap: balance;
 }
 
 .price {
-  font-size: 1.25rem;
+  flex-shrink: 0;
+  font-size: clamp(1.125rem, 1.65vw, 1.75rem);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
-.option ul {
-  padding-inline-start: 1.1rem;
+.scope {
+  max-inline-size: 66ch;
   margin-block: 1rem;
-  list-style: disc;
+  font-size: 0.95rem;
+  text-wrap: pretty;
 }
 
-.option li + li {
-  margin-block-start: 0.4rem;
+.option ul {
+  display: grid;
+  gap: 0.65rem 2rem;
+  padding: 0;
+  margin-block: 1.25rem;
+  list-style: none;
+}
+
+.option li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  text-wrap: pretty;
+}
+
+.option li::before {
+  content: '+';
 }
 
 .note {
+  max-inline-size: 82ch;
   font-size: max(0.8rem, var(--wide-text-min, 0rem));
+  text-wrap: pretty;
 }
 
 .cta {
@@ -69,11 +89,16 @@
   align-items: center;
   gap: 1rem;
   min-block-size: 2.75rem;
-  margin-block-start: 1.25rem;
+  margin-block-start: 1rem;
   padding-block: 0.75rem;
   border-block-start: 1px solid #b9b9b2;
   color: inherit;
+  text-decoration: none;
   text-underline-offset: 0.25em;
+}
+
+.cta svg {
+  flex-shrink: 0;
 }
 
 .cta:focus-visible {
@@ -82,5 +107,34 @@
 }
 
 .difference {
-  margin-block-start: 1.25rem;
+  padding: 1.5rem var(--website-formats-inset, 0);
+  border-block-start: 1px solid #b9b9b2;
+  font-size: max(0.8rem, var(--wide-text-min, 0rem));
+  text-wrap: pretty;
+}
+
+@container (width >= 50rem) {
+  .option ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (hover: hover) {
+  .cta:hover {
+    text-decoration: underline;
+  }
+}
+
+@media (width <= 680px) {
+  .heading {
+    display: grid;
+  }
+
+  .heading h3 {
+    max-inline-size: none;
+  }
+
+  .price {
+    font-size: 1.5rem;
+  }
 }

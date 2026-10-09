@@ -37,9 +37,8 @@ export function OrbitScrollFallback() {
         directions.panelFooter,
       ),
       classSelector(faq.headingContent, faq.questionHeading),
-      classSelector(services.introduction, services.heading, services.serviceHeading),
-      `.${services.details} > *`,
-      `.${services.contactStrip} > *`,
+      // Service rows have a dedicated fallback matching their native timeline.
+      classSelector(services.introduction, services.heading),
       classSelector(
         approach.topLead,
         approach.topRight,
@@ -55,7 +54,7 @@ export function OrbitScrollFallback() {
       classSelector(cases.heading, cases.project, cases.media),
       classSelector(directions.header, directions.panelHeader, directions.panelFooter),
       classSelector(faq.section, faq.item),
-      classSelector(services.header, services.row, services.contactStrip, services.more),
+      classSelector(services.header),
       classSelector(
         approach.titleGraphic,
         approach.topLead,

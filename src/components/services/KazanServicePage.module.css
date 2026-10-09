@@ -388,8 +388,13 @@
   border-block-start: 1px solid #b9b9b2;
 }
 
-.footer > div {
+.footer > nav {
   justify-content: center;
+}
+
+.footer > nav :is(a, button) {
+  justify-content: center;
+  text-align: center;
 }
 
 .footer p {

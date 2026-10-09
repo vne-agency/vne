@@ -8,7 +8,7 @@ import { ServicePricing } from '@/components/pricing/ServicePricing'
 import { useLenis } from 'lenis/react'
 import { useReducedMotion } from 'motion/react'
 import dynamic from 'next/dynamic'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import {
   serviceExperiences,
@@ -18,6 +18,7 @@ import { getServiceHref } from '@/lib/services/catalog'
 
 import styles from './OrbitServices.module.css'
 import type { OrbitServiceDialogOrigin } from './OrbitServiceDialog'
+import { useServiceEntrance } from './useServiceEntrance'
 
 const OrbitServiceDialog = dynamic(() =>
   import('./OrbitServiceDialog').then((module) => module.OrbitServiceDialog),
@@ -25,6 +26,8 @@ const OrbitServiceDialog = dynamic(() =>
 
 export function OrbitServices({ id = 'services' }: { id?: string }) {
   const { t } = useSiteLanguage()
+  const sectionRef = useRef<HTMLElement>(null)
+  useServiceEntrance(sectionRef)
 
   const [selection, setService] = useState<{
     service: ServiceExperience
@@ -52,6 +55,7 @@ export function OrbitServices({ id = 'services' }: { id?: string }) {
 
   return (
     <section
+      ref={sectionRef}
       className={styles.section}
       id={id}
       aria-labelledby="orbit-services-title"

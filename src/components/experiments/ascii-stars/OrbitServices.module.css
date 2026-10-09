@@ -28,16 +28,16 @@
       --service-rule-end: calc(var(--service-rule-start) + 20svh);
     }
 
-    /* Each branch starts when the growing spine reaches its row. Nothing
-       branches until the panel has arrived and one more wheel step is read. */
+    /* Keep the original reversible arrivals, but finish them near the bottom
+       edge rather than spending the row's reading time revealing its copy. */
     [data-services-transition='ready'] :is(.row, .contactStrip) {
-      --service-rule-start: calc(
-        var(--services-reveal) + max(0px, var(--service-offset) - var(--service-header-height)) *
-          0.5
+      --service-copy-start: max(
+        calc(var(--services-end) - 24svh),
+        calc(var(--services-release) + var(--service-offset) - 96svh)
       );
-      --service-rule-end: calc(var(--service-rule-start) + 20svh);
-      --service-copy-start: calc(var(--service-rule-start) + 24px);
-      --service-copy-end: calc(var(--service-copy-start) + 28svh);
+      --service-copy-end: calc(var(--service-copy-start) + 16svh);
+      --service-rule-start: calc(var(--service-copy-start) - 4svh);
+      --service-rule-end: var(--service-copy-end);
     }
 
     [data-services-transition='ready'] :is(.header, .row, .contactStrip) {
@@ -65,8 +65,7 @@
         calc(var(--services-reveal) + (var(--service-height) - var(--service-header-height)) * 0.5);
     }
 
-    [data-services-transition='ready'] :is(.header, .row, .contactStrip)::before,
-    [data-services-transition='ready'] .contactStrip::after {
+    [data-services-transition='ready'] :is(.header, .row, .contactStrip)::before {
       position: absolute;
       z-index: 2;
       inset: 0 0 auto;
@@ -80,28 +79,10 @@
       animation-range: contain var(--service-rule-start) contain var(--service-rule-end);
     }
 
-    [data-services-transition='ready'] .contactStrip::after {
-      inset-block: auto 0;
-      animation-range: contain
-        calc(var(--services-reveal) + (var(--service-height) - var(--service-header-height)) * 0.5)
-        contain
-        calc(
-          var(--services-reveal) + (var(--service-height) - var(--service-header-height)) * 0.5 +
-            20svh
-        );
-    }
-
     [data-services-transition='ready'] :is(.introduction, .heading) {
       animation: services-heading-arrive auto cubic-bezier(0.45, 0, 0.3, 1) both;
       animation-timeline: --services-transition;
       animation-range: contain calc(var(--services-end) - 34svh) contain var(--services-end);
-    }
-
-    @media (width <= 896px) {
-      [data-services-transition='ready'] :is(.introduction, .heading) {
-        /* The arriving panel already has an identity at the phone's edge. */
-        animation-range: contain var(--services-start) contain calc(var(--services-start) + 40svh);
-      }
     }
 
     [data-services-transition='ready'] :is(.serviceHeading, .contactStrip p) {
@@ -110,6 +91,7 @@
       animation-range: contain var(--service-copy-start) contain var(--service-copy-end);
     }
 
+    /* Animate the complete details column: description, list, prices and CTA. */
     [data-services-transition='ready'] :is(.details, .contactStrip a) {
       animation: services-details-arrive auto cubic-bezier(0.45, 0, 0.3, 1) both;
       animation-timeline: --services-transition;
@@ -134,52 +116,27 @@
       animation-range: contain var(--service-copy-start) contain var(--service-copy-end);
     }
 
-    [data-services-transition='ready'] .contactStrip {
-      animation: services-cell-arrive auto linear both;
-      animation-timeline: --services-transition;
-      animation-range: contain var(--service-rule-start) contain var(--service-rule-end);
-    }
-
-    @media (width <= 700px) {
-      /* Stacked rows are taller: reveal each one as it enters the viewport,
-         rather than completing the later rows below the screen. */
-      [data-services-transition='ready'] :is(.row, .contactStrip) {
-        --service-rule-start: calc(
-          var(--services-reveal) + max(0px, var(--service-offset) - 75svh)
-        );
-      }
-
-      [data-services-transition='ready'] .spine {
-        animation-range: contain var(--services-reveal) contain
-          calc(var(--services-reveal) + max(0px, var(--service-height) - 75svh));
-      }
-
-      [data-services-transition='ready'] .contactStrip::after {
-        animation-range: contain
-          calc(var(--services-reveal) + max(0px, var(--service-height) - 75svh)) contain
-          calc(var(--services-reveal) + max(0px, var(--service-height) - 75svh) + 20svh);
-      }
-    }
-
     [data-services-transition='ready'] :is(.row, .contactStrip):has(:focus-visible) > *,
     [data-services-transition='ready'] :is(.row, .contactStrip):has(:focus-visible)::before,
-    [data-services-transition='ready'] .contactStrip:has(:focus-visible)::after,
-    [data-services-transition='ready'] .row:has(:focus-visible) .more::before,
-    [data-services-transition='ready'] .contactStrip:has(:focus-visible) {
+    [data-services-transition='ready'] .row:has(:focus-visible) .more::before {
       opacity: 1;
       transform: none;
       animation: none;
     }
-  }
-}
 
-@keyframes services-cell-arrive {
-  from {
-    opacity: 0;
-  }
+    @media (width <= 896px) {
+      [data-services-transition='ready'] :is(.introduction, .heading) {
+        /* The arriving panel already has an identity at the phone's edge. */
+        animation-range: contain var(--services-start) contain calc(var(--services-start) + 40svh);
+      }
+    }
 
-  to {
-    opacity: 1;
+    @media (width <= 700px) {
+      [data-services-transition='ready'] .spine {
+        animation-range: contain var(--services-reveal) contain
+          calc(var(--services-reveal) + max(0px, var(--service-height) - 75svh));
+      }
+    }
   }
 }
 
@@ -489,9 +446,8 @@
   }
 }
 
-/* A short landscape screen reads vertically, while retaining the same
-   sideways arrivals and branching rules without a pinned scroll runway. */
-@supports (animation-timeline: view()) {
+/* Short landscape screens have no pinned chapter; retain the same arrivals. */
+@supports (animation-timeline: view()) and (animation-range: contain 0% contain 120svh) {
   @media (height < 500px) and (prefers-reduced-motion: no-preference) {
     .row,
     .header,
@@ -501,23 +457,76 @@
     }
 
     .serviceHeading,
-    .introduction {
+    .introduction,
+    .contactStrip p {
       animation: services-copy-arrive auto ease both;
       animation-timeline: --service-compact-row;
-      animation-range: entry 0% entry 75%;
+      animation-range: entry 4svh entry 20svh;
     }
 
     .details,
-    .heading {
+    .heading,
+    .contactStrip a {
       animation: services-details-arrive auto ease both;
       animation-timeline: --service-compact-row;
-      animation-range: entry 0% entry 75%;
+      animation-range: entry 4svh entry 20svh;
     }
 
-    .row:focus-within > * {
+    :is(.row, .contactStrip):has(:focus-visible) > * {
       animation: none;
       opacity: 1;
       transform: none;
     }
+  }
+}
+
+/* Fallback only for browsers without native scroll timelines.
+   Without JS/IntersectionObserver it stays visible with its original rules. */
+@media (prefers-reduced-motion: no-preference) {
+  .section[data-service-entrance='ready'] :is(.row, .contactStrip) {
+    border-block-start-color: transparent;
+  }
+
+  .section[data-service-entrance='ready'] :is(.row, .contactStrip)::before {
+    position: absolute;
+    inset: 0 0 auto;
+    block-size: 1px;
+    background: #b9b9b2;
+    content: '';
+    pointer-events: none;
+    transform-origin: var(--service-axis) center;
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .section[data-service-entrance='ready'] :is(.row, .contactStrip) > * {
+    transition:
+      opacity 320ms ease-out,
+      transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .section[data-service-entrance='ready'] [data-service-visible='false'] > * {
+    opacity: 0;
+  }
+
+  .section[data-service-entrance='ready'] [data-service-visible='false'] > :first-child {
+    transform: translate3d(-2rem, 0, 0);
+  }
+
+  .section[data-service-entrance='ready'] [data-service-visible='false'] > :last-child {
+    transform: translate3d(2rem, 0, 0);
+  }
+
+  .section[data-service-entrance='ready'] [data-service-visible='false']::before {
+    transform: scaleX(0);
+  }
+
+  .section[data-service-entrance='ready']
+    :is(.row, .contactStrip):is([data-service-instant], :focus-within)
+    > *,
+  .section[data-service-entrance='ready']
+    :is(.row, .contactStrip):is([data-service-instant], :focus-within)::before {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, waitFor } from '@testing-library/react
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { OrbitScrollFallback } from '@/components/experiments/ascii-stars/OrbitScrollFallback'
 import styles from '@/components/experiments/ascii-stars/OrbitScrollFallback.module.css'
+import services from '@/components/experiments/ascii-stars/OrbitServices.module.css'
 
 vi.mock('next/navigation', () => ({ usePathname: () => '/' }))
 let intersect: IntersectionObserverCallback
@@ -93,4 +94,38 @@ it('enhances late dialog content and restores it after removal', async () => {
   await waitFor(() => expect(copy.classList.contains(styles.copy)).toBe(true))
   act(() => dialog.remove())
   await waitFor(() => expect(copy.classList.contains(styles.copy)).toBe(false))
+})
+
+it('does not hide service rows a second time in browsers without scroll timelines', () => {
+  const view = render(
+    <>
+      <div id="site-content">
+        <header className={services.header}>
+          <h2 className={services.heading}>Our services</h2>
+        </header>
+        <article className={services.row} data-service-row data-service-visible="true">
+          <div className={services.serviceHeading}>Websites</div>
+          <div className={services.details}>
+            <p>Design and development</p>
+            <a className={services.more} href="#service-details">
+              Service details
+            </a>
+          </div>
+        </article>
+        <div className={services.contactStrip} data-service-contact data-service-visible="true">
+          <p>Discuss your project</p>
+          <a href="#contact">Contact us</a>
+        </div>
+      </div>
+      <OrbitScrollFallback />
+    </>,
+  )
+  expect(view.getByText('Our services')).toHaveClass(styles.copy)
+  const rowNodes = view.container.querySelectorAll(
+    '[data-service-row], [data-service-row] *, [data-service-contact], [data-service-contact] *',
+  )
+  for (const node of rowNodes) {
+    expect(node).not.toHaveClass(styles.copy)
+    expect(node).not.toHaveClass(styles.rule)
+  }
 })

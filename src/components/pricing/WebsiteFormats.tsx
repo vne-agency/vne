@@ -21,13 +21,13 @@ export function WebsiteFormats({ onSelectIndividual }: { onSelectIndividual?: ()
         )}
       </p>
       <div className={styles.options}>
-        <article className={`${styles.option} ${styles.package}`}>
+        <article className={styles.option}>
           <p className={styles.label}>{turnkeyLaunch.label[language]}</p>
           <div className={styles.heading}>
             <h3>{copy('Сайт под ключ', 'Turnkey website')}</h3>
             <p className={styles.price}>11 999 ₽</p>
           </div>
-          <p>
+          <p className={styles.scope}>
             {copy(
               'Для одной услуги и понятного пути к заявке. Цена стартовой серии из трёх подходящих проектов: отрабатываем пакет и собираем кейсы.',
               'For one service and a clear enquiry flow. This launch-series price applies to three suitable projects as we refine the package and build case studies.',
@@ -77,7 +77,7 @@ export function WebsiteFormats({ onSelectIndividual }: { onSelectIndividual?: ()
             <h3>{individual.name[language]}</h3>
             <p className={styles.price}>{formatPrice(individual, language)}</p>
           </div>
-          <p>
+          <p className={styles.scope}>
             {copy(
               'Когда нужно проработать предложение, возражения покупателей и визуальную подачу до разработки. Отдельные этапы исследования, прототипа и согласования дизайна.',
               'For deeper work on your offer, customer objections and visual presentation before development. Research, prototyping and design review are separate stages.',
